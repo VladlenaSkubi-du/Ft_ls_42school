@@ -1,22 +1,8 @@
-NAME = libftprintf.a
+NAME = ft_ls
 
-FLAGS = -c -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra
 
-SOURCES = ft_printf.c \
-	   processing_functions.c \
-	   int_output.c \
-	   output_processing_di.c \
-	   output_processing_uob.c \
-	   output_processing_x.c \
-	   char_and_nonstandard_output.c \
-	   float_output.c \
-	   help_functions_for_int.c \
-	   get_float_components.c \
-	   get_fraction.c \
-	   other_and_bonus.c \
-	   get_integer.c \
-	   output_processing_f.c \
-	   help_functions_for_float.c
+SOURCES = main.c
 
 DIR_O = objs
 
@@ -26,27 +12,28 @@ SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
 
 OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
+LIBFT = libft/libft.a
+
 all:	$(NAME)
 
 $(NAME):		text $(OBJS)
-				@echo "\x1b[32;01mCompilation Lib\x1b[32;01m"
 				@make -C ./libft
-				@cp libft/libft.a $(NAME)
-				@ar rc $(NAME) $(OBJS)
+				@gcc $(FLAGS) $(OBJS) -o $(NAME) libft/libft.a
+				@echo "\x1b[32;01mYour ft_ls is ready\x1b[32;01m"
 
 text:
-				@echo "Compilation"
+				@echo "\x1b[32;01mCompiling your ft_ls...\x1b[32;01m"
 
-$(OBJS):		$(DIR_O)/%.o: $(DIR_S)/%.c includes/ft_printf.h
+$(OBJS):		$(DIR_O)/%.o: $(DIR_S)/%.c includes/ft_ls.h
 				@mkdir -p $(DIR_O)
-				gcc $(FLAGS) -I includes -o $@ $<
+				gcc $(FLAGS) -c -I includes -o $@ $<
 clean:
-				@echo "\033[34mDeliting o-files\033[0m"
-				@/bin/rm -rf $(DIR_O)
+				@echo "\033[34mDeliting ft_ls o-files\033[0m"
+				@/bin/rm -Rf $(DIR_O)
 				@make clean --directory ./libft
 
 fclean: clean
-				@echo "\033[34mDeliting binary\033[0m"
+				@echo "\033[34mDeliting ft_ls binary\033[0m"
 				@/bin/rm -f $(NAME)
 				@make fclean --directory ./libft
 
