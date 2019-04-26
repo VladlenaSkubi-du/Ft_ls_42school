@@ -16,6 +16,18 @@ ls -l TEST
 ls -l /dev
 ls -l /
 
+ls changes upper and lower letters:
+
+	touch TEST
+	ls TEST
+	TEST
+	ls test
+	test
+	ls TeSt
+	TeSt
+	ls w
+	ls: w: No such file or directory
+
 Function: issaty(1) - if the output is redirected
 ls -1 = ls | cat
 
@@ -41,6 +53,21 @@ If there is just one odd - red color - odd is stronger
 SUID is 4---
 SGID is 2---
 Sticky-bit is 1---
+
+Upper letters: if there were no x-right for user or group:
+
+	touch t ; chmod +w t
+	ls -la
+	-rw-r--r--   1 sschmele  2018     0 Apr 26 19:12 t
+	chmod u+s t
+	ls -la
+	-rwSr--r--   1 sschmele  2018     0 Apr 26 19:12 t
+
+	BUT
+
+	touch to ; chmod g+s,u=rwx,g+x,o+x to
+	ls -la
+	-rwxr-sr-x   1 sschmele  2018     0 Apr 26 19:15 to
 
 if 2--- or 3--- and just one odd - blue background and black letters
 if 2--- or 3--- and only even - no color
