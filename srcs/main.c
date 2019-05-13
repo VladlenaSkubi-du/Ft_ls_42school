@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/13 18:35:04 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/13 19:51:40 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ void	print_dir(char *dirname)
 int		main(int argc, char **argv)
 {
 	int		i;
+	int		flags;
 
-	i = get_args(argc, argv);
+	flags = 0;
+	i = get_args(&flags, argc, argv);
 	while (i < argc)
 		print_dir(argv[i++]);
 	return (0);

@@ -6,7 +6,7 @@
 #    By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/04 16:34:17 by sschmele          #+#    #+#              #
-#    Updated: 2019/05/13 18:56:36 by jcorwin          ###   ########.fr        #
+#    Updated: 2019/05/13 19:30:45 by sschmele         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS = ./ft_atoi.c \
 	   ./ft_memset.c \
 	   ./ft_strcat.c \
 	   ./ft_strchr.c \
+	   ./ft_strchri.c \
 	   ./ft_strcmp.c \
 	   ./ft_strcpy.c \
 	   ./ft_strdup.c \
@@ -37,7 +38,6 @@ SRCS = ./ft_atoi.c \
 	   ./ft_strncpy.c \
 	   ./ft_strnstr.c \
 	   ./ft_strrchr.c \
-	   ./ft_strrchri.c \
 	   ./ft_strstr.c \
 	   ./ft_tolower.c \
 	   ./ft_toupper.c \

@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 13:32:14 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/13 17:06:42 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/13 19:25:48 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,6 @@ void			file_insert(t_file *prev, t_file *node)
 	node->prev = prev;
 }
 
-// void			file_insert_next(t_file *next, t_file *node)
-// {
-// 	next->prev = node;
-// 	node->next = next->prev->next;
-// 	prev->next = node;
-// 	node->prev = prev;
-// }
-
 t_file			*file_swap(t_file *start, t_file *left, t_file *right)
 {
 	t_file	*prev1;
@@ -77,12 +69,6 @@ t_file			*file_swap(t_file *start, t_file *left, t_file *right)
 	start = file_cut(start, right);
 	file_insert(prev1, right);
 	file_insert(prev2, left);
-	//file_count(start);
-	// char	*tmp;
-
-	// tmp = left->name;
-	// left->name = right->name;
-	// right->name = tmp;
 	return (start);
 }
 

@@ -6,13 +6,13 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/13 19:41:19 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/13 19:55:24 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		usage()
+void		usage(void)
 {
 	ft_putendl("usage: ft_ls [-1lrRatGps] [file ...]");
 	exit(0);
@@ -23,7 +23,8 @@ int			get_flags(char *arg)
 	int		flags;
 	int		i;
 
-	while ((i = ft_strchri("1lrRatGps", ++arg)) != -1)
+	flags = 0;
+	while ((i = ft_strchri("1lrRatGps", *(++arg))) != -1)
 		flags |= 1 << i;
 	if (*arg)
 	{
@@ -50,6 +51,3 @@ int			get_args(int *flags,  int argc, char **argv)
 	}
 	return (i);
 }
-
-
-

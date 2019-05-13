@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/13 19:50:41 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/13 19:25:05 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-# define FLAG_ONE 1
+# define FLAG_MIN 1
 # define FLAG_L 2
 # define FLAG_R 4
 # define FLAG_RR 8
@@ -66,9 +66,7 @@ void				file_foreach(t_file *start, void (*f)(t_file *cur));
 
 int					file_strcmp(t_file *left, t_file *right);
 void				quickSort(t_file *start, t_file *left, t_file *right,
-									int (*f)(t_file *left, t_file *right));
-int					get_args(int *flags,  int argc, char **argv);
-int					get_flags(char *arg);
-void				usage(void);
+						int (*f)(t_file *left, t_file *right));
+int					get_args(int agrc, char **argv);
 
 #endif

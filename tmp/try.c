@@ -13,8 +13,8 @@
 
 int		main(void)
 {
-	write(1, "\33[1;31mHello World\33[m\n", 18);
-	/*DIR *dir;
+//	write(1, "\33[1;31mHello World\33[m\n", 18);
+	DIR *dir;
 	struct dirent *entry;
 
 	dir = opendir(".");
@@ -28,6 +28,6 @@ int		main(void)
 		entry->d_ino, entry->d_name, entry->d_type, entry->d_reclen);
 	};
 
-	closedir(dir);*/
+	closedir(dir);
 	return (0);
 }

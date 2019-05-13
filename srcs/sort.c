@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:32 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/13 16:36:20 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/13 19:24:10 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,3 @@ void	quickSort(t_file *start, t_file *left, t_file *right,
 	if (i->next->fromstart < right->fromstart)
 		quickSort(start, i->next, right, f);
 }
-
-// void	quickSort(t_file *start, t_file *left, t_file *right,
-// 									int (*f)(t_file *left, t_file *right))
-// {
-// 	t_file *i;
-// 	t_file *j;
-
-// 	i = left;
-// 	j = left;
-// 	while (i != right)
-// 	{
-// 		while (j != right->prev)
-// 		{
-// 			if (f(i, j) > 0)
-// 				start = file_swap(start, i, j);
-// 			j = j->next;
-// 		}
-// 		j = left;
-// 		i = i->next;
-// 	}
-// }
