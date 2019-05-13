@@ -43,7 +43,7 @@ files .c, .h, author .md, Makefile are no color
 
 files like programs or without extraction are red BUT depend on the access rights:
 if the following - red - letters
-010, 030, 050, 070, 100, 300, 500, 700, 001, 003, 005, 007 
+010, 030, 050, 070, 100, 300, 500, 700, 001, 003, 005, 007
 if the following lower - no color
 020, 040, 060, 200, 400, 600, 002, 004, 006
 if both are odd (нечетные) - red letters
@@ -117,7 +117,7 @@ int
 
 int
      stat(const char *restrict path, struct stat *restrict buf);
-	 
+
 5) lstat
 
 int
@@ -162,8 +162,51 @@ ssize_t
 
 void
      perror(const char *s);
-	
+
 14) strerror
 
 char *
      strerror(int errnum);
+
+
+
+struct dirent {
+  ino_t          d_ino;       /* inode number */
+  off_t          d_off;       /* offset to the next dirent *//* смещение на dirent */
+  unsigned short d_reclen;    /* length of this record */ /* длина d_name */
+  unsigned char  d_type;      /* type of file; not supported
+                                 by all file system types */
+  char           d_name[256]; /* filename *//* имя файла (оканчивающееся нулем) */
+};
+
+
+stat(2)
+считывает состояние файла
+Данные системные вызовы возвращают информацию о файле в буфер, на который указывает buf. Для этого не требуется иметь права доступа к самому файлу, но — в случае stat(), fstatat() и lstat() — потребуются права выполнения (поиска) на все каталоги, указанные в полном имени файла pathname.
+
+struct stat {
+    dev_t     st_dev;         /* ID устройства с файлом */
+    ino_t     st_ino;         /* номер inode */
+    mode_t    st_mode;        /* права доступа */
+    nlink_t   st_nlink;       /* кол-во жёстких ссылок */
+    uid_t     st_uid;         /* ID пользователя-владельца */
+    gid_t     st_gid;         /* ID группы-владельца */
+    dev_t     st_rdev;        /* ID устройства (если это спец. файл) */
+    off_t     st_size;        /* полный размер в байтах */
+    blksize_t st_blksize;     /* размер блока ввода-вывода
+                                 файловой системы */
+    blkcnt_t  st_blocks;      /* кол-во выделенных блоков по 512Б */
+    /* Начиная с Linux 2.6, ядро поддерживает точность до
+       наносекунд в следующих полям меток времени.
+       Подробней о версиях до Linux 2.6, смотрите ЗАМЕЧАНИЯ. */
+    struct timespec st_atim;  /* время последнего доступа */
+    struct timespec st_mtim;  /* время последнего изменения */
+    struct timespec st_ctim;  /* время последней смены состояния */
+#define st_atime st_atim.tv_sec      /* для обратной совместимости */
+#define st_mtime st_mtim.tv_sec
+#define st_ctime st_ctim.tv_sec
+};
+
+Замечание: Для простоты и производительности различные поля структуры stat могут содержать информацию о состоянии из различных моментов работы системного вызова. Например, если st_mode или st_uid изменились другим процессом с помощью вызова chmod(2) или chown(2), то stat() может вернуть старое значение st_mode вместе с новым st_uid, или старое значение st_uid вместе с новым st_mode.
+Поле st_dev описывает устройство, на котором расположен файл (для разбора идентификатора этого поля могут пригодиться макросы major(3) и minor(3)).
+Поле st_rdev описывает устройство, который этот файл (inode) представляет.

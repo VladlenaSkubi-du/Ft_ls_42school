@@ -1,17 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strchri.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 17:19:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/24 12:56:17 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/13 18:56:15 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <string.h>
 #include "libft.h"
 
 char		*ft_strchr(const char *s, int c)
@@ -39,5 +37,5 @@ char		*ft_strchr(const char *s, int c)
 	end = (unsigned char *)iter;
 	while (*end && *end != (unsigned char)c)
 		++end;
-	return (*end == (unsigned char)c ? (char *)end : NULL);
+	return (*end == (unsigned char)c ? s - (char *)end : -1);
 }

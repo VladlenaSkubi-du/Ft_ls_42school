@@ -2,7 +2,12 @@ NAME = ft_ls
 
 FLAGS = -Wall -Werror -Wextra
 
-SOURCES = main.c
+SOURCES =	main.c \
+			filter.c \
+			parser.c \
+			sort.c \
+			list.c \
+			ft_xmalloc.c
 
 DIR_O = objs
 

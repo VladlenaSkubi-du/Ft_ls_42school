@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_xmalloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/24 17:50:50 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/24 13:00:53 by jcorwin          ###   ########.fr       */
+/*   Created: 2019/05/13 13:35:30 by jcorwin           #+#    #+#             */
+/*   Updated: 2019/05/13 17:07:44 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include "libft.h"
+#include "ft_ls.h"
 
-char	*ft_strcat(char *s1, const char *s2)
+void	*ft_xmalloc(size_t size)
 {
-	ft_memcpy(s1 + ft_strlen(s1), s2, ft_strlen(s2) + 1);
-	return (s1);
+	void	*ptr;
+
+	if (!(ptr = malloc(size)))
+	{
+		write(1, "No space left\n", 15);
+		exit(0);
+	}
+	return (ptr);
 }

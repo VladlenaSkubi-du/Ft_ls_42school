@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sschmele <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/04 16:34:17 by sschmele          #+#    #+#              #
-#    Updated: 2019/04/22 20:30:48 by sschmele         ###   ########.fr        #
+#    Updated: 2019/05/13 18:56:36 by jcorwin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS = ./ft_atoi.c \
 	   ./ft_strncpy.c \
 	   ./ft_strnstr.c \
 	   ./ft_strrchr.c \
+	   ./ft_strrchri.c \
 	   ./ft_strstr.c \
 	   ./ft_tolower.c \
 	   ./ft_toupper.c \
