@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/13 19:55:24 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:36:14 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ int			get_flags(char *arg)
 	int		i;
 
 	flags = 0;
-	while ((i = ft_strchri("1lrRatGps", *(++arg))) != -1)
+	++arg;
+	while (*arg && (i = ft_strchri("1lrRatGps", *arg)) != -1)
+	{
 		flags |= 1 << i;
+		++arg;
+	}
 	if (*arg)
 	{
 		ft_putstr("ft_ls: illegal option -- ");
@@ -47,7 +51,6 @@ int			get_args(int *flags,  int argc, char **argv)
 			*flags |= get_flags(argv[i]);
 		else
 			break ;
-
 	}
 	return (i);
 }
