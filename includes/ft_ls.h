@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/14 16:16:13 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/14 16:52:27 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,13 @@ void				file_foreach(t_file *start, void (*f)(t_file *cur));
 t_file				*file_slip(t_file *start, int (*f)(t_file *left, t_file *right));
 
 int					file_strcmp(t_file *left, t_file *right);
-void				quickSort(t_file *start, t_file *left, t_file *right,
+void				quick_sort_list(t_file *start, t_file *left, t_file *right,
 									int (*f)(t_file *left, t_file *right));
+void				quick_mas_sort(char **mas, int left, int right);
 int					get_args(int *flags,  int argc, char **argv);
 int					get_flags(char *arg);
 void				usage(void);
+void				no_dir_or_file(char *dirname);
+void				not_dir(char *dirname);
 
 #endif

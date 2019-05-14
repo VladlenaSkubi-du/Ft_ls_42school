@@ -1,8 +1,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
-#define SIZE 50
+#define SIZE 100
 
 void	print_tab(char **area);
 
@@ -11,8 +12,9 @@ void QuickSort_alpha(char *mas[], int left, int right)
         int i, j, p;
         char *tmp[SIZE];
     i=left; 
-    j=right;        
-    while (i!=j){
+    j=right;
+    while (i!=j)
+	{
         if((strcmp(mas[i],mas[j])>0)!= (i>j))
         {       
             tmp[i]=mas[i];      
@@ -35,7 +37,8 @@ void QuickSort_alpha(char *mas[], int left, int right)
                 j++;
         };
     };
-    
+	print_tab(mas);
+	printf("\n"); 
     if (left<i-1)
         QuickSort_alpha(mas,left,i-1);
     if (i+1<right) 
@@ -65,16 +68,17 @@ void	print_tab(char **area)
 int main(void)
 {
     char *map[] = {
+		".ghfd",
 		"aaaabdc",
 		"bfgdhs",
-		"abs",
+		"",
 		"bcgfhd",
-		"Ahgjk"
+		"z"
 	};
     print_tab(map);
-    QuickSort_alpha(map, 0, 3);
+    QuickSort_alpha(map, 0, 5);
     write(1, "\n", 1);
-    write(1, "\n", 1);
+    write(1, "Final\n", 6);
     print_tab(map);
     return (0);
 }

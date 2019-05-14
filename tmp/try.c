@@ -23,7 +23,10 @@ int		main(void)
 		exit(1);
 	};
 
-	while ( (entry = readdir(dir)) != NULL) {
+	while ((entry = readdir(dir)) != NULL) 
+	{
+		if (*entry->d_name == '.')
+			continue ;
 		printf("%lld - %s [%d] %d\n",
 		entry->d_ino, entry->d_name, entry->d_type, entry->d_reclen);
 	};

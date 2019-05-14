@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/13 20:36:14 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/14 16:57:25 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@ void		usage(void)
 	exit(0);
 }
 
+void		not_dir(char *dirname)
+{
+	ft_putendl(dirname);
+}
+
+void		no_dir_or_file(char *dirname)
+{
+	ft_putstr("ft_ls: ");
+	ft_putstr(dirname);
+	ft_putendl(": No such file or directory");
+}
 int			get_flags(char *arg)
 {
 	int		flags;
