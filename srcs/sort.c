@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:32 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/14 16:44:19 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/14 16:59:59 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,12 @@ void	quick_sort_list(t_file *start, t_file *left, t_file *right,
 		quick_sort_list(start, i->next, right, f);
 }
 
-static void		ptr_swap(char **s1, char **s2)
-{
-	char	*tmp;
-
-	tmp = *s1;
-	*s1 = *s2;
-	*s2 = tmp;
-}
-
 void	quick_mas_sort(char **mas, int left, int right)
 {
 	int		i;
 	int		j;
 	int		p;
-	char	*tmp[100];
+	char	*tmp;
 
 	i = left;
 	j = right;
@@ -66,11 +57,9 @@ void	quick_mas_sort(char **mas, int left, int right)
 	{
 		if((ft_strcmp(mas[i], mas[j]) > 0) != (i > j))
 		{
-
-			//ptr_swap(&mas[i], &mas[j]);
-			tmp[i] = mas[i];
+			tmp = mas[i];
 			mas[i] = mas[j];
-			mas[j] = tmp[i];
+			mas[j] = tmp;
 
 			p = i;
 			i = j;
