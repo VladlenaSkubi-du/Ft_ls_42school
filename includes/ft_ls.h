@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/14 19:51:00 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/14 22:24:20 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,22 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-# define FLAG_ONE 1
+# define FLAG_MIN 1
 # define FLAG_L 2
 # define FLAG_R 4
 # define FLAG_RR 8
 # define FLAG_A 16
 # define FLAG_T 32
-# define FLAG_G 64
+# define FLAG_GG 64
 # define FLAG_P 128
 # define FLAG_S 256
+# define FLAG_U 512
+# define FLAG_F 1024
+# define FLAG_D 2048
+# define FLAG_G 4096
+# define FLAG_SS 9192
+# define FLAG_C 18384
+# define FLAG_F 36768
 
 typedef struct		s_file
 {
@@ -46,7 +53,6 @@ typedef struct		s_file
 	struct s_file	*prev;
 	struct s_file	*next;
 	int				fromstart;
-	// int				tostart;
 }					t_file;
 
 typedef struct		s_param
@@ -64,9 +70,7 @@ t_file				*file_swap(t_file *start, t_file *left, t_file *right);
 t_file				*file_del(t_file *start);
 void				file_count(t_file *start);
 void				file_foreach(t_file *start, void (*f)(t_file *cur));
-t_file				*file_slip(t_file *start, int (*f)(t_file *left, t_file *right));
 
-int					file_strcmp(t_file *left, t_file *right);
 void				quick_sort_list(t_file *start, t_file *left, t_file *right,
 						int (*f)(t_file *left, t_file *right));
 void				quick_mas_sort(char **mas, int left, int right);
@@ -78,5 +82,8 @@ void				no_dir_or_file(char *dirname);
 void				print_dir(DIR *dir, int flags, t_param *param);
 void				check_dir(char *dirname, char **not_dir,
 						int flags, t_param *param);
+
+int					file_strcmp(t_file *left, t_file *right);
+t_file				*files_sort(t_file *start, int flags);
 
 #endif

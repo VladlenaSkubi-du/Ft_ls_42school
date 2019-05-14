@@ -6,71 +6,58 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:32 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/14 16:59:59 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/14 22:32:03 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		file_strcmp(t_file *left, t_file *right)
+static int	file_strcmp(t_file *left, t_file *right)
 {
 	return (ft_strcmp(left->name, right->name));
 }
 
-void	quick_sort_list(t_file *start, t_file *left, t_file *right,
-									int (*f)(t_file *left, t_file *right))
+static int	file_sizecmp(t_file *left, t_file *right)
 {
-	t_file	*p;
-	t_file	*i;
-	t_file	*j;
-
-	i = left;
-	j = right;
-	while (i != j)
-	{
-		if (f(i, j) > 0 == (i->fromstart < j->fromstart))
-		{
-			start = file_swap(start, i, j);
-			p = i;
-			i = j;
-			j = (p->fromstart < j->fromstart) ? p->next : p->prev;
-		}
-		else
-			j = (i->fromstart < j->fromstart) ? j->prev : j->next;
-	}
-	if (left->fromstart < i->fromstart - 1)
-		quick_sort_list(start, left, i->prev, f);
-	if (i->next->fromstart < right->fromstart)
-		quick_sort_list(start, i->next, right, f);
+	return (left->buf.st_size - right->buf.st_size);
 }
 
-void	quick_mas_sort(char **mas, int left, int right)
+static int	file_timecmp(t_file *left, t_file *right)
 {
-	int		i;
-	int		j;
-	int		p;
-	char	*tmp;
+	return(left->buf.st_mtime - right->buf.st_mtime);
+}
 
-	i = left;
-	j = right;
-	while (i != j)
+static int	file_atimecmp(t_file *left, t_file *right)
+{
+	return(left->buf.st_atime - right->buf.st_atime);
+}
+
+t_file	*files_sort(t_file *start, int flags)
+{
+	int (*f)(t_file *left, t_file *right);
+
+	if (flags & FLAG_F)
+		return ;
+	if (start->prev->fromstart > 2)
 	{
-		if((ft_strcmp(mas[i], mas[j]) > 0) != (i > j))
-		{
-			tmp = mas[i];
-			mas[i] = mas[j];
-			mas[j] = tmp;
-
-			p = i;
-			i = j;
-
-			j = (p < j) ? p++ : p--;
-		}
+		if (flags & FLAG_SS)
+			f = file_sizecmp;
+		else if (flags & FLAG_T)
+			f = file_timecmp;
+		else if (flags & FLAG_U)
+			f = file_atimecmp;
 		else
-			j = (i < j) ? j - 1 : j + 1;
-	};
-	if (left < i - 1)
-		quick_mas_sort(mas, left, i - 1);
-	if (i + 1 < right)
-		quick_mas_sort(mas,i + 1, right);
+			f = file_strcmp;
+		if (flags & FLAG_R)
+			quick_sort_list(start, start->prev, start, f);
+		else
+			quick_sort_list(start, start, start->prev, f);
+	}
+	if (flags & FLAG_R)
+		while (f(start, start->prev) < 0)
+			start = start->prev;
+	else
+		while (f(start->prev, start) < 0)
+			start = start->prev;
+	return start;
 }

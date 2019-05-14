@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 13:32:14 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/14 16:03:10 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/14 22:25:06 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,6 @@ void			file_insert(t_file *prev, t_file *node)
 	node->next = prev->next;
 	prev->next = node;
 	node->prev = prev;
-}
-
-t_file			*file_slip(t_file *start, int (*f)(t_file *left, t_file *right))
-{
-	while (f(start->prev, start) < 0)
-		start = start->prev;
-	return (start);
 }
 
 t_file			*file_swap(t_file *start, t_file *left, t_file *right)
@@ -104,7 +97,6 @@ void			file_count(t_file *start)
 
 	if (!start)
 		return ;
-	// start->tostart = 0;
 	start->fromstart = 0;
 	i = 0;
 	cur = start->next;
@@ -113,13 +105,6 @@ void			file_count(t_file *start)
 		cur->fromstart = ++i;
 		cur = cur->next;
 	}
-	// i = 0;
-	// cur = start->prev;
-	// while (cur != start)
-	// {
-	// 	cur->tostart = ++i;
-	// 	cur = cur->prev;
-	// }
 }
 
 void			file_foreach(t_file *start, void (*f)(t_file *cur))

@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/14 18:36:08 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/14 22:25:35 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		usage(void)
 {
-	ft_putendl("usage: ft_ls [-1lrRatGps] [file ...]");
+	ft_putendl("usage: ft_ls [1lrRatGpsufdgSCf] [file ...]");
 	exit(0);
 }
 
@@ -31,7 +31,7 @@ int			get_flags(char *arg)
 
 	flags = 0;
 	++arg;
-	while (*arg && (i = ft_strchri("1lrRatGps", *arg)) != -1)
+	while (*arg && (i = ft_strchri("1lrRatGpsufdgSCf", *arg)) != -1)
 	{
 		flags |= 1 << i;
 		++arg;
