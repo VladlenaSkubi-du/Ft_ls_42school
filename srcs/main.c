@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/14 16:01:35 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/14 16:20:17 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ static void		print_dir(char *dirname, int flags)
 
 	ft_bzero(&param, sizeof(param));
 	dir = opendir(dirname);
-	if (!dir)
-	{
-		perror("diropen");
-		exit(1);
-	}
+	if (errno == ENOENT)
+		ft_putstr("no file\n");
+	else if (errno == ENOTDIR)
+		ft_putstr("no dir\n");
 
 	while ((entry = readdir(dir)))
 	{

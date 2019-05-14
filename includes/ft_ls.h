@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/14 16:02:21 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/14 16:16:13 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <termios.h>
+# include <errno.h>
 # include "libft.h"
 # include "ft_printf.h"
 
