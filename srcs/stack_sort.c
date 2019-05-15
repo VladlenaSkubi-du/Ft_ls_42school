@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 04:52:12 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/15 12:18:19 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/15 15:13:32 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ void			st_sort(t_stack *me, int (*f)(void *, void *))
 {
 	if (f)
 	{
-		quick_sort_plist(me->list, me->list, me->list->prev, f);
-		while (f(me->list->prev, me->list) < 0)
-			me->list = me->list->prev;
+		if (me->counter > 1)
+			quick_sort_plist(me->list, me->list, me->list->prev, f);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:32:52 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/15 10:40:32 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/15 16:13:29 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void		st_iter(t_stack *me, void (*f)(void *, void *), void *param)
 	while (cur != me->list)
 	{
 		f(cur->data, param);
-		cur = cur->prev;
+		cur = cur->next;
 	}
 }
 
@@ -71,15 +71,15 @@ static void		st_iterr(t_stack *me, void (*f)(void *, void *), void *param)
 static void		st_del(t_stack *me)
 {
 	t_plist		*cur;
+	t_plist		*prev;
 
-	cur = me->list->next;
+	prev = me->list;
 	while (cur != me->list)
 	{
-		free(cur);
-		cur = cur->next;
+		cur = prev->next;
+		free(prev);
+		prev = cur;
 	}
-	free(cur);
-	free(me);
 }
 
 t_stack			*stack_init()

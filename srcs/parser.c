@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/15 07:52:09 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/15 13:49:12 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_stack			*get_args(int *flags,  int argc, char **argv)
 		while (i < argc)
 			filenames->add(filenames, ft_strdup(argv[i++]));
 	}
-	filenames->sort(filenames, ft_strcmp);
+	if (filenames)
+		filenames->sort(filenames, (int (*)(void *, void *))ft_strcmp);
 	return (filenames);
 }

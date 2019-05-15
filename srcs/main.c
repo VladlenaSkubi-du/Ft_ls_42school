@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/15 13:03:25 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/15 16:18:30 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static void		print_dir(DIR *dir, int *flags)
 	files = stack_init();
 	while ((entry = readdir(dir)))
 	{
+		if (!(*flags & (FLAG_F | FLAG_A)) && *entry->d_name == '.')
+			continue ;
 		file = (t_file *)ft_xmalloc(sizeof(t_file));
 		file->name = entry->d_name;
 		stat(file->name, &(file->buf));
@@ -41,8 +43,8 @@ static void		print_dir(DIR *dir, int *flags)
 	}
 	files->sort(files, files_sort(*flags));
 	print_files(files, *flags);
-	files->iter(files, (void (*)(void *, void *))print_inner, flags);
-	files->iter(files, (void (*)(void *, void *))print_inner, NULL);
+	if (*flags & FLAG_RR)
+		files->iter(files, (void (*)(void *, void *))print_inner, flags);
 	files->del(files);
 	closedir(dir);
 }
@@ -103,12 +105,14 @@ int				main(int argc, char **argv)
 	param->add(param, dirs);
 	if ((args = get_args(&flags, argc, argv)))
 	{
-		flags & FLAG_R ? args->iterr(args, (void (*)(void *, void *))check_arg, param) :
-							args->iter(args, (void (*)(void *, void *))check_arg, param);
+		param->counter = flags;
+		args->iter(args, (void (*)(void *, void *))check_arg, param);
+		args->del(args);
+		// flags & FLAG_R ? args->iterr(args, (void (*)(void *, void *))check_arg, param) :
+		// 					args->iter(args, (void (*)(void *, void *))check_arg, param);
 	}
 	else
 		dirs->add(dirs, opendir("."));
-	param->counter = flags;
 	print_files(files, flags);
 	dirs->iter(dirs, (void (*)(void *, void *))print_dir, &flags);
 	return (0);
