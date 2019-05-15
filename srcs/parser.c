@@ -6,13 +6,13 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/14 22:25:35 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/15 07:52:09 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		usage(void)
+static void		usage(void)
 {
 	ft_putendl("usage: ft_ls [1lrRatGpsufdgSCf] [file ...]");
 	exit(0);
@@ -24,7 +24,7 @@ void		no_dir_or_file(char *dirname)
 	ft_putstr(dirname);
 	ft_putendl(": No such file or directory");
 }
-int			get_flags(char *arg)
+static int		get_flags(char *arg)
 {
 	int		flags;
 	int		i;
@@ -46,11 +46,13 @@ int			get_flags(char *arg)
 	return (flags);
 }
 
-int			get_args(int *flags,  int argc, char **argv)
+t_stack			*get_args(int *flags,  int argc, char **argv)
 {
-	int		i;
+	int			i;
+	t_stack		*filenames;
 
 	i = 0;
+	filenames = NULL;
 	while (++i < argc)
 	{
 		if (*argv[i] == '-')
@@ -58,5 +60,12 @@ int			get_args(int *flags,  int argc, char **argv)
 		else
 			break ;
 	}
-	return (i);
+	if (i < argc)
+	{
+		filenames = stack_init();
+		while (i < argc)
+			filenames->add(filenames, ft_strdup(argv[i++]));
+	}
+	filenames->sort(filenames, ft_strcmp);
+	return (filenames);
 }

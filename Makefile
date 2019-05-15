@@ -5,9 +5,11 @@ NAME = ft_ls
 SOURCES =	main.c \
 			filter.c \
 			parser.c \
-			sort.c \
-			list.c \
-			ft_xmalloc.c
+			files_sort.c \
+			stack_sort.c \
+			ft_xmalloc.c \
+			stack.c \
+			print.c
 
 DIR_O = objs
 

@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/14 22:24:20 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/15 12:20:10 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,46 +44,43 @@
 # define FLAG_G 4096
 # define FLAG_SS 9192
 # define FLAG_C 18384
-# define FLAG_F 36768
+//# define FLAG_F 36768
+
+typedef struct	s_plist
+{
+	void			*data;
+	size_t			num;
+	struct s_plist	*next;
+	struct s_plist	*prev;
+}				t_plist;
+
+typedef struct	s_stack
+{
+	t_plist		*list;
+	size_t		counter;
+	void		(*add)(struct s_stack *, void *);
+	void		(*iter)(struct s_stack *, void (*f)(void *, void *), void *param);
+	void		(*iterr)(struct s_stack *, void (*f)(void *, void *), void *param);
+	void		(*sort)(struct s_stack*, int (*f)(void *, void *));
+	void		(*del)(struct s_stack *);
+}				t_stack;
+
 
 typedef struct		s_file
 {
 	struct stat		buf;
 	char			*name;
-	struct s_file	*prev;
-	struct s_file	*next;
-	int				fromstart;
 }					t_file;
-
-typedef struct		s_param
-{
-	t_file			*file;
-	int				flags;
-}					t_param;
 
 void				*ft_xmalloc(size_t size);
 
-t_file				*file_new(t_file *start);
-t_file				*file_cut(t_file *start, t_file *node);
-void				file_insert(t_file *prev, t_file *node);
-t_file				*file_swap(t_file *start, t_file *left, t_file *right);
-t_file				*file_del(t_file *start);
-void				file_count(t_file *start);
-void				file_foreach(t_file *start, void (*f)(t_file *cur));
-
-void				quick_sort_list(t_file *start, t_file *left, t_file *right,
-						int (*f)(t_file *left, t_file *right));
-void				quick_mas_sort(char **mas, int left, int right);
-int					get_args(int *flags,  int argc, char **argv);
-int					get_flags(char *arg);
-void				usage(void);
+t_stack				*get_args(int *flags,  int argc, char **argv);
 void				no_dir_or_file(char *dirname);
 
-void				print_dir(DIR *dir, int flags, t_param *param);
-void				check_dir(char *dirname, char **not_dir,
-						int flags, t_param *param);
+void				print_files(t_stack *files, int flags);
 
-int					file_strcmp(t_file *left, t_file *right);
-t_file				*files_sort(t_file *start, int flags);
+t_stack				*stack_init();
+void				*files_sort(int flags);
+void				st_sort(t_stack *me, int (*f)(void *, void *));
 
 #endif
