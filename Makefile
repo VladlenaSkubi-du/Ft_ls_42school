@@ -3,13 +3,13 @@ NAME = ft_ls
 #FLAGS = -Wall -Werror -Wextra
 
 SOURCES =	main.c \
-			filter.c \
 			parser.c \
 			files_sort.c \
 			stack_sort.c \
 			ft_xmalloc.c \
 			stack.c \
-			print.c
+			print.c \
+			dir.c
 
 DIR_O = objs
 

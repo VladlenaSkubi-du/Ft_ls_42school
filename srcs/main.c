@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/15 16:18:30 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/19 05:51:36 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,105 +15,82 @@
 
 #include "ft_ls.h"
 
-static void		print_inner(t_file *file, int *flags);
-
-static void		free_data(void *ptr, void *null)
+void			close_dirs(DIR *dir, void *null)
 {
 	if (!null)
-	{
-		free(ptr);
-	}
+		closedir(dir);
 }
 
-static void		print_dir(DIR *dir, int *flags)
+void			free_data(struct s_file *file, void *name)
 {
-	t_file				*file;
-	static t_stack		*files = NULL;
-	struct dirent		*entry;
-
-	files = stack_init();
-	while ((entry = readdir(dir)))
+	if (file)
 	{
-		if (!(*flags & (FLAG_F | FLAG_A)) && *entry->d_name == '.')
-			continue ;
-		file = (t_file *)ft_xmalloc(sizeof(t_file));
-		file->name = entry->d_name;
-		stat(file->name, &(file->buf));
-		files->add(files, file);
-	}
-	files->sort(files, files_sort(*flags));
-	print_files(files, *flags);
-	if (*flags & FLAG_RR)
-		files->iter(files, (void (*)(void *, void *))print_inner, flags);
-	files->del(files);
-	closedir(dir);
-}
-
-static void		print_inner(t_file *file, int *flags)
-{
-	DIR		*dir;
-
-	if (ft_strcmp(file->name, "..") && ft_strcmp(file->name, ".") && file->buf.st_mode & S_IFDIR)
-	{
-		dir = opendir(file->name);
-		ft_putstr(file->name);
-		ft_putstr(":\n");
-			print_dir(dir, flags);
-		ft_putendl("");
+		if (name)
+			free(file->name);
+		free(file);
 	}
 }
 
-static void		check_arg(char *str, t_stack *param)
+static void		check_arg(char *str, t_stack *params)
 {
 	DIR			*dir;
 	t_file		*file;
 	t_stack		*files;
 	t_stack		*dirs;
 
-	files = param->list->data;
-	dirs = param->list->next->data;
-	dir = opendir(str);
-	if (!dir || param->counter & FLAG_D)
+	files = params->list->data;
+	dirs = params->list->next->data;
+	file = (t_file *)ft_xmalloc(sizeof(t_file));
+	if (stat(str, &file->buf))
 	{
-		if (errno == ENOENT)
-			no_dir_or_file(str);
-		if (errno == ENOTDIR)
-		{
-			file = (t_file *)ft_xmalloc(sizeof(t_file));
-			file->name = str;
-			stat(str, &file->buf);
-			files->add(files, file);
-		}
+		no_dir_or_file(str);
+		free(file);
+		return ;
+	}
+	file->name = ft_strdup(str);
+	if (file->buf.st_mode & S_IFDIR)
+	{
+		ST_ADD(dirs, file->name);
+		free(file);
 	}
 	else
-		dirs->add(dirs, dir);
+		ST_ADD(files, file);
+}
+
+static void		throw_args(t_stack *args, t_stack *params, int flags)
+{
+	t_stack		*files;
+	t_stack		*dirs;
+
+	files = params->list->data;
+	dirs = params->list->next->data;
+	params->counter = flags;
+	ST_ITER(args, (void (*)(void *, void *))check_arg, params, flags & FLAG_R);
+	print_files(files, flags);
+	ST_ITER(dirs, (void (*)(void *, void *))print_dir, &flags, flags & FLAG_R);
+	ST_DEL(args);
+	ST_ITER(files, (void (*)(void *, void *))free_data, (void *)1, 0);
+	ST_DEL(files);
+	ST_ITER(dirs, (void (*)(void *, void *))free_data, NULL, 0);
+	ST_DEL(dirs);
 }
 
 int				main(int argc, char **argv)
 {
 	int			flags;
 	t_stack		*args;
-	t_stack		*files;
-	t_stack		*dirs;
-	t_stack		*param;
+	t_file		file;
+	t_stack		*params;
 
+	params = ST_NEW();
+	ST_ADD(params, ST_NEW());
+	ST_ADD(params, ST_NEW());
 	flags = 0;
-	param = stack_init();
-	files = stack_init();
-	dirs = stack_init();
-	param->add(param, files);
-	param->add(param, dirs);
+	params->counter = flags;
 	if ((args = get_args(&flags, argc, argv)))
-	{
-		param->counter = flags;
-		args->iter(args, (void (*)(void *, void *))check_arg, param);
-		args->del(args);
-		// flags & FLAG_R ? args->iterr(args, (void (*)(void *, void *))check_arg, param) :
-		// 					args->iter(args, (void (*)(void *, void *))check_arg, param);
-	}
+		throw_args(args, params, flags);
 	else
-		dirs->add(dirs, opendir("."));
-	print_files(files, flags);
-	dirs->iter(dirs, (void (*)(void *, void *))print_dir, &flags);
+		print_dir(".", &flags);
+	ST_DEL(params);
 	return (0);
 }

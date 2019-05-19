@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/15 13:49:12 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/19 00:20:19 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,12 @@ t_stack			*get_args(int *flags,  int argc, char **argv)
 	}
 	if (i < argc)
 	{
-		filenames = stack_init();
+		*flags |= (argc - i > 1) ? FLAG_N : 0;
+		filenames = ST_NEW();
 		while (i < argc)
-			filenames->add(filenames, ft_strdup(argv[i++]));
+			ST_ADD(filenames, argv[i++]);
 	}
 	if (filenames)
-		filenames->sort(filenames, (int (*)(void *, void *))ft_strcmp);
+		ST_SORT(filenames, (int (*)(void *, void *))ft_strcmp);
 	return (filenames);
 }

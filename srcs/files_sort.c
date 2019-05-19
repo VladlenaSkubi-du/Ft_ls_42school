@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_sort.c                                       :+:      :+:    :+:   */
+/*   files_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:32 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/15 08:12:33 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/19 04:15:36 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	file_atimecmp(t_file *left, t_file *right)
 
 void		*files_sort(int flags)
 {
-	int (*f)(void *left, void *right);
+	int (*f)(t_file *left, t_file *right);
 
 	if (flags & FLAG_F)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/15 12:20:10 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/19 06:21:28 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,19 @@
 # define FLAG_F 1024
 # define FLAG_D 2048
 # define FLAG_G 4096
-# define FLAG_SS 9192
-# define FLAG_C 18384
-//# define FLAG_F 36768
+# define FLAG_SS 8192
+# define FLAG_C 16384
+# define FLAG_N 32768
+
+# define ST_NEW() stack_init()
+# define ST_ADD(x, data) x->add(x, data)
+# define ST_SORT(x, f) x->sort(x, f)
+# define ST_DEL(x) x->del(x)
+# define ST_ITER(x, f, param, rev) x->iter(x, f, param, rev)
 
 typedef struct	s_plist
 {
+	char			*name;
 	void			*data;
 	size_t			num;
 	struct s_plist	*next;
@@ -58,26 +65,28 @@ typedef struct	s_stack
 {
 	t_plist		*list;
 	size_t		counter;
-	void		(*add)(struct s_stack *, void *);
-	void		(*iter)(struct s_stack *, void (*f)(void *, void *), void *param);
-	void		(*iterr)(struct s_stack *, void (*f)(void *, void *), void *param);
+	void		(*add)(struct s_stack *, void *data);
+	void		(*iter)(struct s_stack *, void (*f)(void *, void *),
+													void *param, int reverse);
 	void		(*sort)(struct s_stack*, int (*f)(void *, void *));
 	void		(*del)(struct s_stack *);
 }				t_stack;
 
-
-typedef struct		s_file
-{
-	struct stat		buf;
-	char			*name;
-}					t_file;
+// typedef struct		s_file
+// {
+// 	struct stat		buf;
+// 	char			*name;
+// }					t_file;
 
 void				*ft_xmalloc(size_t size);
+void				free_data(struct s_file *file, void *name);
+void				close_dirs(DIR *dir, void *null);
 
 t_stack				*get_args(int *flags,  int argc, char **argv);
 void				no_dir_or_file(char *dirname);
 
 void				print_files(t_stack *files, int flags);
+void				print_dir(char *path, int *flags);
 
 t_stack				*stack_init();
 void				*files_sort(int flags);
