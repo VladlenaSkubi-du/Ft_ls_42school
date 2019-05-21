@@ -9,7 +9,8 @@ SOURCES =	main.c \
 			ft_xmalloc.c \
 			stack.c \
 			print.c \
-			dir.c
+			dir.c \
+			out_buf.c
 
 DIR_O = objs
 

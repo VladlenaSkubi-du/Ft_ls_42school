@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:32 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/19 04:15:36 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/19 11:22:55 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ static int	file_strcmp(t_file *left, t_file *right)
 
 static int	file_sizecmp(t_file *left, t_file *right)
 {
-	return (left->buf.st_size - right->buf.st_size);
+	return (left->info.st_size - right->info.st_size);
 }
 
 static int	file_timecmp(t_file *left, t_file *right)
 {
-	return(left->buf.st_mtime - right->buf.st_mtime);
+	return(left->info.st_mtime - right->info.st_mtime);
 }
 
 static int	file_atimecmp(t_file *left, t_file *right)
 {
-	return(left->buf.st_atime - right->buf.st_atime);
+	return(left->info.st_atime - right->info.st_atime);
 }
 
 void		*files_sort(int flags)

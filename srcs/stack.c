@@ -6,13 +6,13 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:32:52 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/19 06:21:12 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/20 19:25:11 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		st_add(t_stack *me, char *name, void *data)
+static void		st_add(t_stack *me, void *data)
 {
 	t_plist		*ptr;
 
@@ -20,7 +20,6 @@ static void		st_add(t_stack *me, char *name, void *data)
 		return ;
 	ptr = (t_plist *)ft_xmalloc(sizeof(t_plist));
 	ptr->data = data;
-	ptr->name = ft_strdup(name);
 	if (me->list == NULL)
 	{
 		ptr->num = 1;
@@ -68,27 +67,25 @@ static void		st_iter(t_stack *me, void (*f)(void *, void *),
 	}
 }
 
-static void		st_del(t_stack *me)
+static t_stack	*st_del(t_stack *me)
 {
 	t_plist		*cur;
 	t_plist		*prev;
 
 	if (!me)
-		return ;
+		return (NULL);
 	if (me->list)
 	{
 		prev = me->list;
 		while (cur != me->list)
 		{
 			cur = prev->next;
-			free(prev->name);
-			free(prev->data);
 			free(prev);
 			prev = cur;
 		}
 	}
 	free(me);
-	me = NULL;
+	return (NULL);
 }
 
 t_stack			*stack_init()
