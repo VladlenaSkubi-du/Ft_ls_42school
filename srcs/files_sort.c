@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:32 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/19 11:22:55 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/22 06:44:03 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,23 @@ static int	file_strcmp(t_file *left, t_file *right)
 
 static int	file_sizecmp(t_file *left, t_file *right)
 {
-	return (left->info.st_size - right->info.st_size);
+	if (right->info.st_size == left->info.st_size)
+		return (file_strcmp(left, right));
+	return (right->info.st_size - left->info.st_size);
 }
 
 static int	file_timecmp(t_file *left, t_file *right)
 {
-	return(left->info.st_mtime - right->info.st_mtime);
+	if (right->info.st_mtime == left->info.st_mtime)
+		return (file_strcmp(left, right));
+	return(right->info.st_mtime - left->info.st_mtime);
 }
 
 static int	file_atimecmp(t_file *left, t_file *right)
 {
-	return(left->info.st_atime - right->info.st_atime);
+	if (right->info.st_atime == left->info.st_atime)
+		return (file_strcmp(left, right));
+	return(right->info.st_atime - left->info.st_atime);
 }
 
 void		*files_sort(int flags)
@@ -40,10 +46,10 @@ void		*files_sort(int flags)
 		return (NULL);
 	if (flags & FLAG_SS)
 		f = file_sizecmp;
+	else if (flags & FLAG_U && flags & FLAG_T)
+		f = file_atimecmp;
 	else if (flags & FLAG_T)
 		f = file_timecmp;
-	else if (flags & FLAG_U)
-		f = file_atimecmp;
 	else
 		f = file_strcmp;
 	return (f);

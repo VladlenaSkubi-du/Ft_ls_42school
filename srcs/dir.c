@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/20 20:26:07 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/23 13:02:05 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,68 +15,59 @@
 static void		print_inner(t_file *file, int *flags)
 {
 	*flags |= FLAG_N;
-	if (ft_strcmp(file->name, ".") && ft_strcmp(file->name, ".."))
+	if ((file->info.st_mode & S_IFDIR) &&
+					ft_strcmp(file->name, ".") && ft_strcmp(file->name, ".."))
 	{
-		ft_putchar('\n');
+		buf_add("\n", 1);
 		print_dir(file, flags);
 	}
 }
 
-// static void		get_files(t_stack *files, char *path, DIR *dir, int flags)
-// {
-// 	t_file				*file;
-// 	struct dirent		*entry;
-
-
-// }
+static void		read_file(struct dirent *entry,
+									char *path, t_stack *files, int flags)
+{
+	t_file		*file;
+	
+	if (*entry->d_name == '.' && !(flags & (FLAG_F | FLAG_A | FLAG_L)))
+		return ;
+	file = (t_file *)ft_xmalloc(sizeof(t_file));
+	file->name = ft_strdup(entry->d_name);
+	if (flags & (FLAG_RR | FLAG_S | FLAG_SS | FLAG_U | FLAG_L | FLAG_T))
+	{
+		file->path = ft_strrejoin(ft_strjoin(path, "/"), entry->d_name);
+		if (!lstat(file->path, &file->info))
+			ST_ADD(files, file);
+		else
+			del_file(file, NULL);
+	}
+	else
+		ST_ADD(files, file);
+}
 
 void			print_dir(t_file *file, int *flags)
 {
-	t_stack				*dirs;
 	t_stack				*files;
 	struct dirent		*entry;
 	char				*tmp;
-	t_file				*inner_file;
 
 	if (*flags & FLAG_N)
 	{
-		ft_putstr(file->name);
-		ft_putstr(":\n");
+		buf_add(file->path, ft_strlen(file->path));
+		buf_add(":\n", 3);
 	}
-	if (!(file->dir = opendir(file->name)))
+	if (!file->dir && !(file->dir = opendir(file->path)))
 	{
 		print_err(file->name);
 		return ;
 	}
 	files = ST_NEW();
-	dirs = ST_NEW();
-	// get_files(files, path, dir, *flags);
 	while ((entry = readdir(file->dir)))
-	{
-		if (*entry->d_name == '.')
-			continue ;
-		inner_file = (t_file *)ft_xmalloc(sizeof(t_file));
-		inner_file->name = ft_strrejoin(ft_strjoin(file->name, "/"), entry->d_name);
-		if (!stat(inner_file->name, &inner_file->info))
-		{
-			ST_ADD(files, inner_file);
-			if (inner_file->info.st_mode & S_IFDIR)
-				ST_ADD(dirs, inner_file);
-		}
-		else
-		{
-			print_err(inner_file->name);
-			free(inner_file->name);
-			inner_file->name = NULL;
-			free(inner_file);
-		}
-	}
+		read_file(entry, file->path, files, *flags);
 	ST_SORT(files, files_sort(*flags));
-	ST_SORT(dirs, files_sort(*flags));
 	print_files(files, *flags);
 	if (*flags & FLAG_RR)
-		ST_ITER(dirs, (void (*)(void *, void *))print_inner, flags, 0);
-	ST_ITER(files, (void (*)(void *, void *))del_files, NULL, *flags & FLAG_R);
-	ST_DEL(dirs);
+		ST_ITER(files, (void (*)(void *, void *))print_inner,
+											flags, *flags & FLAG_R);
+	ST_ITER(files, (void (*)(void *, void *))del_file, NULL, 0);
 	ST_DEL(files);
 }

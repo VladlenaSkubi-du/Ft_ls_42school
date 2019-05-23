@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/21 17:06:37 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/23 11:51:32 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,11 @@
 # define ST_DEL(x) x = x->del(x)
 # define ST_ITER(x, f, param, rev) x->iter(x, f, param, rev)
 
-typedef struct	s_plist
-{
-	void			*data;
-	size_t			num;
-	struct s_plist	*next;
-	struct s_plist	*prev;
-}				t_plist;
-
 typedef struct	s_stack
 {
-	t_plist				*list;
-	size_t				counter;
+	void				**data;
+	size_t				size;
+	size_t				next_up;
 	void				(*add)(struct s_stack *, void *data);
 	void				(*iter)(struct s_stack *, void (*f)(void *, void *),
 													void *param, int reverse);
@@ -75,13 +68,14 @@ typedef struct	s_stack
 
 typedef struct		s_file
 {
+	char			*path;
 	char			*name;
 	struct stat		info;
 	DIR				*dir;
 }					t_file;
 
 void				*ft_xmalloc(size_t size);
-void				del_files(t_file *file, void *null);
+void				del_file(t_file *file, void *null);
 
 t_stack				*get_args(int *flags,  int argc, char **argv);
 void				print_err(char *dirname);

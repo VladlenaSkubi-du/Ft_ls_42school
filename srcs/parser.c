@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/20 18:31:50 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/23 12:59:39 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_stack			*get_args(int *flags,  int argc, char **argv)
 			*flags |= get_flags(argv[i]);
 		else
 			break ;
+	if ((*flags & FLAG_F) && (*flags & FLAG_R))
+		*flags ^= FLAG_R;
 	if (i < argc)
 	{
 		*flags |= (argc - i > 1) ? FLAG_N : 0;
@@ -70,6 +72,7 @@ t_stack			*get_args(int *flags,  int argc, char **argv)
 		{
 			file = (t_file *)ft_xmalloc(sizeof(t_file));
 			file->name = ft_strdup(argv[i++]);
+			file->path = ft_strdup(file->name);
 			ST_ADD(filenames, file);
 		}
 	}
