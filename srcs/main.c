@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/28 12:02:31 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/28 13:57:20 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ int				main(int argc, char **argv)
 		throw_args(args, params, flags);
 	else
 	{
-		// file.name = ft_strdup(".");
-		file.path = ft_strdup(".");
-		stat(".", &file.info);
+		//file.name = ft_strdup("./");
+		file.path = ft_strdup("./");
+		stat("./", &file.info);
 		print_dir(&file, &flags);
-		// free(file.name);
+		//free(file.name);
 		free(file.path);
 		closedir(file.dir);
 	}

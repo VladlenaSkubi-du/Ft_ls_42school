@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/28 12:04:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/28 13:42:52 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ typedef struct		s_file
 	char			*path;
 	char			*name;
 	struct stat		info;
+	struct passwd	*uid;
+	struct group	*gid;
+	char			*link;
+	char			*size;
+	char			*time;
 	DIR				*dir;
 }					t_file;
 
