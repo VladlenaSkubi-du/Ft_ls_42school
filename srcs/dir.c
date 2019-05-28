@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dir.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/28 12:08:05 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/28 16:05:32 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ static void		read_file(struct dirent *entry,
 									char *path, t_stack *files, int flags)
 {
 	t_file		*file;
-	
-	if (*entry->d_name == '.' && !(flags & (FLAG_F | FLAG_A | FLAG_L)))
+
+//	if (*entry->d_name == '.' && !(flags & (FLAG_F | FLAG_A | FLAG_L)))
+	if (*entry->d_name == '.' && !(flags & (FLAG_F | FLAG_A)))
 		return ;
 	file = (t_file *)ft_xmalloc(sizeof(t_file));
 	file->name = ft_strdup(entry->d_name);
-	if (flags & (FLAG_RR | FLAG_S | FLAG_SS | FLAG_U | FLAG_L | FLAG_T))
+	if (flags & (FLAG_RR | FLAG_S | FLAG_SS | FLAG_U | FLAG_L | FLAG_T | FLAG_C))
 	{
 		file->path = ft_strrejoin(ft_strjoin(path, "/"), entry->d_name);
 		if (!lstat(file->path, &file->info))
