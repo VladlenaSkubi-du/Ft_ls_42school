@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/23 12:59:39 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/27 19:33:36 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void		usage(void)
 
 void			print_err(char *dirname)
 {
+	// ЗАМЕНИТЬ НА ВТОРОЙ ПОТОК!!!
 	ft_putstr("ft_ls: ");
 	ft_putstr(dirname);
 	if (errno == EACCES)

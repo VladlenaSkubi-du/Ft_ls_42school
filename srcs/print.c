@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/23 10:07:14 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/28 12:09:38 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,11 @@ static void		print_file(t_file *file, int *flags)
 void			print_files(t_stack *files, int flags)
 {
 	ST_ITER(files, (void (*)(void *, void *))print_file, &flags, flags & FLAG_R);
+	// t_file		**arr;
+	// int			sizes[9];
+
+	// ft_bzero(sizes, sizeof(int) * 9);
+	// sizes[0] = 9;
+	// sizes[5] = 3;
+	// arr = (t_file **)files->data;
 }

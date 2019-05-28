@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/23 11:51:32 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/28 12:04:16 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ void				*files_sort(int flags);
 void				st_sort(t_stack *me, int (*f)(void *, void *));
 
 void				buf_add(char *str, size_t size);
+void				buf_fill(char *str, size_t len, size_t size, int left);
 
 #endif

@@ -20,7 +20,7 @@ static void		st_add(t_stack *me, void *data)
 	{
 		tmp = me->data;
 		me->next_up *= 2;
-		me->data = ft_xmalloc(sizeof(void *) * me->next_up);
+		me->data = ft_xmalloc(sizeof(void *) * (me->next_up + 1));
 		ft_memcpy(me->data, tmp, me->size * sizeof(void *));
 		free(tmp);
 	}
@@ -60,7 +60,7 @@ t_stack			*stack_init()
 	stack = (t_stack *)ft_xmalloc(sizeof(t_stack));
 	stack->size = 0;
 	stack->next_up = 10;
-	stack->data = ft_xmalloc(sizeof(void *) * 10);
+	stack->data = ft_xmalloc(sizeof(void *) * 11);
 	stack->add = st_add;
 	stack->iter = st_iter;
 	stack->sort = st_sort;

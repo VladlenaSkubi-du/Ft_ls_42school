@@ -6,11 +6,16 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/23 13:02:05 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/28 12:08:05 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+static char		*jjoin(char *path, char *name)
+{
+	return NULL;
+}
 
 static void		print_inner(t_file *file, int *flags)
 {
