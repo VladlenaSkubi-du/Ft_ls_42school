@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/28 17:39:22 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/29 13:38:53 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,30 @@
 static void		fill_info(t_file *file, int *columns);
 static void		find_length(t_file file, int *columns);
 
-static void		print_file(t_file *file, int *flags)
+static void		print_file(t_file *file, int *col)
 {
+	int		i;
+	void	**ptr;
+
+	i = 0;
+	ptr = (void **)&file->uid;
+	while (++i < 7)
+		if (col[i])
+		{
+			if (i > 2)
+				buf_fill(*ptr, ft_strlen(*ptr), col[i], 0);
+			else if (i == 2)
+				buf_fill(((struct passwd *)*ptr)->pw_name,
+				ft_strlen(((struct passwd *)*ptr)->pw_name), col[i], 1);
+			else if (i == 3)
+				buf_fill(((struct group *)*ptr)->gr_name,
+				ft_strlen(((struct group *)*ptr)->gr_name), col[i], 1);
+			++ptr;
+			if ((i == 1 && col[1] == 11) || i > 5)
+				buf_add(" ", 1);
+			else
+				buf_add("  ", 2);
+		}
 	buf_add(file->name, ft_strlen(file->name));
 	buf_add("\n", 1);
 }
@@ -48,7 +70,7 @@ static void		fill_info(t_file *file, int *columns)
 	}
 //	printf("name: %s\n", file->name);
 	find_length(*file, &columns[1]);
-	printf("flags: %d link: %d uid: %d	gid: %d	size: %d name: %d\n", columns[0], columns[1], columns[2], columns[3], columns[4], columns[5]);
+	// printf("flags: %d link: %d uid: %d	gid: %d	size: %d name: %d\n", columns[0], columns[1], columns[2], columns[3], columns[4], columns[5]);
 }
 
 static void		find_length(t_file file, int *columns)
@@ -69,10 +91,10 @@ static void		find_length(t_file file, int *columns)
 
 void			print_files(t_stack *files, int flags)
 {
-	static int	columns[6]; //можно ли?
+	static int	columns[6]; //можно ли? mozhno
 
 	columns[0] = flags;
 	ST_ITER(files, (void (*)(void *, void *))fill_info, &columns, flags & FLAG_R);
-//	ST_ITER(files, (void (*)(void *, void *))print_file, &flags, flags & FLAG_R);
+	ST_ITER(files, (void (*)(void *, void *))print_file, columns, flags & FLAG_R);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/28 15:37:04 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/29 14:12:02 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,18 @@
 
 static void		usage(void)
 {
-	ft_putendl("usage: ft_ls [1lrRatGpsufdgSCfc] [file ...]");
+	buf_err("usage: ft_ls [-1lrRatGpsufdgSCfc] [file ...]\n");
 	exit(0);
 }
 
 void			print_err(char *dirname)
 {
-	// ЗАМЕНИТЬ НА ВТОРОЙ ПОТОК!!!
-	ft_putstr("ft_ls: ");
-	ft_putstr(dirname);
+	buf_err("ft_ls: ");
+	buf_err(dirname);
 	if (errno == EACCES)
-		ft_putendl(": Permission denied");
+		buf_err(": Permission denied\n");
 	else if (errno == ENOENT)
-		ft_putendl(": No such file or directory");
+		buf_err(": No such file or directory\n");
 }
 static int		get_flags(char *arg)
 {
@@ -35,16 +34,18 @@ static int		get_flags(char *arg)
 
 	flags = 0;
 	++arg;
-	while (*arg && (i = ft_strchri("1lrRatGpsufdgSCfc", *arg)) != -1)
+	while (*arg && (i = ft_strchri("1lrRatGpsufdgSCfc-", *arg)) != -1)
 	{
 		flags |= 1 << i;
 		++arg;
+		if (flags & FLAG_MINUS)
+			break ;
 	}
 	if (*arg)
 	{
-		ft_putstr("ft_ls: illegal option -- ");
-		ft_putchar(*arg);
-		ft_putchar('\n');
+		buf_err("ft_ls: illegal option -- ");
+		ft_printerr(arg, 1);
+		buf_err("\n");
 		usage();
 	}
 	return (flags);
@@ -59,7 +60,7 @@ t_stack			*get_args(int *flags,  int argc, char **argv)
 	i = 0;
 	filenames = NULL;
 	while (++i < argc)
-		if (*argv[i] == '-')
+		if (*argv[i] == '-' && !(*flags & FLAG_MINUS))
 			*flags |= get_flags(argv[i]);
 		else
 			break ;

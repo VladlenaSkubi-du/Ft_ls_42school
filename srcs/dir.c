@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dir.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/28 16:05:32 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/29 14:13:51 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void		read_file(struct dirent *entry,
 {
 	t_file		*file;
 
-//	if (*entry->d_name == '.' && !(flags & (FLAG_F | FLAG_A | FLAG_L)))
 	if (*entry->d_name == '.' && !(flags & (FLAG_F | FLAG_A)))
 		return ;
 	file = (t_file *)ft_xmalloc(sizeof(t_file));

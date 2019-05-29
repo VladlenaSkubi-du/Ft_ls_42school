@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/28 15:38:54 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/29 14:10:33 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define FLAG_CC 0x4000
 # define FLAG_N 0x8000
 # define FLAG_C 0x10000
+# define FLAG_MINUS 0x20000
 
 # define ST_NEW() stack_init()
 # define ST_ADD(x, data) x->add(x, data)
@@ -95,5 +96,7 @@ void				st_sort(t_stack *me, int (*f)(void *, void *));
 
 void				buf_add(char *str, size_t size);
 void				buf_fill(char *str, size_t len, size_t size, int left);
+void				buf_err(char *str);
+void				ft_printerr(char *str, size_t size);
 
 #endif
