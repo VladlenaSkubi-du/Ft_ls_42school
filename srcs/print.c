@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/31 14:40:21 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/31 18:19:24 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,13 @@ static void		print_file(t_file *file, int *col)
 		}
 	buf_add(file->name, ft_strlen(file->name));
 	buf_add("\n", 1);*/
-	printf("%s %3s %s  %s  %5s %s %s\n", file->mode, file->link, file->uid->pw_name, file->gid->gr_name, file->size, file->time, file->name);
+	printf("%3s %s %3s %s  %s  %5s %s %s\n", file->total, file->mode, file->link, file->uid->pw_name, file->gid->gr_name, file->size, file->time, file->name);
 }
 
 static void		fill_info(t_file *file, int *columns)
 {
+	columns[1] += file->info.st_blocks;
+	file->total = ft_utoa_base(file->info.st_blocks, 10); //переделать под другую функцию, выводится только при s флаге
 	file->uid = getpwuid(file->info.st_uid);
 	if (file->uid == NULL)
 	{
@@ -67,7 +69,7 @@ static void		fill_info(t_file *file, int *columns)
 	fill_mode(file);
 	if (file->type == 'l')
 		fill_link(file);
-	find_length(*file, &columns[1]);
+	find_length(*file, &columns[2]);
 }
 
 static void		fill_time(t_file *file, int *columns)
@@ -154,10 +156,11 @@ static void		find_length(t_file file, int *columns)
 
 void			print_files(t_stack *files, int flags)
 {
-	static int	columns[7];
+	static int	columns[8]; //добавила столбец для вывода s-флага
 
 	columns[0] = flags;
+	columns[1] = 0;
 	ST_ITER(files, (void (*)(void *, void *))fill_info, &columns, flags & FLAG_R);
+	printf("total %d\n", columns[1]);
 	ST_ITER(files, (void (*)(void *, void *))print_file, columns, flags & FLAG_R);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/31 14:38:34 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/31 18:02:04 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 # define FLAG_N 0x8000
 # define FLAG_C 0x10000
 # define FLAG_MINUS 0x20000
+# define FLAG_FF 0x40000
 
 # define ST_NEW() stack_init()
 # define ST_ADD(x, data) x->add(x, data)
@@ -72,6 +73,7 @@ typedef struct		s_file
 {
 	char			*path;
 	struct stat		info;
+	char			*total; //added for s-flag
 	char			type;
 	char			*mode;
 	char			*link;
@@ -85,6 +87,7 @@ typedef struct		s_file
 }					t_file;
 
 void				*ft_xmalloc(size_t size);
+void				ft_stradd_nb(char *s, long nb);
 void				del_file(t_file *file, void *null);
 
 t_stack				*get_args(int *flags,  int argc, char **argv);

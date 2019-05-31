@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/29 14:12:02 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/31 17:56:22 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void		usage(void)
 {
-	buf_err("usage: ft_ls [-1lrRatGpsufdgSCfc] [file ...]\n");
+	buf_err("usage: ft_ls [-1lrRatGpsufdgSCcF] [file ...]\n"); //добавила флаг F
 	exit(0);
 }
 
@@ -34,7 +34,7 @@ static int		get_flags(char *arg)
 
 	flags = 0;
 	++arg;
-	while (*arg && (i = ft_strchri("1lrRatGpsufdgSCfc-", *arg)) != -1)
+	while (*arg && (i = ft_strchri("1lrRatGpsufdgSCc-F", *arg)) != -1)
 	{
 		flags |= 1 << i;
 		++arg;
