@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/31 13:47:23 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/31 14:36:08 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void			del_file(t_file *file, void *null)
 {
 	if (file && !null)
 	{
-		// if (file->path)
-		// 	free(file->path);
-		// if (file->name)
-		// 	free(file->name);
-		// if (file->dir)
-		// 	closedir(file->dir);
+		if (file->path)
+			free(file->path);
+		if (file->name)
+			free(file->name);
+		if (file->dir)
+			closedir(file->dir);
 		free(file);
 	}
 }

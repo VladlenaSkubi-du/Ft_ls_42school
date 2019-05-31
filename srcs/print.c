@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/31 13:50:42 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/05/31 14:40:21 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void		fill_info(t_file *file, int *columns);
 static void		fill_time(t_file *file, int *columns);
-static char		*fill_mode(t_file *file);
+static void		fill_mode(t_file *file);
 static void		fill_link(t_file *file);
 static void		find_length(t_file file, int *columns);
 
@@ -64,7 +64,7 @@ static void		fill_info(t_file *file, int *columns)
 	file->link = ft_utoa_base(file->info.st_nlink, 10); //переделать под другую функцию
 	file->size = ft_utoa_base(file->info.st_size, 10); //переделать под другую функцию
 	fill_time(file, columns);
-	file->mode = ft_strdup(fill_mode(file));
+	fill_mode(file);
 	if (file->type == 'l')
 		fill_link(file);
 	find_length(*file, &columns[1]);
@@ -93,30 +93,29 @@ static void		fill_time(t_file *file, int *columns)
 	}
 }
 
-static char		*fill_mode(t_file *file)
+static void		fill_mode(t_file *file)
 {
-	static char		mode[11];
 	mode_t			m;
 
 	m = file->info.st_mode;
-	mode[0] = file->type;	
-	mode[1] = ((m & 00400) && (m & 00700)) ? 'r' : '-';
-	mode[2] = ((m & 00200) && (m & 00700)) ? 'w' : '-';
-	mode[3] = ((m & 00100) && (m & 00700)) ? 'x' : '-';
-	mode[4] = ((m & 00040) && (m & 00070)) ? 'r' : '-';
-	mode[5] = ((m & 00020) && (m & 00070)) ? 'w' : '-';
-	mode[6] = ((m & 00010) && (m & 00070)) ? 'x' : '-';
-	mode[7] = ((m & 00004) && (m & 00007)) ? 'r' : '-';
-	mode[8] = ((m & 00002) && (m & 00007)) ? 'w' : '-';
-	mode[9] = ((m & 00001) && (m & 00007)) ? 'x' : '-';
-	mode[3] = ((m & 04000) && mode[3] == 'x') ? 's' : mode[3];
-	mode[6] = ((m & 02000) && mode[6] == 'x') ? 's' : mode[6];
-	mode[9] = ((m & 01000) && mode[9] == 'x') ? 't' : mode[9];
-	mode[3] = ((m & 04000) && mode[3] == '-') ? 'S' : mode[3];
-	mode[6] = ((m & 02000) && mode[6] == '-') ? 'S' : mode[6];
-	mode[9] = ((m & 01000) && mode[9] == '-') ? 'T' : mode[9];
-	mode[10] = ' '; //переделать ACL
-	return (mode);
+	file->mode = ft_xmalloc(sizeof(char) * 12);
+	file->mode[0] = file->type;	
+	file->mode[1] = ((m & 00400) && (m & 00700)) ? 'r' : '-';
+	file->mode[2] = ((m & 00200) && (m & 00700)) ? 'w' : '-';
+	file->mode[3] = ((m & 00100) && (m & 00700)) ? 'x' : '-';
+	file->mode[4] = ((m & 00040) && (m & 00070)) ? 'r' : '-';
+	file->mode[5] = ((m & 00020) && (m & 00070)) ? 'w' : '-';
+	file->mode[6] = ((m & 00010) && (m & 00070)) ? 'x' : '-';
+	file->mode[7] = ((m & 00004) && (m & 00007)) ? 'r' : '-';
+	file->mode[8] = ((m & 00002) && (m & 00007)) ? 'w' : '-';
+	file->mode[9] = ((m & 00001) && (m & 00007)) ? 'x' : '-';
+	file->mode[3] = ((m & 04000) && file->mode[3] == 'x') ? 's' : file->mode[3];
+	file->mode[6] = ((m & 02000) && file->mode[6] == 'x') ? 's' : file->mode[6];
+	file->mode[9] = ((m & 01000) && file->mode[9] == 'x') ? 't' : file->mode[9];
+	file->mode[3] = ((m & 04000) && file->mode[3] == '-') ? 'S' : file->mode[3];
+	file->mode[6] = ((m & 02000) && file->mode[6] == '-') ? 'S' : file->mode[6];
+	file->mode[9] = ((m & 01000) && file->mode[9] == '-') ? 'T' : file->mode[9];
+	file->mode[10] = ' '; //переделать ACL
 }
 
 static void		fill_link(t_file *file)
