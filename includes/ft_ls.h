@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/29 14:10:33 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/05/31 13:52:01 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,16 @@ typedef struct	s_stack
 typedef struct		s_file
 {
 	char			*path;
-	char			*name;
 	struct stat		info;
+	char			type;
+	char			*mode;
+	char			*link;
 	struct passwd	*uid;
 	struct group	*gid;
-	char			*link;
+	char			*minmaz;
 	char			*size;
 	char			*time;
+	char			*name;
 	DIR				*dir;
 }					t_file;
 

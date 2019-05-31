@@ -218,3 +218,34 @@ struct stat {
 noatime – вообще не менять этот атрибут.
 relatime – (relative atime) немного смухлевать, и менять только когда оно становится раньше mtime или ctime. С версии 2.6.29 используется в Linux по-умолчанию.
 strictatime – менять atime строго как положено, при каждом обращении к файлу.
+
+
+
+Так как в POSIX.1 не определён размер поля d_name и других нестандартных полей, которые могут находиться перед этим полем в структуре dirent, переносимые приложения, использующие readdir_r(), должны выделять буфер, адрес которого передаётся в entry, следующим образом:
+
+
+If the file or directory has extended attributes, you'll see an @ in the permissions field. For extended security information (ACLs), you'll see a +.
+
+The @ is displayed with a extended attribute is set
+The + is displayed for an ACL.
+IF you have both an attribute and a ACL then you see @.
+Run the command ls -le filename to see if it has any ACLs set.
+
+
+
+
+Особенный вывод по цветам и проверке d_type:
+1) ls -Gl /private/tmp/com.apple.launchd.hGWIvg6zhB
+ls -Gl /private/tmp/com.apple.launchd.3qWNd4CUHB
+ls -Gl /private/tmp/com.apple.launchd.GGiEA8N7Ie
+
+./a.out /private/tmp/com.apple.launchd.hGWIvg6zhB/
+
+	Domain socket: Render - 12
+
+2) ./a.out /usr/libexec/
+
+	File: authopen - 8
+
+3)ls -aGl /Library/Caches - there is plus in mode: drwxr-xr-x+
+4)  
