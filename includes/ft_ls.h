@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/03 18:23:34 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/03 18:33:32 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 # define OUT_BUF (size_t)100000
 
-# define FLAG_MIN 0x1
+# define FLAG_MIN 0x1 //check
 # define FLAG_L 0x2
 # define FLAG_R 0x4
 # define FLAG_RR 0x8
@@ -49,11 +49,11 @@
 # define FLAG_G 0x1000
 # define FLAG_SS 0x2000
 # define FLAG_CC 0x4000
-# define FLAG_N 0x8000
+# define FLAG_N 0x8000 //rename, name of folder, print or not
 # define FLAG_C 0x10000
-# define FLAG_MINUS 0x20000
+# define FLAG_MINUS 0x20000 //check
 # define FLAG_FF 0x40000
-# define FLAG_DD 0x80000
+# define FLAG_DD 0x80000 //rename
 
 # define ST_NEW() stack_init()
 # define ST_ADD(x, data) x->add(x, data)

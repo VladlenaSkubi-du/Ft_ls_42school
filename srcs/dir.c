@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/03 18:23:25 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/03 18:34:31 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ static void		read_file(struct dirent *entry,
 		{
 			fill_type(entry->d_type, file);
 			if (file->type == 'b' || file->type == 'c')
-			{
-				// buf_add("FLAG_DEV\n", 9);
 				*flags |= FLAG_DD;
-			}
 		}
 		file->path = ft_strrejoin(ft_strjoin(path, "/"), entry->d_name);
 		if (!lstat(file->path, &file->info))
