@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/01 19:23:12 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/03 13:26:53 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 # include <errno.h>
 # include "libft.h"
 # include "ft_printf.h"
+
+# include <sys/acl.h> //для acl
+# include <sys/ioctl.h> //для ширины терминала
 
 # define OUT_BUF (size_t)100000
 

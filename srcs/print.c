@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/02 16:57:07 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/03 13:31:55 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static void		fill_info(t_file *file, int *columns);
 static void		fill_time(t_file *file, int *columns);
 static void		fill_mode(t_file *file);
+static void		get_acl(t_file *file);
 static void		fill_link(t_file *file);
 static void		find_length(t_file *file, int *columns);
+static int		get_terminal_width(void);
 
 static void		print_file(t_file *file, int *col)
 {
@@ -120,7 +122,48 @@ static void		fill_mode(t_file *file)
 	file->mode[3] = ((m & 04000) && file->mode[3] == '-') ? 'S' : file->mode[3];
 	file->mode[6] = ((m & 02000) && file->mode[6] == '-') ? 'S' : file->mode[6];
 	file->mode[9] = ((m & 01000) && file->mode[9] == '-') ? 'T' : file->mode[9];
-	file->mode[10] = ' '; //переделать ACL
+	get_acl(file);
+}
+
+/*
+**An ACL entry specifies the access permissions on the associated object
+**for an individual user or a group of users as a combination of read,
+**write and search/execute permissions.
+**
+**Для работы с ACL нужна подключенная библиотека <sys/acl.h>. Там определены
+**типы структур acl_t (например: acl_type_t, acl_flag_t), и функции для
+**получения списка расширенных атрибутов файла. Функция acl_get_link_np
+**возвращает поинтер типа act_t на ACL или NULL и записывает ошибки в errno:
+**(EACCES, EBADF, EINVAL, ENAMETOOLONG, ENOENT, ENOMEM, EOPNOTSUPP).
+**Функция acl_get_entry возвращает дескриптор значения ACL, исходя из
+**отправленного entry_id (ACL_FIRST_ENTRY, ACL_NEXT_ENTRY), поинтера на ACL
+**и поинтера на entry для заполнения. Если в поле entry_id поставлен
+**ACL_FIRST_ENTRY, тогда в entry_p вернется дескриптор для первого
+**ввода ACL (В ACL entry находится entry tag type, опциональный entry
+**tag qualifier, и перечисление доступов/запретов доступа). Если entry_id
+** - это ACL_NEXT_ENTRY, вернется дескриптор для следующего ввода.
+*/
+
+static void		get_acl(t_file *file)
+{
+	ssize_t			xattr;
+	acl_t			acl;
+	acl_entry_t		tmp;
+
+	acl = NULL;
+	acl = acl_get_link_np(file->path, ACL_TYPE_EXTENDED); //нельзя сделать обработку ошибок, потому что у нас нет информации, у какого файла расширенные атрибуты и если их не будет у первого файла, он сразу выйдет из проги
+	if (acl && acl_get_entry(acl, ACL_FIRST_ENTRY, &tmp) == -1)
+	{
+		acl_free(acl);
+		acl = NULL;
+	}
+	xattr = listxattr(file->path, NULL, 0, XATTR_NOFOLLOW);
+	if (xattr > 0)
+		file->mode[10] = '@';
+	else if (acl != NULL)
+		file->mode[10] = '+';
+	else
+		file->mode[10] = ' ';
 }
 
 static void		fill_link(t_file *file)
@@ -140,24 +183,57 @@ static void		fill_link(t_file *file)
 	file->name = ft_strrejoin(file->name, buf_l);
 }
 
-static void		find_width(int len, int *columns)
+static void			find_length(t_file *file, int *columns)
 {
-	if (*columns)
-		*columns = len > *columns ? len : *columns;
+	int				tmp;
+
+	tmp = ft_strlen(file->total);
+	columns[0] = (tmp > columns[0]) ? tmp : columns[0];
+	columns[1] = 11;
+	tmp = ft_strlen(file->link);
+	columns[2] = (tmp > columns[2]) ? tmp : columns[2];
+	tmp = ft_strlen(file->uid->pw_name);
+	columns[3] = (tmp > columns[3]) ? tmp : columns[3];
+	tmp = ft_strlen(file->gid->gr_name);
+	columns[4] = (tmp > columns[4]) ? tmp : columns[4];
+	if (file->type == 'b' || file->type == 'c')
+	{
+		tmp = ft_strlen(0); //исправить
+		columns[5] = (tmp > columns[5]) ? tmp : columns[5];
+	}
+	else
+		columns[5] = 0;
+	tmp = ft_strlen(file->size);
+	columns[6] = (tmp > columns[6]) ? tmp : columns[6];
+	columns[7] = 12;
 }
 
-static void		find_length(t_file *file, int *columns)
+static int		get_terminal_width(void)
 {
-	int			tmp;
+	struct winsize	sz;
 
-	find_width(ft_strlen(file->total), columns + 1);
-	find_width(ft_strlen(file->link), columns + 2);
-	find_width(ft_strlen(file->uid->pw_name), columns + 3);
-	find_width(ft_strlen(file->gid->gr_name), columns + 4);
-	find_width(ft_strlen(file->size), columns + 5);
-	find_width(ft_strlen(file->time), columns + 6);
-	// if (file->type == 'b' || file->type == 'c') ???
+	ioctl(1, TIOCGWINSZ, &sz);
+	return (sz.ws_col);
 }
+
+// static void		find_width(int len, int *columns)
+// {
+// 	if (*columns)
+// 		*columns = len > *columns ? len : *columns;
+// }
+
+// static void		find_length(t_file *file, int *columns)
+// {
+// 	int			tmp;
+
+// 	find_width(ft_strlen(file->total), columns + 1);
+// 	find_width(ft_strlen(file->link), columns + 2);
+// 	find_width(ft_strlen(file->uid->pw_name), columns + 3);
+// 	find_width(ft_strlen(file->gid->gr_name), columns + 4);
+// 	find_width(ft_strlen(file->size), columns + 5);
+// 	find_width(ft_strlen(file->time), columns + 6);
+// 	// if (file->type == 'b' || file->type == 'c') ???
+// }
 
 static void		width_init(int *columns, int flags)
 {
@@ -168,7 +244,7 @@ static void		width_init(int *columns, int flags)
 		flags |= FLAG_MINUS;
 	columns[0] = flags;
 	if (flags & FLAG_S)
-		columns[1] = 1;
+		columns[1] = 1; //количетсво блочных может быть 0;
 	if (flags & (FLAG_L | FLAG_G))
 		while (++i < 8)
 			columns[i] = 1;
@@ -176,11 +252,12 @@ static void		width_init(int *columns, int flags)
 
 void			print_files(t_stack *files, int flags)
 {
-	static int	columns[8];
+	static int	columns[8]; //0 - флаги, 1 - общий total, 2 - индивидуальный total, 3 - доступ, 4 - ссылки,
+							//5 - uid, 6 - gid, 7 - минор/мажор для устройств, 8 - размер, 9 - время.
 
 	if (!columns[0])
 		width_init(columns, flags);
 	ST_ITER(files, (void (*)(void *, void *))fill_info, &columns, flags & FLAG_R);
-	printf("total %d\n", columns[1]);
+	//printf("total %d\n", columns[1]);
 	ST_ITER(files, (void (*)(void *, void *))print_file, columns, flags & FLAG_R);
 }
