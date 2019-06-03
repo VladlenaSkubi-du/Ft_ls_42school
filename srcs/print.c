@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/03 18:29:20 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/03 18:45:32 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,13 +266,6 @@ static void		width_init(int *columns, int flags)
 			columns[i] = 1;
 		columns[3] = 11;
 		columns[10] = 12;
-		if (flags & FLAG_DD)
-			columns[9] = 0;
-		// else
-		// {
-		// 	columns[7] = 0;
-		// 	columns[8] = 0;
-		// }
 	}
 }
 
@@ -285,19 +278,22 @@ void			print_files(t_stack *files, int *flags)
 
 	if (!columns[0])
 		width_init(columns, *flags);
-	if (*flags & FLAG_DD)
+	if (*flags & (FLAG_L | FLAG_G))
 	{
-		columns[7] = 1;
-		columns[8] = 1;
-		columns[9] = 0;
+		if (*flags & (FLAG_DD))
+		{
+			columns[7] = 1;
+			columns[8] = 1;
+			columns[9] = 0;
+		}
+		else
+		{
+			columns[7] = 0;
+			columns[8] = 0;
+			columns[9] = 1;
+		}
+		ST_ITER(files, (void (*)(void *, void *))fill_info, columns, *flags & FLAG_R);
 	}
-	else
-	{
-		columns[7] = 0;
-		columns[8] = 0;
-		columns[9] = 1;
-	}
-	ST_ITER(files, (void (*)(void *, void *))fill_info, columns, *flags & FLAG_R);
 	//printf("total %d\n", columns[1]);
 	ST_ITER(files, (void (*)(void *, void *))print_file, columns, *flags & FLAG_R);
 	if (*flags & FLAG_DD)
