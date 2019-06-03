@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/31 18:19:24 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/02 16:57:07 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,38 @@ static void		fill_info(t_file *file, int *columns);
 static void		fill_time(t_file *file, int *columns);
 static void		fill_mode(t_file *file);
 static void		fill_link(t_file *file);
-static void		find_length(t_file file, int *columns);
+static void		find_length(t_file *file, int *columns);
 
 static void		print_file(t_file *file, int *col)
 {
-	/*int		i;
+	int		i;
 	void	**ptr;
 
+	col[1] = 0;
 	i = 0;
-	ptr = (void **)&file->uid;
-	while (++i < 7)
+	ptr = (void **)&file->total;
+	while (++i < 8)
+	{
 		if (col[i])
 		{
-			if (i > 2)
-				buf_fill(*ptr, ft_strlen(*ptr), col[i], 0);
-			else if (i == 2)
+			if (i == 4)
 				buf_fill(((struct passwd *)*ptr)->pw_name,
 				ft_strlen(((struct passwd *)*ptr)->pw_name), col[i], 1);
-			else if (i == 3)
+			else if (i == 5)
 				buf_fill(((struct group *)*ptr)->gr_name,
 				ft_strlen(((struct group *)*ptr)->gr_name), col[i], 1);
-			++ptr;
-			if ((i == 1 && col[1] == 11) || i > 5)
-				buf_add(" ", 1);
 			else
+				buf_fill(*ptr, ft_strlen(*ptr), col[i], 0);
+			if (i == 3 || i == 4)
 				buf_add("  ", 2);
+			else
+				buf_add(" ", 1);
 		}
+		++ptr;
+	}
 	buf_add(file->name, ft_strlen(file->name));
-	buf_add("\n", 1);*/
-	printf("%3s %s %3s %s  %s  %5s %s %s\n", file->total, file->mode, file->link, file->uid->pw_name, file->gid->gr_name, file->size, file->time, file->name);
+	buf_add("\n", 1);
+	// printf("%3s %s %3s %s  %s  %5s %s %s\n", file->total, file->mode, file->link, file->uid->pw_name, file->gid->gr_name, file->size, file->time, file->name);
 }
 
 static void		fill_info(t_file *file, int *columns)
@@ -69,7 +72,7 @@ static void		fill_info(t_file *file, int *columns)
 	fill_mode(file);
 	if (file->type == 'l')
 		fill_link(file);
-	find_length(*file, &columns[2]);
+	find_length(file, columns);
 }
 
 static void		fill_time(t_file *file, int *columns)
@@ -137,29 +140,46 @@ static void		fill_link(t_file *file)
 	file->name = ft_strrejoin(file->name, buf_l);
 }
 
-static void		find_length(t_file file, int *columns)
+static void		find_width(int len, int *columns)
+{
+	if (*columns)
+		*columns = len > *columns ? len : *columns;
+}
+
+static void		find_length(t_file *file, int *columns)
 {
 	int			tmp;
 
-	tmp = ft_strlen(file.link);
-	columns[0] = (tmp > columns[0]) ? tmp : columns[0];
-	tmp = ft_strlen(file.uid->pw_name);
-	columns[1] = (tmp > columns[1]) ? tmp : columns[1];
-	tmp = ft_strlen(file.gid->gr_name);
-	columns[2] = (tmp > columns[2]) ? tmp : columns[2];
-	tmp = ft_strlen(file.size);
-	columns[3] = (tmp > columns[3]) ? tmp : columns[3];
-	tmp = ft_strlen(file.name);
-	columns[4] = (tmp > columns[4]) ? tmp : columns[4];
-	//if (file->type == 'b' || file->type == 'c')
+	find_width(ft_strlen(file->total), columns + 1);
+	find_width(ft_strlen(file->link), columns + 2);
+	find_width(ft_strlen(file->uid->pw_name), columns + 3);
+	find_width(ft_strlen(file->gid->gr_name), columns + 4);
+	find_width(ft_strlen(file->size), columns + 5);
+	find_width(ft_strlen(file->time), columns + 6);
+	// if (file->type == 'b' || file->type == 'c') ???
+}
+
+static void		width_init(int *columns, int flags)
+{
+	int		i;
+
+	i = 1;
+	if (!flags)
+		flags |= FLAG_MINUS;
+	columns[0] = flags;
+	if (flags & FLAG_S)
+		columns[1] = 1;
+	if (flags & (FLAG_L | FLAG_G))
+		while (++i < 8)
+			columns[i] = 1;
 }
 
 void			print_files(t_stack *files, int flags)
 {
-	static int	columns[8]; //добавила столбец для вывода s-флага
+	static int	columns[8];
 
-	columns[0] = flags;
-	columns[1] = 0;
+	if (!columns[0])
+		width_init(columns, flags);
 	ST_ITER(files, (void (*)(void *, void *))fill_info, &columns, flags & FLAG_R);
 	printf("total %d\n", columns[1]);
 	ST_ITER(files, (void (*)(void *, void *))print_file, columns, flags & FLAG_R);
