@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/03 15:50:10 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/03 18:23:34 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 # define FLAG_C 0x10000
 # define FLAG_MINUS 0x20000
 # define FLAG_FF 0x40000
+# define FLAG_DD 0x80000
 
 # define ST_NEW() stack_init()
 # define ST_ADD(x, data) x->add(x, data)
@@ -97,7 +98,7 @@ void				del_file(t_file *file, void *null);
 t_stack				*get_args(int *flags,  int argc, char **argv);
 void				print_err(char *dirname);
 
-void				print_files(t_stack *files, int flags);
+void				print_files(t_stack *files, int *flags);
 void				print_dir(t_file *file, int *flags);
 
 t_stack				*stack_init();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dir.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/31 13:14:01 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/03 18:23:25 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,25 @@ static void		print_inner(t_file *file, int *flags)
 }
 
 static void		read_file(struct dirent *entry,
-									char *path, t_stack *files, int flags)
+									char *path, t_stack *files, int *flags)
 {
 	t_file		*file;
 
-	if (*entry->d_name == '.' && !(flags & (FLAG_F | FLAG_A)))
+	if (*entry->d_name == '.' && !(*flags & (FLAG_F | FLAG_A)))
 		return ;
 	file = (t_file *)ft_xmalloc(sizeof(t_file));
 	file->name = ft_strdup(entry->d_name);
-	if (flags & (FLAG_RR | FLAG_S | FLAG_SS | FLAG_U | FLAG_L | FLAG_T | FLAG_C))
+	if (*flags & (FLAG_RR | FLAG_S | FLAG_SS | FLAG_U | FLAG_L | FLAG_T | FLAG_C))
 	{
-		if (flags & FLAG_L)
+		if (*flags & FLAG_L)
+		{
 			fill_type(entry->d_type, file);
+			if (file->type == 'b' || file->type == 'c')
+			{
+				// buf_add("FLAG_DEV\n", 9);
+				*flags |= FLAG_DD;
+			}
+		}
 		file->path = ft_strrejoin(ft_strjoin(path, "/"), entry->d_name);
 		if (!lstat(file->path, &file->info))
 			ST_ADD(files, file);
@@ -84,9 +91,9 @@ void			print_dir(t_file *file, int *flags)
 	}
 	files = ST_NEW();
 	while ((entry = readdir(file->dir)))
-		read_file(entry, file->path, files, *flags);
+		read_file(entry, file->path, files, flags);
 	ST_SORT(files, files_sort(*flags));
-	print_files(files, *flags);
+	print_files(files, flags);
 	if (*flags & FLAG_RR)
 		ST_ITER(files, (void (*)(void *, void *))print_inner,
 											flags, *flags & FLAG_R);

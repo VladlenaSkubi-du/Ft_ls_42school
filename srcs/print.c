@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/03 16:06:51 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/03 18:29:20 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void		print_file(t_file *file, int *col)
 
 	i = 1;
 	ptr = (void **)&file->total;
-	while (++i < 10)
+	while (++i < 11)
 	{
 		if (col[i])
 		{
@@ -76,7 +76,7 @@ static void		fill_info(t_file *file, int *columns)
 	fill_mode(file);
 	if (file->type == 'l')
 		fill_link(file);
-	if (file->type == 'b' || file->type == 'c')
+	// if (file->type == 'b' || file->type == 'c')
 		fill_minmaz(file);
 	find_length(file, columns);
 }
@@ -201,12 +201,17 @@ static void		fill_link(t_file *file)
 //вторая функция в файле
 static void		fill_minmaz(t_file *file)
 {
-	int				maj;
-	int				min;
-
-	maj = major(file->info.st_rdev);
-	min = minor(file->info.st_rdev);
-	printf("%s = maj: %d, min: %d\n", file->name, maj, min);
+	if (file->type == 'c' || file->type == 'b')
+	{
+		file->maj = ft_strdup(" ");
+		file->maj = ft_strrejoin(file->maj, ft_utoa_base(major(file->info.st_rdev), 10));
+		file->maj = ft_strrejoin(file->maj, ",");
+		file->min = ft_utoa_base(minor(file->info.st_rdev), 10);
+	}
+	else
+	{
+		file->min = ft_strdup("0");
+	}
 }
 
 static int		get_terminal_width(void)
@@ -234,16 +239,21 @@ static void		find_length(t_file *file, int *columns)
 	find_width(ft_strlen(file->link), columns + 4);
 	find_width(ft_strlen(file->uid->pw_name), columns + 5);
 	find_width(ft_strlen(file->gid->gr_name), columns + 6);
-	columns[7] = 0;
-	find_width(ft_strlen(file->size), columns + 8);
-	find_width(ft_strlen(file->time), columns + 9);
-	//if (file->type == 'b' || file->type == 'c')
+	find_width(ft_strlen(file->size), columns + 9);
+	// if (file->type == 'b' || file->type == 'c')
+	// {
+		find_width(ft_strlen(file->maj), columns + 7);
+		find_width(ft_strlen(file->min), columns + 8);
+	// }
 }
 
 static void		width_init(int *columns, int flags)
 {
 	int		i;
 
+	printf("in = %d\n", flags);
+	// if (flags & FLAG_DD)
+	// 	buf_add("FLAG_DEV\n", 9);
 	i = 2;
 	if (!flags)
 		flags |= FLAG_MINUS;
@@ -252,22 +262,44 @@ static void		width_init(int *columns, int flags)
 		columns[2] = 1; //количетсво блочных может быть 0;
 	if (flags & (FLAG_L | FLAG_G))
 	{
-		while (++i < 10)
+		while (++i < 11)
 			columns[i] = 1;
 		columns[3] = 11;
+		columns[10] = 12;
+		if (flags & FLAG_DD)
+			columns[9] = 0;
+		// else
+		// {
+		// 	columns[7] = 0;
+		// 	columns[8] = 0;
+		// }
 	}
 }
 
 //первый файл
-void			print_files(t_stack *files, int flags)
+void			print_files(t_stack *files, int *flags)
 {
 	static int	columns[11]; //0 - флаги, 1 - общий total, 2 - индивидуальный total, 3 - доступ, 4 - ссылки,
 							//5 - uid, 6 - gid, 7 - мажор для устройств, 8 - минор для устройств, 9 - размер,
 							//10 - время.
 
 	if (!columns[0])
-		width_init(columns, flags);
-	ST_ITER(files, (void (*)(void *, void *))fill_info, columns, flags & FLAG_R);
+		width_init(columns, *flags);
+	if (*flags & FLAG_DD)
+	{
+		columns[7] = 1;
+		columns[8] = 1;
+		columns[9] = 0;
+	}
+	else
+	{
+		columns[7] = 0;
+		columns[8] = 0;
+		columns[9] = 1;
+	}
+	ST_ITER(files, (void (*)(void *, void *))fill_info, columns, *flags & FLAG_R);
 	//printf("total %d\n", columns[1]);
-	//ST_ITER(files, (void (*)(void *, void *))print_file, columns, flags & FLAG_R);
+	ST_ITER(files, (void (*)(void *, void *))print_file, columns, *flags & FLAG_R);
+	if (*flags & FLAG_DD)
+		*flags ^= FLAG_DD;
 }

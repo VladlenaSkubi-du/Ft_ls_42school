@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/31 14:36:08 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/03 18:26:19 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void		throw_args(t_stack *args, t_stack *params, int flags)
 	if (dirs->data && dirs->data[0] && dirs->data[1])
 		flags |= FLAG_N;
 	// Уточнить влияние флагов на вывод файлов из аргументов
-	print_files(files, flags);
+	print_files(files, &flags);
 	ST_ITER(dirs, (void (*)(void *, void *))print_dir, &flags, flags & FLAG_R);
 	ST_ITER(args, (void (*)(void *, void *))del_file, NULL, 0);
 	ST_DEL(files);
