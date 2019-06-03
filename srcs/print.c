@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/03 15:18:28 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/03 16:06:51 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ static void		get_acl(t_file *file);
 static void		fill_link(t_file *file);
 static void		find_length(t_file *file, int *columns);
 static int		get_terminal_width(void);
+static void		fill_minmaz(t_file *file);
 
+//другой файл
 static void		print_file(t_file *file, int *col)
 {
 	int		i;
@@ -51,6 +53,7 @@ static void		print_file(t_file *file, int *col)
 	// printf("%3s %s %3s %s  %s  %5s %s %s\n", file->total, file->mode, file->link, file->uid->pw_name, file->gid->gr_name, file->size, file->time, file->name);
 }
 
+//вторая функция в файле
 static void		fill_info(t_file *file, int *columns)
 {
 	columns[1] += file->info.st_blocks;
@@ -73,9 +76,12 @@ static void		fill_info(t_file *file, int *columns)
 	fill_mode(file);
 	if (file->type == 'l')
 		fill_link(file);
+	if (file->type == 'b' || file->type == 'c')
+		fill_minmaz(file);
 	find_length(file, columns);
 }
 
+//третья функция в файле
 static void		fill_time(t_file *file, int *columns)
 {
 	char			*tmp_time;
@@ -99,6 +105,7 @@ static void		fill_time(t_file *file, int *columns)
 	}
 }
 
+//четвертая функция в файле
 static void		fill_mode(t_file *file)
 {
 	mode_t			m;
@@ -121,9 +128,10 @@ static void		fill_mode(t_file *file)
 	file->mode[3] = ((m & 04000) && file->mode[3] == '-') ? 'S' : file->mode[3];
 	file->mode[6] = ((m & 02000) && file->mode[6] == '-') ? 'S' : file->mode[6];
 	file->mode[9] = ((m & 01000) && file->mode[9] == '-') ? 'T' : file->mode[9];
-	// get_acl(file);
+	get_acl(file);
 }
 
+//пятая функция в файле
 /*
 **An ACL entry specifies the access permissions on the associated object
 **for an individual user or a group of users as a combination of read,
@@ -165,6 +173,7 @@ static void		get_acl(t_file *file)
 		file->mode[10] = ' ';
 }
 
+//первая функция в файле
 static void		fill_link(t_file *file)
 {
 	char			*buf_l;
@@ -182,30 +191,23 @@ static void		fill_link(t_file *file)
 	file->name = ft_strrejoin(file->name, buf_l);
 }
 
-// static void			find_length(t_file *file, int *columns)
-// {
-// 	int				tmp;
+/*
+**A device ID consists of two parts: a major ID, identifying the class
+** of the device, and a minor ID, identifying a specific instance of a
+** device in that class. A device ID is represented using the type dev_t
+**that is st_rdev from struct stat.
+*/
 
-// 	tmp = ft_strlen(file->total);
-// 	columns[0] = (tmp > columns[0]) ? tmp : columns[0];
-// 	columns[1] = 11;
-// 	tmp = ft_strlen(file->link);
-// 	columns[2] = (tmp > columns[2]) ? tmp : columns[2];
-// 	tmp = ft_strlen(file->uid->pw_name);
-// 	columns[3] = (tmp > columns[3]) ? tmp : columns[3];
-// 	tmp = ft_strlen(file->gid->gr_name);
-// 	columns[4] = (tmp > columns[4]) ? tmp : columns[4];
-// 	if (file->type == 'b' || file->type == 'c')
-// 	{
-// 		tmp = ft_strlen(0); //исправить
-// 		columns[5] = (tmp > columns[5]) ? tmp : columns[5];
-// 	}
-// 	else
-// 		columns[5] = 0;
-// 	tmp = ft_strlen(file->size);
-// 	columns[6] = (tmp > columns[6]) ? tmp : columns[6];
-// 	columns[7] = 12;
-// }
+//вторая функция в файле
+static void		fill_minmaz(t_file *file)
+{
+	int				maj;
+	int				min;
+
+	maj = major(file->info.st_rdev);
+	min = minor(file->info.st_rdev);
+	printf("%s = maj: %d, min: %d\n", file->name, maj, min);
+}
 
 static int		get_terminal_width(void)
 {
@@ -215,12 +217,14 @@ static int		get_terminal_width(void)
 	return (sz.ws_col);
 }
 
+//третья функция в файле
 static void		find_width(int len, int *columns)
 {
 	if (*columns)
 		*columns = len > *columns ? len : *columns;
 }
 
+//четвертая функция в файле
 static void		find_length(t_file *file, int *columns)
 {
 	int			tmp;
@@ -233,7 +237,7 @@ static void		find_length(t_file *file, int *columns)
 	columns[7] = 0;
 	find_width(ft_strlen(file->size), columns + 8);
 	find_width(ft_strlen(file->time), columns + 9);
-	// if (file->type == 'b' || file->type == 'c') ???
+	//if (file->type == 'b' || file->type == 'c')
 }
 
 static void		width_init(int *columns, int flags)
@@ -254,14 +258,16 @@ static void		width_init(int *columns, int flags)
 	}
 }
 
+//первый файл
 void			print_files(t_stack *files, int flags)
 {
-	static int	columns[10]; //0 - флаги, 1 - общий total, 2 - индивидуальный total, 3 - доступ, 4 - ссылки,
-							//5 - uid, 6 - gid, 7 - минор/мажор для устройств, 8 - размер, 9 - время.
+	static int	columns[11]; //0 - флаги, 1 - общий total, 2 - индивидуальный total, 3 - доступ, 4 - ссылки,
+							//5 - uid, 6 - gid, 7 - мажор для устройств, 8 - минор для устройств, 9 - размер,
+							//10 - время.
 
 	if (!columns[0])
 		width_init(columns, flags);
 	ST_ITER(files, (void (*)(void *, void *))fill_info, columns, flags & FLAG_R);
 	//printf("total %d\n", columns[1]);
-	ST_ITER(files, (void (*)(void *, void *))print_file, columns, flags & FLAG_R);
+	//ST_ITER(files, (void (*)(void *, void *))print_file, columns, flags & FLAG_R);
 }
