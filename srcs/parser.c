@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/05 19:47:05 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:47:00 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int		get_flags(char *arg)
 		flags |= 1 << i;
 		++arg;
 		if (flags & FLAG_MINUS)
-		//if (flags & FLAG_MIN)
 			break ;
 	}
 	if (*arg)
@@ -47,7 +46,6 @@ t_stack			*get_args(int *flags,  int argc, char **argv)
 	filenames = NULL;
 	while (++i < argc)
 		if (*argv[i] == '-' && !(*flags & FLAG_MINUS))
-		//if (*argv[i] == '-' && !(*flags & FLAG_MIN))
 			*flags |= get_flags(argv[i]);
 		else
 			break ;

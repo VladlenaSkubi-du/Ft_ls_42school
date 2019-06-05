@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/05 20:25:34 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:39:49 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void		fill_mode(t_file *file)
 
 	m = file->info.st_mode;
 	file->mode = ft_xmalloc(sizeof(char) * 12);
-	file->mode[0] = file->type;	
+	file->mode[0] = file->type;
 	file->mode[1] = ((m & 00400) && (m & 00700)) ? 'r' : '-';
 	file->mode[2] = ((m & 00200) && (m & 00700)) ? 'w' : '-';
 	file->mode[3] = ((m & 00100) && (m & 00700)) ? 'x' : '-';
@@ -63,7 +63,8 @@ static void		fill_time(t_file *file, int *columns)
 static void		fill_info(t_file *file, int *columns)
 {
 	columns[1] += file->info.st_blocks;
-	file->total = ft_utoa_base(file->info.st_blocks, 10); //переделать под другую функцию, выводится только при s флаге
+	file->total = ft_utoa_base(file->info.st_blocks, 10);
+	//переделать под другую функцию, выводится только при s флаге
 	file->uid = getpwuid(file->info.st_uid);
 	if (file->uid == NULL)
 	{
@@ -76,8 +77,10 @@ static void		fill_info(t_file *file, int *columns)
 		perror("getgrgid");
 		exit(1);
 	}
-	file->link = ft_utoa_base(file->info.st_nlink, 10); //переделать под другую функцию
-	file->size = ft_utoa_base(file->info.st_size, 10); //переделать под другую функцию
+	file->link = ft_utoa_base(file->info.st_nlink, 10);
+	//переделать под другую функцию
+	file->size = ft_utoa_base(file->info.st_size, 10);
+	//переделать под другую функцию
 	fill_time(file, columns);
 	fill_mode(file);
 	if (file->type == 'l')
@@ -109,10 +112,11 @@ static void		width_init(int *columns, int flags)
 
 void			fill_and_print_stackfiles(t_stack *files, int *flags)
 {
-	static int	columns[11]; //0 - флаги, 1 - общий total, 2 - индивидуальный total, 3 - доступ, 4 - ссылки,
-							//5 - uid, 6 - gid, 7 - мажор для устройств, 8 - минор для устройств, 9 - размер,
-							//10 - время.
+	static int		columns[11];
 
+	//0 - флаги, 1 - общий total, 2 - индивидуальный total, 3 - доступ, 4 - ссылки,
+	//5 - uid, 6 - gid, 7 - мажор для устройств, 8 - минор для устройств,
+	//9 - размер, 10 - время.
 	if (!columns[0])
 		width_init(columns, *flags);
 	if (*flags & (FLAG_L | FLAG_G))
@@ -129,9 +133,11 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags)
 			columns[8] = 0;
 			columns[9] = 1;
 		}
-		ST_ITER(files, (void (*)(void *, void *))fill_info, columns, *flags & FLAG_R);
+		ST_ITER(files, (void (*)(void *, void *))fill_info,
+				columns, *flags & FLAG_R);
 	}
-	ST_ITER(files, (void (*)(void *, void *))print_stackfile, columns, *flags & FLAG_R);
+	ST_ITER(files, (void (*)(void *, void *))print_stackfile,
+			columns, *flags & FLAG_R);
 	if (*flags & FLAG_DEVICE)
 		*flags ^= FLAG_DEVICE;
 }

@@ -6,13 +6,13 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:26:28 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/05 19:32:44 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:43:01 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		fill_link(t_file *file)
+void			fill_link(t_file *file)
 {
 	char			*buf_l;
 	int				t;
@@ -20,7 +20,7 @@ void		fill_link(t_file *file)
 	buf_l = ft_xmalloc(file->info.st_size + 1);
 	ft_bzero(buf_l, file->info.st_size + 1);
 	t = readlink(file->path, buf_l, file->info.st_size + 1);
-	if (t < 0 && t > file->info.st_size + 1) //проверить
+	if (t < 0 && t > file->info.st_size + 1)
 	{
 		perror("readlink");
 		exit(1);
@@ -36,12 +36,13 @@ void		fill_link(t_file *file)
 **that is st_rdev from struct stat.
 */
 
-void		fill_minmaz(t_file *file)
+void			fill_minmaz(t_file *file)
 {
 	if (file->type == 'c' || file->type == 'b')
 	{
 		file->maj = ft_strdup(" ");
-		file->maj = ft_strrejoin(file->maj, ft_utoa_base(major(file->info.st_rdev), 10));
+		file->maj = ft_strrejoin(file->maj,
+				ft_utoa_base(major(file->info.st_rdev), 10));
 		file->maj = ft_strrejoin(file->maj, ",");
 		file->min = ft_utoa_base(minor(file->info.st_rdev), 10);
 	}
@@ -57,9 +58,9 @@ static void		find_width(int len, int *columns)
 		*columns = len > *columns ? len : *columns;
 }
 
-void		find_length(t_file *file, int *columns)
+void			find_length(t_file *file, int *columns)
 {
-	int			tmp;
+	int				tmp;
 
 	find_width(ft_strlen(file->total), columns + 2);
 	find_width(ft_strlen(file->mode), columns + 3);
@@ -71,14 +72,14 @@ void		find_length(t_file *file, int *columns)
 	find_width(ft_strlen(file->min), columns + 8);
 }
 
-void		get_acl(t_file *file)
+void			get_acl(t_file *file)
 {
 	ssize_t			xattr;
 	acl_t			acl;
 	acl_entry_t		tmp;
 
 	acl = NULL;
-	acl = acl_get_link_np(file->path, ACL_TYPE_EXTENDED); 
+	acl = acl_get_link_np(file->path, ACL_TYPE_EXTENDED);
 	if (acl && acl_get_entry(acl, ACL_FIRST_ENTRY, &tmp) == -1)
 	{
 		acl_free(acl);
@@ -92,4 +93,3 @@ void		get_acl(t_file *file)
 	else
 		file->mode[10] = ' ';
 }
-

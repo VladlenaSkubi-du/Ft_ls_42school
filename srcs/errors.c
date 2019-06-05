@@ -6,19 +6,19 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 18:33:30 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/05 19:12:54 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:35:42 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void  usage(void)
+void	usage(void)
 {
 	buf_err("usage: ft_ls [-1lrRatGpsufdgSCcF] [file ...]\n");
 	exit(0);
 }
 
-void  print_err(char *dirname)
+void	print_err(char *dirname)
 {
 	buf_err("ft_ls: ");
 	buf_err(dirname);
