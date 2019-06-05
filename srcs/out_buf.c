@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_buf.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/05 19:13:07 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/05 21:50:02 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,31 @@ void	buf_err(char *str)
 {
 	buf_add(NULL, 0);
 	ft_printerr(str, ft_strlen(str));
+}
+
+// это старый-старый putnbr переделанный под буфер
+void	buf_add_num(unsigned int n)
+{
+	int		a;
+	long	res;
+	char	ch[1];
+
+	a = 1;
+	res = n;
+	if (res < 0)
+	{
+		res *= -1;
+		ft_putchar('-');
+	}
+	while (a <= res / 10)
+		a *= 10;
+	while (a != 0)
+	{
+		*ch = res / a + '0';
+		buf_add(ch, 1);
+		res = res % a;
+		a = a / 10;
+	}
 }
 
 void	buf_fill(char *str, size_t len, size_t size, int left)

@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/05 20:47:00 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/05 21:51:07 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+static int		chec_flags(int flags, int current_flag)
+{
+	
+}
 
 static int		get_flags(char *arg)
 {
@@ -22,6 +27,9 @@ static int		get_flags(char *arg)
 	while (*arg && (i = ft_strchri("1lrRatGpsufdgSCc-F", *arg)) != -1)
 	{
 		flags |= 1 << i;
+		if (flags & FLAG_G)
+			flags |= FLAG_L;
+		// новая фунцкия flags = check_flags(flags, 1 << i);
 		++arg;
 		if (flags & FLAG_MINUS)
 			break ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/05 20:26:26 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/05 21:51:28 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 # define OUT_BUF (size_t)100000
 
-# define FLAG_MIN 0x1 //check
+# define FLAG_ONE 0x1
 # define FLAG_L 0x2
 # define FLAG_R 0x4
 # define FLAG_RR 0x8
@@ -52,9 +52,9 @@
 # define FLAG_CC 0x4000
 # define FLAG_FOLDER_RR 0x8000
 # define FLAG_C 0x10000
-# define FLAG_MINUS 0x20000 //check
+# define FLAG_MINUS 0x20000
 # define FLAG_FF 0x40000
-# define FLAG_DEVICE 0x80000 //rename
+# define FLAG_DEVICE 0x80000
 
 # define ST_NEW() stack_init()
 # define ST_ADD(x, data) x->add(x, data)
@@ -107,6 +107,7 @@ void				find_length(t_file *file, int *columns);
 void				get_acl(t_file *file);
 void				print_stackfile(t_file *file, int *col);
 void				buf_add(char *str, size_t size);
+void				buf_add_num(unsigned int n);
 void				buf_fill(char *str, size_t len, size_t size, int left);
 void				buf_err(char *str);
 void				del_file(t_file *file, void *null);

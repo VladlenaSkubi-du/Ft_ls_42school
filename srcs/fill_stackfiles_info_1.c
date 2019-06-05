@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/05 20:39:49 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/05 21:50:36 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static void		fill_info(t_file *file, int *columns)
 {
 	columns[1] += file->info.st_blocks;
 	file->total = ft_utoa_base(file->info.st_blocks, 10);
-	//переделать под другую функцию, выводится только при s флаге
 	file->uid = getpwuid(file->info.st_uid);
 	if (file->uid == NULL)
 	{
@@ -78,14 +77,12 @@ static void		fill_info(t_file *file, int *columns)
 		exit(1);
 	}
 	file->link = ft_utoa_base(file->info.st_nlink, 10);
-	//переделать под другую функцию
 	file->size = ft_utoa_base(file->info.st_size, 10);
-	//переделать под другую функцию
 	fill_time(file, columns);
 	fill_mode(file);
 	if (file->type == 'l')
 		fill_link(file);
-	fill_minmaz(file); //посмотреть, можно ли уточнить
+	fill_minmaz(file);
 	find_length(file, columns);
 }
 
@@ -93,21 +90,21 @@ static void		width_init(int *columns, int flags)
 {
 	int		i;
 
-	// if (flags & FLAG_DEVICE)
-	// 	buf_add("FLAG_DEV\n", 9);
 	i = 2;
 	if (!flags)
 		flags |= FLAG_MINUS;
 	columns[0] = flags;
 	if (flags & FLAG_S)
-		columns[2] = 1; //количетсво блочных может быть 0;
-	if (flags & (FLAG_L | FLAG_G))
+		columns[2] = 1;
+	if (flags & (FLAG_L))
 	{
 		while (++i < 11)
 			columns[i] = 1;
 		columns[3] = 11;
 		columns[10] = 12;
 	}
+	if (flags & FLAG_G)
+		columns[5] = 0;
 }
 
 void			fill_and_print_stackfiles(t_stack *files, int *flags)
@@ -119,22 +116,32 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags)
 	//9 - размер, 10 - время.
 	if (!columns[0])
 		width_init(columns, *flags);
-	if (*flags & (FLAG_L | FLAG_G))
+	if (*flags & (FLAG_L))
 	{
-		if (*flags & (FLAG_DEVICE))
-		{
-			columns[7] = 1;
-			columns[8] = 1;
-			columns[9] = 0;
-		}
-		else
-		{
-			columns[7] = 0;
-			columns[8] = 0;
-			columns[9] = 1;
-		}
+		/// эти комменты можно удалить 
+		// if (*flags & (FLAG_DEVICE))
+		// {
+		// 	columns[7] = 1;
+		// 	columns[8] = 1;
+		// 	columns[9] = 0;
+		// }
+		// else
+		// {
+		// 	columns[7] = 0;
+		// 	columns[8] = 0;
+		// 	columns[9] = 1;
+		// }
+		columns[7] = *flags & FLAG_DEVICE ? 1 : 0;
+		columns[8] = *flags & FLAG_DEVICE ? 1 : 0;
+		columns[9] = *flags & FLAG_DEVICE ? 0 : 1;
 		ST_ITER(files, (void (*)(void *, void *))fill_info,
 				columns, *flags & FLAG_R);
+	}
+	if (*flags & FLAG_L)
+	{
+		buf_add("total ", 6);
+		buf_add_num(columns[1]);
+		buf_add("\n", 1);
 	}
 	ST_ITER(files, (void (*)(void *, void *))print_stackfile,
 			columns, *flags & FLAG_R);
