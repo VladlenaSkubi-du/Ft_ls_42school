@@ -6,27 +6,12 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/31 17:56:22 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/05 19:47:05 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		usage(void)
-{
-	buf_err("usage: ft_ls [-1lrRatGpsufdgSCcF] [file ...]\n"); //добавила флаг F
-	exit(0);
-}
-
-void			print_err(char *dirname)
-{
-	buf_err("ft_ls: ");
-	buf_err(dirname);
-	if (errno == EACCES)
-		buf_err(": Permission denied\n");
-	else if (errno == ENOENT)
-		buf_err(": No such file or directory\n");
-}
 static int		get_flags(char *arg)
 {
 	int		flags;
@@ -39,6 +24,7 @@ static int		get_flags(char *arg)
 		flags |= 1 << i;
 		++arg;
 		if (flags & FLAG_MINUS)
+		//if (flags & FLAG_MIN)
 			break ;
 	}
 	if (*arg)
@@ -61,6 +47,7 @@ t_stack			*get_args(int *flags,  int argc, char **argv)
 	filenames = NULL;
 	while (++i < argc)
 		if (*argv[i] == '-' && !(*flags & FLAG_MINUS))
+		//if (*argv[i] == '-' && !(*flags & FLAG_MIN))
 			*flags |= get_flags(argv[i]);
 		else
 			break ;
@@ -68,7 +55,7 @@ t_stack			*get_args(int *flags,  int argc, char **argv)
 		*flags ^= FLAG_R;
 	if (i < argc)
 	{
-		*flags |= (argc - i > 1) ? FLAG_N : 0;
+		*flags |= (argc - i > 1) ? FLAG_FOLDER_RR : 0;
 		filenames = ST_NEW();
 		while (i < argc)
 		{

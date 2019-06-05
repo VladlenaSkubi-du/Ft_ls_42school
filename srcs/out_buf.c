@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   out_buf.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/29 14:10:23 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/05 19:13:07 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-void	ft_printerr(char *str, size_t size)
-{
-	write(2, str, size);
-}
 
 void	buf_err(char *str)
 {

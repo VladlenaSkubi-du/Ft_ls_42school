@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dir.c                                              :+:      :+:    :+:   */
+/*   read_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/03 18:34:31 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/05 20:27:27 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		fill_type(unsigned char entry, t_file *file)
 
 static void		print_inner(t_file *file, int *flags)
 {
-	*flags |= FLAG_N;
+	*flags |= FLAG_FOLDER_RR;
 	if ((file->info.st_mode & S_IFDIR) &&
 					ft_strcmp(file->name, ".") && ft_strcmp(file->name, ".."))
 	{
@@ -58,7 +58,7 @@ static void		read_file(struct dirent *entry,
 		{
 			fill_type(entry->d_type, file);
 			if (file->type == 'b' || file->type == 'c')
-				*flags |= FLAG_DD;
+				*flags |= FLAG_DEVICE;
 		}
 		file->path = ft_strrejoin(ft_strjoin(path, "/"), entry->d_name);
 		if (!lstat(file->path, &file->info))
@@ -76,7 +76,7 @@ void			print_dir(t_file *file, int *flags)
 	struct dirent		*entry;
 	char				*tmp;
 
-	if (*flags & FLAG_N)
+	if (*flags & FLAG_FOLDER_RR)
 	{
 		buf_add(file->path, ft_strlen(file->path));
 		buf_add(":\n", 3);
@@ -90,7 +90,7 @@ void			print_dir(t_file *file, int *flags)
 	while ((entry = readdir(file->dir)))
 		read_file(entry, file->path, files, flags);
 	ST_SORT(files, files_sort(*flags));
-	print_files(files, flags);
+	fill_and_print_stackfiles(files, flags);
 	if (*flags & FLAG_RR)
 		ST_ITER(files, (void (*)(void *, void *))print_inner,
 											flags, *flags & FLAG_R);

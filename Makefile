@@ -4,13 +4,16 @@ NAME = ft_ls
 
 SOURCES =	main.c \
 			parser.c \
-			files_sort.c \
+			stack_add_iter_del.c \
 			stack_sort.c \
-			ft_xmalloc.c \
-			stack.c \
-			print.c \
-			dir.c \
-			out_buf.c
+			read_dir.c \
+			sort_by_flags.c \
+			fill_stackfiles_info_1.c \
+			fill_stackfiles_info_2.c \
+			print_stackfile.c \
+			out_buf.c \
+			errors.c \
+			other_functions.c
 
 DIR_O = objs
 

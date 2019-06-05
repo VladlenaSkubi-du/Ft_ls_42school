@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stradd_nb.c                                     :+:      :+:    :+:   */
+/*   other_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/31 15:47:05 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/31 15:49:32 by sschmele         ###   ########.fr       */
+/*   Created: 2019/06/05 19:08:49 by sschmele          #+#    #+#             */
+/*   Updated: 2019/06/05 19:11:25 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void	*ft_xmalloc(size_t size)
+{
+	void	*ptr;
+
+	if (!(ptr = malloc(size)))
+	{
+		write(2, "No space left\n", 15);
+		exit(1);
+	}
+	ft_bzero(ptr, size);
+	return (ptr);
+}
 
 void		ft_stradd_nb(char *s, long nb)
 {

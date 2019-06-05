@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_xmalloc.c                                       :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/13 13:35:30 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/31 13:16:19 by sschmele         ###   ########.fr       */
+/*   Created: 2019/06/05 18:33:30 by sschmele          #+#    #+#             */
+/*   Updated: 2019/06/05 19:12:54 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	*ft_xmalloc(size_t size)
+void  usage(void)
 {
-	void	*ptr;
+	buf_err("usage: ft_ls [-1lrRatGpsufdgSCcF] [file ...]\n");
+	exit(0);
+}
 
-	if (!(ptr = malloc(size)))
-	{
-		write(2, "No space left\n", 15);
-		exit(1);
-	}
-	ft_bzero(ptr, size);
-	return (ptr);
+void  print_err(char *dirname)
+{
+	buf_err("ft_ls: ");
+	buf_err(dirname);
+	if (errno == EACCES)
+		buf_err(": Permission denied\n");
+	else if (errno == ENOENT)
+		buf_err(": No such file or directory\n");
+}
+
+void	ft_printerr(char *str, size_t size)
+{
+	write(2, str, size);
 }
