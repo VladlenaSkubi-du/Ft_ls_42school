@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/05 21:50:36 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/06 14:51:19 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,19 +118,6 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags)
 		width_init(columns, *flags);
 	if (*flags & (FLAG_L))
 	{
-		/// эти комменты можно удалить 
-		// if (*flags & (FLAG_DEVICE))
-		// {
-		// 	columns[7] = 1;
-		// 	columns[8] = 1;
-		// 	columns[9] = 0;
-		// }
-		// else
-		// {
-		// 	columns[7] = 0;
-		// 	columns[8] = 0;
-		// 	columns[9] = 1;
-		// }
 		columns[7] = *flags & FLAG_DEVICE ? 1 : 0;
 		columns[8] = *flags & FLAG_DEVICE ? 1 : 0;
 		columns[9] = *flags & FLAG_DEVICE ? 0 : 1;

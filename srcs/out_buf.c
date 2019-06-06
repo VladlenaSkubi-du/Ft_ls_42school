@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/05 21:50:02 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/06 14:54:37 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	buf_err(char *str)
 	ft_printerr(str, ft_strlen(str));
 }
 
-// это старый-старый putnbr переделанный под буфер
 void	buf_add_num(unsigned int n)
 {
 	int		a;

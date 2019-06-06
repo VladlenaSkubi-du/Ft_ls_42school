@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:32 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/22 06:44:03 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/06 15:05:50 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static int	file_timecmp(t_file *left, t_file *right)
 {
 	if (right->info.st_mtime == left->info.st_mtime)
 		return (file_strcmp(left, right));
-	return(right->info.st_mtime - left->info.st_mtime);
+	return (right->info.st_mtime - left->info.st_mtime);
 }
 
 static int	file_atimecmp(t_file *left, t_file *right)
 {
 	if (right->info.st_atime == left->info.st_atime)
 		return (file_strcmp(left, right));
-	return(right->info.st_atime - left->info.st_atime);
+	return (right->info.st_atime - left->info.st_atime);
 }
 
 void		*files_sort(int flags)

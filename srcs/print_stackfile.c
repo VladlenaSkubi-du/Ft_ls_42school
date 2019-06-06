@@ -6,16 +6,16 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/05 19:41:46 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 15:03:30 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		print_stackfile(t_file *file, int *col)
+void				print_stackfile(t_file *file, int *col) //26 lines
 {
-	int		i;
-	void	**ptr;
+	int				i;
+	void			**ptr;
 
 	i = 1;
 	ptr = (void **)&file->total;
@@ -40,10 +40,9 @@ void		print_stackfile(t_file *file, int *col)
 	}
 	buf_add(file->name, ft_strlen(file->name));
 	buf_add("\n", 1);
-	// printf("%3s %s %3s %s  %s  %5s %s %s\n", file->total, file->mode, file->link, file->uid->pw_name, file->gid->gr_name, file->size, file->time, file->name);
 }
 
-static int		get_terminal_width(void)
+static int			get_terminal_width(void)
 {
 	struct winsize	sz;
 

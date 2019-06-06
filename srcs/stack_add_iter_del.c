@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:32:52 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/05 19:00:26 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 15:09:22 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_stack	*st_del(t_stack *me)
 	return (NULL);
 }
 
-t_stack			*stack_init()
+t_stack			*stack_init(void)
 {
 	t_stack		*stack;
 

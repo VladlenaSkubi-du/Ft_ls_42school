@@ -6,21 +6,21 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/05 21:51:07 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/06 15:00:42 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int		chec_flags(int flags, int current_flag)
+static int		allocate_by_flags(int flags, int current_flag)
 {
-	
+	return (flags);
 }
 
 static int		get_flags(char *arg)
 {
-	int		flags;
-	int		i;
+	int			flags;
+	int			i;
 
 	flags = 0;
 	++arg;
@@ -29,7 +29,7 @@ static int		get_flags(char *arg)
 		flags |= 1 << i;
 		if (flags & FLAG_G)
 			flags |= FLAG_L;
-		// новая фунцкия flags = check_flags(flags, 1 << i);
+		flags = allocate_by_flags(flags, 1 << i);
 		++arg;
 		if (flags & FLAG_MINUS)
 			break ;
@@ -44,7 +44,7 @@ static int		get_flags(char *arg)
 	return (flags);
 }
 
-t_stack			*get_args(int *flags,  int argc, char **argv)
+t_stack			*get_args(int *flags, int argc, char **argv) //28 lines
 {
 	int			i;
 	t_stack		*filenames;
@@ -52,7 +52,7 @@ t_stack			*get_args(int *flags,  int argc, char **argv)
 
 	i = 0;
 	filenames = NULL;
-	while (++i < argc)
+	while (++i < argc) //how it works without {}
 		if (*argv[i] == '-' && !(*flags & FLAG_MINUS))
 			*flags |= get_flags(argv[i]);
 		else

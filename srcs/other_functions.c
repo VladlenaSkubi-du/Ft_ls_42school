@@ -6,13 +6,13 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:08:49 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/05 19:11:25 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 14:53:04 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	*ft_xmalloc(size_t size)
+void		*ft_xmalloc(size_t size)
 {
 	void	*ptr;
 

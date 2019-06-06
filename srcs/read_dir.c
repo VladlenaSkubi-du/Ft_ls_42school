@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/05 20:27:27 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 15:04:20 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static void		read_file(struct dirent *entry,
 		return ;
 	file = (t_file *)ft_xmalloc(sizeof(t_file));
 	file->name = ft_strdup(entry->d_name);
-	if (*flags & (FLAG_RR | FLAG_S | FLAG_SS | FLAG_U | FLAG_L | FLAG_T | FLAG_C))
+	if (*flags & (FLAG_RR | FLAG_S | FLAG_SS | FLAG_U | FLAG_L |
+				FLAG_T | FLAG_C))
 	{
 		if (*flags & FLAG_L)
 		{
