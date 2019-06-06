@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   files_sort.c                                       :+:      :+:    :+:   */
+/*   sort_by_flags.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:32 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/06 15:05:50 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 16:50:01 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ static int	file_atimecmp(t_file *left, t_file *right)
 	return (right->info.st_atime - left->info.st_atime);
 }
 
+// static int	file_ctimecmp(t_file *left, t_file *right)
+// {
+// 	if (right->info.st_ctime == left->info.st_ctime)
+// 		return (file_strcmp(left, right));
+// 	return (right->info.st_ctime - left->info.st_ctime);
+// }
+
+//вынести в parser.c
 void		*files_sort(int flags)
 {
 	int (*f)(t_file *left, t_file *right);
@@ -48,6 +56,8 @@ void		*files_sort(int flags)
 		f = file_sizecmp;
 	else if (flags & FLAG_U && flags & FLAG_T)
 		f = file_atimecmp;
+	//else if (flags & FLAG_C && flags & FLAG_T)
+	//	f = file_ctimecmp;
 	else if (flags & FLAG_T)
 		f = file_timecmp;
 	else

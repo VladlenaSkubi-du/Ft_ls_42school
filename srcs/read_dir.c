@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/06 15:04:20 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 18:38:32 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void		print_inner(t_file *file, int *flags)
 }
 
 static void		read_file(struct dirent *entry,
-									char *path, t_stack *files, int *flags)
+									char *path, t_stack *files, int *flags) //если есть d-флаг, нам нужно записывать в листы только перечисленные аргументы
 {
 	t_file		*file;
 

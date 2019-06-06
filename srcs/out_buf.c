@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_buf.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/06 14:54:37 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 18:36:48 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	buf_add(char *str, size_t size)
 	static char		buf[OUT_BUF];
 	static char		*ptr = buf;
 
+	//функция вывода по флагам - С - дефолтный с выравниванием, 1 - столбик, p - со слешами, F - со слешами, @ или *, G - с цветами
 	if (!str && !size)
 	{
 		write(1, buf, ptr - buf);

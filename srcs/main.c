@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/06 14:52:01 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 18:24:57 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ static void		check_arg(t_file *file, t_stack *params)
 	if (!stat(file->name, &file->info))
 	{
 		if (file->info.st_mode & S_IFDIR)
-		{
-			file->path = ft_strrejoin(file->path, "/");
 			ST_ADD(dirs, file);
-		}
 		else
 			ST_ADD(files, file);
 	}
@@ -83,8 +80,8 @@ int				main(int argc, char **argv)
 	else
 	{
 		//file.name = ft_strdup("./");
-		file.path = ft_strdup("./");
-		stat("./", &file.info);
+		file.path = ft_strdup(".");
+		lstat(".", &file.info);
 		print_dir(&file, &flags);
 		//free(file.name);
 		free(file.path);

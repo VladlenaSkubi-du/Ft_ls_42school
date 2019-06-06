@@ -3,17 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/06 15:00:42 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 18:23:28 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int		allocate_by_flags(int flags, int current_flag)
+static int		allocate_by_flags_2(int flags, int cur_flag)
 {
+	if (flags & FLAG_C)
+	{
+		(cur_flag & FLAG_U) ? flags ^= FLAG_C : flags;
+		if ((cur_flag & FLAG_C) && (flags & FLAG_U))
+			flags ^= FLAG_U;
+	}
+	if (flags & FLAG_FF)
+	{
+		(cur_flag & FLAG_P) ? flags ^= FLAG_FF : flags;
+		if ((cur_flag & FLAG_FF) && (flags & FLAG_P))
+			flags ^= FLAG_P;
+	}
+	return (flags);
+}
+
+static int		allocate_by_flags_1(int flags, int cur_flag)
+{
+	if (flags & FLAG_F)
+	{
+		(flags & FLAG_R) ? flags ^= FLAG_R : flags;
+		(flags & FLAG_A) ? flags ^= FLAG_A : flags;
+		(flags & FLAG_T) ? flags ^= FLAG_T : flags;
+		(flags & FLAG_SS) ? flags ^= FLAG_SS : flags;
+	}
+	if (flags & FLAG_CC)
+	{
+		(cur_flag & FLAG_ONE) ? flags ^= FLAG_CC : flags;
+		if ((cur_flag & FLAG_CC) && (flags & FLAG_ONE))
+			flags ^= FLAG_ONE;
+		if ((cur_flag & FLAG_L) || (cur_flag & FLAG_G))
+			flags ^= FLAG_CC;
+		if ((cur_flag & FLAG_CC) && (flags & FLAG_L))
+			flags ^= FLAG_L;
+		if ((cur_flag & FLAG_CC) && (flags & FLAG_G))
+			flags ^= FLAG_G;
+	}
+	if ((flags & FLAG_C) || (flags & FLAG_FF))
+		flags = allocate_by_flags_2(flags, cur_flag);
 	return (flags);
 }
 
@@ -29,7 +67,7 @@ static int		get_flags(char *arg)
 		flags |= 1 << i;
 		if (flags & FLAG_G)
 			flags |= FLAG_L;
-		flags = allocate_by_flags(flags, 1 << i);
+		flags = allocate_by_flags_1(flags, 1 << i);
 		++arg;
 		if (flags & FLAG_MINUS)
 			break ;
@@ -44,7 +82,7 @@ static int		get_flags(char *arg)
 	return (flags);
 }
 
-t_stack			*get_args(int *flags, int argc, char **argv) //28 lines
+t_stack			*get_args(int *flags, int argc, char **argv)
 {
 	int			i;
 	t_stack		*filenames;
@@ -57,8 +95,6 @@ t_stack			*get_args(int *flags, int argc, char **argv) //28 lines
 			*flags |= get_flags(argv[i]);
 		else
 			break ;
-	if ((*flags & FLAG_F) && (*flags & FLAG_R))
-		*flags ^= FLAG_R;
 	if (i < argc)
 	{
 		*flags |= (argc - i > 1) ? FLAG_FOLDER_RR : 0;
