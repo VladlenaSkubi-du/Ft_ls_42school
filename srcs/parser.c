@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/06 18:23:28 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 19:23:50 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_stack			*get_args(int *flags, int argc, char **argv)
 
 	i = 0;
 	filenames = NULL;
-	while (++i < argc) //how it works without {}
+	while (++i < argc)
 		if (*argv[i] == '-' && !(*flags & FLAG_MINUS))
 			*flags |= get_flags(argv[i]);
 		else

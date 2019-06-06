@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/06 18:24:57 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 19:29:04 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static void		throw_args(t_stack *args, t_stack *params, int flags)
 	ST_ITER(args, (void (*)(void *, void *))check_arg, params, flags & FLAG_R);
 	if (dirs->data && dirs->data[0] && dirs->data[1])
 		flags |= FLAG_FOLDER_RR;
-	// Уточнить влияние флагов на вывод файлов из аргументов
 	fill_and_print_stackfiles(files, &flags);
 	ST_ITER(dirs, (void (*)(void *, void *))print_dir, &flags, flags & FLAG_R);
 	ST_ITER(args, (void (*)(void *, void *))del_file, NULL, 0);
@@ -81,7 +80,7 @@ int				main(int argc, char **argv)
 	{
 		//file.name = ft_strdup("./");
 		file.path = ft_strdup(".");
-		lstat(".", &file.info);
+	//	lstat(".", &file.info); //we do not need it at all, we will go to lstat in read_file, can delete
 		print_dir(&file, &flags);
 		//free(file.name);
 		free(file.path);

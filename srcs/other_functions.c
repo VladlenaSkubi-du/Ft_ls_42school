@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:08:49 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/06 14:53:04 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 19:28:20 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		ft_stradd_nb(char *s, long nb)
 
 	i = -1;
 	a = 1;
-	main = "0123456789ABCDEF";
+	main = "0123456789";
 	if (nb == 0)
 		s[0] = 0 + '0';
 	else
@@ -52,4 +52,9 @@ void		ft_stradd_nb(char *s, long nb)
 			a /= 10;
 		}
 	}
+}
+
+int			file_strcmp(t_file *left, t_file *right)
+{
+	return (ft_strcmp(left->name, right->name));
 }

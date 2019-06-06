@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/06 14:51:19 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 19:29:01 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags)
 	//9 - размер, 10 - время.
 	if (!columns[0])
 		width_init(columns, *flags);
-	if (*flags & (FLAG_L))
+	if (*flags & FLAG_L)
 	{
 		columns[7] = *flags & FLAG_DEVICE ? 1 : 0;
 		columns[8] = *flags & FLAG_DEVICE ? 1 : 0;

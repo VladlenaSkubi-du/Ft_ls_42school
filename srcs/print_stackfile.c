@@ -6,13 +6,13 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/06 15:03:30 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/06 19:21:41 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void				print_stackfile(t_file *file, int *col) //26 lines
+void				print_stackfile(t_file *file, int *col)
 {
 	int				i;
 	void			**ptr;
@@ -31,10 +31,7 @@ void				print_stackfile(t_file *file, int *col) //26 lines
 				ft_strlen(((struct group *)*ptr)->gr_name), col[i], 1);
 			else
 				buf_fill(*ptr, ft_strlen(*ptr), col[i], i == 3 ? 1 : 0);
-			if (i == 5 || i == 6)
-				buf_add("  ", 2);
-			else
-				buf_add(" ", 1);
+			(i == 5 || i == 6) ? buf_add("  ", 2) : buf_add(" ", 1);
 		}
 		++ptr;
 	}
