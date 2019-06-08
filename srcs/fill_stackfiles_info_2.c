@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:26:28 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/05 21:00:35 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/08 18:14:15 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void			find_length(t_file *file, int *columns)
 	find_width(ft_strlen(file->size), columns + 9);
 	find_width(ft_strlen(file->maj), columns + 7);
 	find_width(ft_strlen(file->min), columns + 8);
+	find_width(ft_strlen(file->name), columns + 12);
 }
 
 void			get_acl(t_file *file)

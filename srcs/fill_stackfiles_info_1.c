@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/08 15:09:19 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/08 18:19:37 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,11 @@ static void		width_init(int *columns, int flags)
 
 void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 {
-	static int		columns[11];
+	static int		columns[13];
 
 	//0 - флаги, 1 - общий total, 2 - индивидуальный total, 3 - доступ, 4 - ссылки,
 	//5 - uid, 6 - gid, 7 - мажор для устройств, 8 - минор для устройств,
-	//9 - размер, 10 - время.
+	//9 - размер, 10 - время, 11 - ширина терминала, 12 максимальная ширина строки (вместе с пробелами и числом)
 	if (!columns[0])
 		width_init(columns, *flags);
 	if (*flags & FLAG_L)
@@ -125,6 +125,11 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 	if (*flags & (FLAG_L | FLAG_S))
 		ST_ITER(files, (void (*)(void *, void *))fill_info,
 				columns, *flags & FLAG_R);
+	columns[11] = get_terminal_width();
+	while (columns[12] % 8 != 0)
+		columns[12]++;
+	if (*flags & FLAG_S)
+		columns[12] += columns[2] + 1; //один пробел между
 	if ((*flags & FLAG_L) && ~*flags & FLAG_D && total)
 	{
 		buf_add("total ", 6);
