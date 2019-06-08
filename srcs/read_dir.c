@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/06 19:29:07 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:08:56 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void			print_dir(t_file *file, int *flags)
 	if (*flags & FLAG_FOLDER_RR)
 	{
 		buf_add(file->path, ft_strlen(file->path));
-		buf_add(":\n", 3);
+		buf_add(":\n", 2);
 	}
 	if (!file->dir && !(file->dir = opendir(file->path)))
 	{
@@ -91,7 +91,7 @@ void			print_dir(t_file *file, int *flags)
 	while ((entry = readdir(file->dir)))
 		read_file(entry, file->path, files, flags);
 	ST_SORT(files, files_sort(*flags));
-	fill_and_print_stackfiles(files, flags);
+	fill_and_print_stackfiles(files, flags, 1);
 	if (*flags & FLAG_RR)
 		ST_ITER(files, (void (*)(void *, void *))print_inner,
 											flags, *flags & FLAG_R);

@@ -1,0 +1,303 @@
+total 0
+total 88
+-rw-r--r--   1 jcorwin  2018     20 Jun  5 21:52 COMMIT_EDITMSG
+-rw-r--r--   1 jcorwin  2018    235 Jun  8 14:16 FETCH_HEAD
+-rw-r--r--   1 jcorwin  2018     21 Jun  5 20:51 HEAD
+-rw-r--r--   1 jcorwin  2018     41 Jun  8 14:16 ORIG_HEAD
+drwxr-xr-x   2 jcorwin  2018     68 Jun  5 20:50 branches
+-rw-r--r--   1 jcorwin  2018    399 Jun  5 20:51 config
+-rw-r--r--   1 jcorwin  2018     73 Jun  5 20:50 description
+drwxr-xr-x  12 jcorwin  2018    408 Jun  5 20:50 hooks
+-rw-r--r--   1 jcorwin  2018  12845 Jun  8 14:16 index
+drwxr-xr-x   3 jcorwin  2018    102 Jun  5 20:50 info
+drwxr-xr-x   4 jcorwin  2018    136 Jun  5 20:50 logs
+drwxr-xr-x  44 jcorwin  2018   1496 Jun  8 14:16 objects
+-rw-r--r--   1 jcorwin  2018    173 Jun  5 20:50 packed-refs
+drwxr-xr-x   5 jcorwin  2018    170 Jun  5 20:50 refs
+
+./.git/branches:
+total 88
+
+./.git/hooks:
+total 176
+-rwxr-xr-x   1 jcorwin  2018   478 Jun  5 20:50 applypatch-msg.sample
+-rwxr-xr-x   1 jcorwin  2018   896 Jun  5 20:50 commit-msg.sample
+-rwxr-xr-x   1 jcorwin  2018   189 Jun  5 20:50 post-update.sample
+-rwxr-xr-x   1 jcorwin  2018   424 Jun  5 20:50 pre-applypatch.sample
+-rwxr-xr-x   1 jcorwin  2018  1642 Jun  5 20:50 pre-commit.sample
+-rwxr-xr-x   1 jcorwin  2018  1348 Jun  5 20:50 pre-push.sample
+-rwxr-xr-x   1 jcorwin  2018  4898 Jun  5 20:50 pre-rebase.sample
+-rwxr-xr-x   1 jcorwin  2018   544 Jun  5 20:50 pre-receive.sample
+-rwxr-xr-x   1 jcorwin  2018  1239 Jun  5 20:50 prepare-commit-msg.sample
+-rwxr-xr-x   1 jcorwin  2018  3610 Jun  5 20:50 update.sample
+
+./.git/info:
+total 184
+-rw-r--r--   1 jcorwin  2018  240 Jun  5 20:50 exclude
+
+./.git/logs:
+total 192
+-rw-r--r--   1 jcorwin  2018  698 Jun  8 14:16 HEAD
+drwxr-xr-x   4 jcorwin  2018  136 Jun  5 20:50 refs
+
+./.git/logs/refs:
+total 192
+drwxr-xr-x   4 jcorwin  2018  136 Jun  5 20:51 heads
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 20:50 remotes
+
+./.git/logs/refs/heads:
+total 208
+-rw-r--r--   1 jcorwin  2018  210 Jun  5 20:50 master
+-rw-r--r--   1 jcorwin  2018  497 Jun  8 14:16 pzdc
+
+./.git/logs/refs/remotes:
+total 208
+drwxr-xr-x   4 jcorwin  2018  136 Jun  5 21:52 origin
+
+./.git/logs/refs/remotes/origin:
+total 224
+-rw-r--r--   1 jcorwin  2018  210 Jun  5 20:50 HEAD
+-rw-r--r--   1 jcorwin  2018  287 Jun  8 14:16 pzdc
+
+./.git/objects:
+total 224
+drwxr-xr-x   4 jcorwin  2018  136 Jun  8 14:16 09
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 21:52 0d
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 18
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 1c
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 1e
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 21
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 28
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 3f
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 49
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 4b
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 56
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 5d
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 21:51 5e
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 61
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 65
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 6b
+drwxr-xr-x   4 jcorwin  2018  136 Jun  8 14:16 6c
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 6f
+drwxr-xr-x   5 jcorwin  2018  170 Jun  8 14:16 79
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 21:51 7d
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 86
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 21:51 88
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 21:52 8a
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 8b
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 91
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 21:51 93
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 95
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 97
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 9a
+drwxr-xr-x   4 jcorwin  2018  136 Jun  8 14:16 a9
+drwxr-xr-x   4 jcorwin  2018  136 Jun  8 14:16 af
+drwxr-xr-x   4 jcorwin  2018  136 Jun  8 14:16 b0
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 b4
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 21:52 b9
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 bd
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 ca
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 cf
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 db
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 21:51 eb
+drwxr-xr-x   3 jcorwin  2018  102 Jun  8 14:16 fd
+drwxr-xr-x   2 jcorwin  2018   68 Jun  5 20:50 info
+drwxr-xr-x   4 jcorwin  2018  136 Jun  5 20:50 pack
+
+./.git/objects/09:
+total 240
+-r--r--r--   1 jcorwin  2018  1009 Jun  8 14:16 805b3fee59e08b75ffffbe3079ce4e509ff41e
+-r--r--r--   1 jcorwin  2018  1588 Jun  8 14:16 a89e4eb2707aeb3237620161b433aef88df09e
+
+./.git/objects/0d:
+total 248
+-r--r--r--   1 jcorwin  2018  486 Jun  5 21:52 aaee042775c8c43add31f88912fa0de58f51f1
+
+./.git/objects/18:
+total 256
+-r--r--r--   1 jcorwin  2018  1011 Jun  8 14:16 84c8fca06c3ea25d7e8a47801663a33cc25428
+
+./.git/objects/1c:
+total 264
+-r--r--r--   1 jcorwin  2018  158 Jun  8 14:16 a27330f306158836bf1bef190fc233dd5029cf
+
+./.git/objects/1e:
+total 272
+-r--r--r--   1 jcorwin  2018  165 Jun  8 14:16 5ed7107b2366e68f55a2b10b62e4576622a51a
+
+./.git/objects/21:
+total 280
+-r--r--r--   1 jcorwin  2018  646 Jun  8 14:16 68950059db00cce4377312b200e5db70e18742
+
+./.git/objects/28:
+total 288
+-r--r--r--   1 jcorwin  2018  591 Jun  8 14:16 b13efd06be27a4f6b734ecb838b2789bdd7a26
+
+./.git/objects/3f:
+total 296
+-r--r--r--   1 jcorwin  2018  1470 Jun  8 14:16 f7d23594e85684a8dfcba84aa27b521fb7e7a3
+
+./.git/objects/49:
+total 304
+-r--r--r--   1 jcorwin  2018  627 Jun  8 14:16 3fcfdbe0f16d83f66fea3ac4a751c455df2e16
+
+./.git/objects/4b:
+total 312
+-r--r--r--   1 jcorwin  2018  601 Jun  8 14:16 1d092e554ff810d011faa1197f3a5b013684fc
+
+./.git/objects/56:
+total 320
+-r--r--r--   1 jcorwin  2018  452 Jun  8 14:16 e3cd58c1cf9d0c59c3f5adadae10cdda269690
+
+./.git/objects/5d:
+total 328
+-r--r--r--   1 jcorwin  2018  539 Jun  8 14:16 4530b6f39a5b4db87e288d2eab314f1ee37268
+
+./.git/objects/5e:
+total 336
+-r--r--r--   1 jcorwin  2018  1012 Jun  5 21:51 88cb45c81a0296f8ea29b5a10c1a45610e26fd
+
+./.git/objects/61:
+total 344
+-r--r--r--   1 jcorwin  2018  575 Jun  8 14:16 7f22193abe2ff8984480ef21df0a2978f6d0ca
+
+./.git/objects/65:
+total 352
+-r--r--r--   1 jcorwin  2018  591 Jun  8 14:16 a723bdf82df5b99e9b22084cd5469960ffef21
+
+./.git/objects/6b:
+total 360
+-r--r--r--   1 jcorwin  2018  529 Jun  8 14:16 2b8cd159c7ff329e55817779bd5c3172fb758a
+
+./.git/objects/6c:
+total 376
+-r--r--r--   1 jcorwin  2018   146 Jun  8 14:16 a150a451dcdfbd8742c24da17bb68fc117ac87
+-r--r--r--   1 jcorwin  2018  1062 Jun  5 21:51 ec69bf8705e51fd91a29e996e2176c56659021
+
+./.git/objects/6f:
+total 384
+-r--r--r--   1 jcorwin  2018  655 Jun  8 14:16 44e30e21cfc35319349c3fc06256d0f4f01708
+
+./.git/objects/79:
+total 408
+-r--r--r--   1 jcorwin  2018   174 Jun  8 14:16 3cbcf90133a72321bc77b1b33c4c8d20e87f99
+-r--r--r--   1 jcorwin  2018   985 Jun  8 14:16 54f1a665a6af02fb947fd5f783268313900418
+-r--r--r--   1 jcorwin  2018  1073 Jun  8 14:16 a77d82d066d533c86dddb390a98d616360d5de
+
+./.git/objects/7d:
+total 416
+-r--r--r--   1 jcorwin  2018  1571 Jun  5 21:51 5559f3b69f6902a51cf9261c606f3c6c36773d
+
+./.git/objects/86:
+total 424
+-r--r--r--   1 jcorwin  2018  1200 Jun  8 14:16 38dcbc1cc2ff4e4335b7645ef6c97659192197
+
+./.git/objects/88:
+total 432
+-r--r--r--   1 jcorwin  2018  730 Jun  5 21:51 29f31262db329552c55536d9cb1c540aa7472d
+
+./.git/objects/8a:
+total 440
+-r--r--r--   1 jcorwin  2018  147 Jun  5 21:52 4036a3afa64773f9ffd377a9b3f6729b6eabf2
+
+./.git/objects/8b:
+total 448
+-r--r--r--   1 jcorwin  2018  342 Jun  8 14:16 b9cada8f9f445fc853664b4db948166df81e08
+
+./.git/objects/91:
+total 456
+-r--r--r--   1 jcorwin  2018  927 Jun  8 14:16 b5b0b8a1d7746aaa1d440008cddb4fe52ddb68
+
+./.git/objects/93:
+total 464
+-r--r--r--   1 jcorwin  2018  837 Jun  5 21:51 d9c974874894d5e5e278a8d655b98d6011bde8
+
+./.git/objects/95:
+total 472
+-r--r--r--   1 jcorwin  2018  177 Jun  8 14:16 4f04412af03dbb070c886703a4f34240e38203
+
+./.git/objects/97:
+total 480
+-r--r--r--   1 jcorwin  2018  810 Jun  8 14:16 92c2709f953f252ab0a22e268833c1fb1bd98a
+
+./.git/objects/9a:
+total 488
+-r--r--r--   1 jcorwin  2018  989 Jun  8 14:16 885436e0167deb623f12c74b64f5c9ba37be05
+
+./.git/objects/a9:
+total 512
+-r--r--r--   1 jcorwin  2018   591 Jun  8 14:16 1ef0599fa966bf9cc2e43c33bbfe1adfa89a71
+-r--r--r--   1 jcorwin  2018  6527 Jun  8 14:16 85eb17aaee619d0c3502d9fba1a32defcdb28c
+
+./.git/objects/af:
+total 528
+-r--r--r--   1 jcorwin  2018  649 Jun  8 14:16 00133b669f99724d9020ac14e78ae01ff86ee9
+-r--r--r--   1 jcorwin  2018  452 Jun  8 14:16 0c70f5f9d1d0eabdd89eebe7678d605f150133
+
+./.git/objects/b0:
+total 544
+-r--r--r--   1 jcorwin  2018  609 Jun  8 14:16 06eb530a112cbe255b5b178c7235694df01a8e
+-r--r--r--   1 jcorwin  2018  591 Jun  5 21:52 4208014cb4eb0e83fb3e0130e682ff3b1f1739
+
+./.git/objects/b4:
+total 552
+-r--r--r--   1 jcorwin  2018  835 Jun  8 14:16 d60dded978538f565c544fc66ce2502871f88d
+
+./.git/objects/b9:
+total 560
+-r--r--r--   1 jcorwin  2018  161 Jun  5 21:52 aa801d408b53c9b4dc53defea228a882fa0700
+
+./.git/objects/bd:
+total 568
+-r--r--r--   1 jcorwin  2018  1477 Jun  8 14:16 386f2878ae657e12e07c3b5bd3d7bd3b98069c
+
+./.git/objects/ca:
+total 576
+-r--r--r--   1 jcorwin  2018  1209 Jun  8 14:16 f4e5d5d886659ca27bc5e13b0449996f04644c
+
+./.git/objects/cf:
+total 584
+-r--r--r--   1 jcorwin  2018  518 Jun  8 14:16 82a1f8e31be005fca211528ebab42e6ee021cc
+
+./.git/objects/db:
+total 592
+-r--r--r--   1 jcorwin  2018  457 Jun  8 14:16 c6f32025ebd3846fa2a1fd867fe22bc2c00501
+
+./.git/objects/eb:
+total 600
+-r--r--r--   1 jcorwin  2018  1191 Jun  5 21:51 3c00940b071ffc4ee4dcd8df94a6b4bf1163fe
+
+./.git/objects/fd:
+total 608
+-r--r--r--   1 jcorwin  2018  1073 Jun  8 14:16 ad6318faa211cfa401062d9deaf580706c6d37
+
+./.git/objects/info:
+total 608
+
+./.git/objects/pack:
+total 1216
+-r--r--r--   1 jcorwin  2018   18292 Jun  5 20:50 pack-1c583f95a2a09b8affdd9221bb1ddc281d269c5e.idx
+-r--r--r--   1 jcorwin  2018  289803 Jun  5 20:50 pack-1c583f95a2a09b8affdd9221bb1ddc281d269c5e.pack
+
+./.git/refs:
+total 1216
+drwxr-xr-x   4 jcorwin  2018  136 Jun  8 14:16 heads
+drwxr-xr-x   3 jcorwin  2018  102 Jun  5 20:50 remotes
+drwxr-xr-x   2 jcorwin  2018   68 Jun  5 20:50 tags
+
+./.git/refs/heads:
+total 1232
+-rw-r--r--   1 jcorwin  2018  41 Jun  5 20:50 master
+-rw-r--r--   1 jcorwin  2018  41 Jun  8 14:16 pzdc
+
+./.git/refs/remotes:
+total 1232
+drwxr-xr-x   4 jcorwin  2018  136 Jun  8 14:16 origin
+
+./.git/refs/remotes/origin:
+total 1248
+-rw-r--r--   1 jcorwin  2018  32 Jun  5 20:50 HEAD
+-rw-r--r--   1 jcorwin  2018  41 Jun  8 14:16 pzdc
+
+./.git/refs/tags:
+total 1248

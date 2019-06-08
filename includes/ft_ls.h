@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/06 19:28:25 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:08:28 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void  				usage(void);
 void				ft_printerr(char *str, size_t size);
 void				*files_sort(int flags);
 int					file_strcmp(t_file *left, t_file *right);
-void				fill_and_print_stackfiles(t_stack *files, int *flags);
+void				fill_and_print_stackfiles(t_stack *files, int *flags, int total);
 void				fill_link(t_file *file);
 void				fill_minmaz(t_file *file);
 void				find_length(t_file *file, int *columns);

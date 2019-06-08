@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/06 19:29:01 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:09:19 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static void		width_init(int *columns, int flags)
 		columns[5] = 0;
 }
 
-void			fill_and_print_stackfiles(t_stack *files, int *flags)
+void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 {
 	static int		columns[11];
 
@@ -121,10 +121,11 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags)
 		columns[7] = *flags & FLAG_DEVICE ? 1 : 0;
 		columns[8] = *flags & FLAG_DEVICE ? 1 : 0;
 		columns[9] = *flags & FLAG_DEVICE ? 0 : 1;
+	}
+	if (*flags & (FLAG_L | FLAG_S))
 		ST_ITER(files, (void (*)(void *, void *))fill_info,
 				columns, *flags & FLAG_R);
-	}
-	if (*flags & FLAG_L)
+	if ((*flags & FLAG_L) && ~*flags & FLAG_D && total)
 	{
 		buf_add("total ", 6);
 		buf_add_num(columns[1]);
