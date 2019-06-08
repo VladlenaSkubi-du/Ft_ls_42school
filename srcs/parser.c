@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/06 19:23:50 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:41:55 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,9 @@ t_stack			*get_args(int *flags, int argc, char **argv)
 		filenames = ST_NEW();
 		while (i < argc)
 		{
-			file = (t_file *)ft_xmalloc(sizeof(t_file));
+			ST_ADD(filenames, (file = (t_file *)ft_xmalloc(sizeof(t_file))));
 			file->name = ft_strdup(argv[i++]);
 			file->path = ft_strdup(file->name);
-			ST_ADD(filenames, file);
 		}
 	}
 	if (filenames)

@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/08 15:31:00 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/08 15:42:51 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static void		throw_args(t_stack *args, t_stack *params, int flags)
 		flags |= FLAG_FOLDER_RR;
 	fill_and_print_stackfiles(files, &flags, 0);
 	if (~flags & FLAG_D)
-		ST_ITER(dirs, (void (*)(void *, void *))print_dir, &flags, flags & FLAG_R);
+		ST_ITER(dirs, (void (*)(void *, void *))print_dir, &flags,
+																flags & FLAG_R);
 	else
 		fill_and_print_stackfiles(dirs, &flags, 0);
 	ST_ITER(args, (void (*)(void *, void *))del_file, NULL, 0);
