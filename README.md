@@ -201,7 +201,7 @@ struct stat {
        наносекунд в следующих полям меток времени.
        Подробней о версиях до Linux 2.6, смотрите ЗАМЕЧАНИЯ. */
     struct timespec st_atime;  /* время доступа - time of last access (ls -lu)*/
-    struct timespec st_mtime;  /* время изменения - time of last modification (ls -l)*/
+    struct timespec st_mtime;  /* время изменения - time of last modification (ls /-l)*/
     struct timespec st_ctime;  /* время смены состояния - time of last status change (ls -lc) */
 #define st_atime st_atim.tv_sec      /* для обратной совместимости */
 #define st_mtime st_mtim.tv_sec
