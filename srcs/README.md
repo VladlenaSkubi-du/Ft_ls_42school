@@ -7,7 +7,7 @@ This ft_ls-program deals with the following flags:
 
     ft_ls: -1CFGRSacdfglprstu
 
-Usage
+#Usage
 You need to compile the program and then use it according to the usage the priginal ls-command has.
 
 So, your steps -
@@ -34,7 +34,7 @@ Or other arguments you want. At the same time you are able to use the same argum
 
 Go and try. Good luck!
 
-The program returns
+#The program returns
 The same output as the original ls-command with all the flags described in the first part of README. If you input a directory (".", "..", "/", "~/Applications") as an argument, ft_ls program returns a list of files lying within this directory.
 If you input a file name or link name or program name and so on as an argument, ft_ls program returns the names you input if they exist in the directory you work from or put as an argument. If you input some staff that does not exist, ft_ls outputs: "./ft_ls: 1: No such file or directory".
 It can also answer as: "./ft_ls: Permission denied" if the files or directories you input as arguments are non-readable for you as user (your group of users).
@@ -53,5 +53,5 @@ Where flag "--" gives stop to ./ft_ls and says that further it will see only arg
 
 For the further check of the ft_ls program you can also find the testing script called test_ft_ls that recodes both ft_ls and ls output and compares it using diff-command.
 
-Grade
+#Grade
 /100
