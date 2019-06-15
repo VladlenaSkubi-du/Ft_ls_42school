@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/08 15:41:55 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/12 17:24:33 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static int		allocate_by_flags_1(int flags, int cur_flag)
 		(flags & FLAG_T) ? flags ^= FLAG_T : flags;
 		(flags & FLAG_SS) ? flags ^= FLAG_SS : flags;
 	}
+	// -l -g зависимость
+	// обратить внимание на взаимоисключаемость -1 и -C и [-lg -> -1]
 	if (flags & FLAG_CC)
 	{
 		(cur_flag & FLAG_ONE) ? flags ^= FLAG_CC : flags;

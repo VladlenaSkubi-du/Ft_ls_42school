@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/08 18:12:18 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/12 17:43:26 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@
 # define FLAG_MINUS 0x20000
 # define FLAG_FF 0x40000
 # define FLAG_DEVICE 0x80000
+# define FLAG_ATTY 0x100000
 
 # define ST_NEW() stack_init()
 # define ST_ADD(x, data) x->add(x, data)
@@ -88,6 +89,7 @@ typedef struct		s_file
 	char			*min;
 	char			*size;
 	char			*time;
+	char			color[9];
 	char			*name;
 	DIR				*dir;
 }					t_file;

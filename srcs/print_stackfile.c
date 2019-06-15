@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_stackfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/06 19:21:41 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/12 14:13:30 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void				print_stackfile(t_file *file, int *col)
 	buf_add("\n", 1);
 }
 
-static int			get_terminal_width(void)
+int			get_terminal_width(void)
 {
 	struct winsize	sz;
 

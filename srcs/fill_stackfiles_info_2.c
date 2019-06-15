@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:26:28 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/08 18:14:15 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/12 17:48:52 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void			fill_minmaz(t_file *file)
 
 static void		find_width(int len, int *columns)
 {
-	if (*columns)
-		*columns = len > *columns ? len : *columns;
+	 if (*columns)
+	*columns = len > *columns ? len : *columns;
 }
 
 void			find_length(t_file *file, int *columns)

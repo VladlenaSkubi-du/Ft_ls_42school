@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/08 18:19:37 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/12 17:49:03 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,11 @@ static void		fill_time(t_file *file, int *columns)
 static void		fill_info(t_file *file, int *columns)
 {
 	columns[1] += file->info.st_blocks;
-	file->total = ft_utoa_base(file->info.st_blocks, 10);
+	if (columns[2]) 
+	{
+		file->total = ft_utoa_base(file->info.st_blocks, 10);
+		// find_width(ft_strlen(file->total), &columns[2]);
+	}
 	file->uid = getpwuid(file->info.st_uid);
 	if (file->uid == NULL)
 	{
@@ -88,6 +92,7 @@ static void		fill_info(t_file *file, int *columns)
 
 static void		width_init(int *columns, int flags)
 {
+	// name нужен с -С
 	int		i;
 
 	i = 2;
@@ -110,11 +115,11 @@ static void		width_init(int *columns, int flags)
 void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 {
 	static int		columns[13];
-
+	/// изменить: минор/размер вместе, сдвинуть, 10 - name
 	//0 - флаги, 1 - общий total, 2 - индивидуальный total, 3 - доступ, 4 - ссылки,
 	//5 - uid, 6 - gid, 7 - мажор для устройств, 8 - минор для устройств,
 	//9 - размер, 10 - время, 11 - ширина терминала, 12 максимальная ширина строки (вместе с пробелами и числом)
-	if (!columns[0])
+	if (!columns[0]) //функция вызывается много раз, а инициализация нужна 1 раз
 		width_init(columns, *flags);
 	if (*flags & FLAG_L)
 	{
@@ -126,6 +131,7 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 		ST_ITER(files, (void (*)(void *, void *))fill_info,
 				columns, *flags & FLAG_R);
 	columns[11] = get_terminal_width();
+	// -G вместе с -C (если есть G флаг, длина колонка12 другая = самое длинное название + 1 пробел)
 	while (columns[12] % 8 != 0)
 		columns[12]++;
 	if (*flags & FLAG_S)

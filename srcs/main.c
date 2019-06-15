@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/08 15:42:51 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/12 17:43:46 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,18 @@ static void		check_arg(t_file *file, t_stack *params)
 
 	files = params->data[0];
 	dirs = params->data[1];
-	if (!stat(file->name, &file->info))
+	if (!lstat(file->name, &file->info))
 	{
-		if (file->info.st_mode & S_IFDIR)
+		if (file->info.st_mode & S_IFDIR && ~params->size & FLAG_D)
 			ST_ADD(dirs, file);
 		else
 			ST_ADD(files, file);
 		if (params->size & FLAG_L)
+		{
 			fill_type(file);
+			if (file->type == 'b' || file->type == 'c')
+				params->size |= FLAG_DEVICE;
+		}
 	}
 	else
 		print_err(file->name);
@@ -71,14 +75,12 @@ static void		throw_args(t_stack *args, t_stack *params, int flags)
 	dirs = params->data[1];
 	params->size = flags;
 	ST_ITER(args, (void (*)(void *, void *))check_arg, params, flags & FLAG_R);
+	flags = params->size;
 	if (dirs->data && dirs->data[0] && dirs->data[1])
 		flags |= FLAG_FOLDER_RR;
 	fill_and_print_stackfiles(files, &flags, 0);
-	if (~flags & FLAG_D)
-		ST_ITER(dirs, (void (*)(void *, void *))print_dir, &flags,
-																flags & FLAG_R);
-	else
-		fill_and_print_stackfiles(dirs, &flags, 0);
+	ST_ITER(dirs, (void (*)(void *, void *))print_dir, &flags,
+														flags & FLAG_R);
 	ST_ITER(args, (void (*)(void *, void *))del_file, NULL, 0);
 	ST_DEL(files);
 	ST_DEL(dirs);
@@ -95,7 +97,7 @@ int				main(int argc, char **argv)
 	params = ST_NEW();
 	ST_ADD(params, ST_NEW());
 	ST_ADD(params, ST_NEW());
-	flags = 0;
+	flags = isatty(1) ? (FLAG_C | FLAG_ATTY) : FLAG_ONE;
 	if (!(args = get_args(&flags, argc, argv)))
 	{
 		args = ST_NEW();
