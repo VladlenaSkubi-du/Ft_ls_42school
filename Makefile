@@ -13,7 +13,8 @@ SOURCES =	main.c \
 			print_stackfile.c \
 			out_buf.c \
 			errors.c \
-			other_functions.c
+			other_functions.c \
+			colors.c
 
 DIR_O = objs
 

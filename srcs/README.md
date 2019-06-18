@@ -8,7 +8,7 @@ This ft_ls-program deals with the following flags:
     ft_ls: -1CFGRSacdfglprstu
 
 #Usage
-You need to compile the program and then use it according to the usage the priginal ls-command has.
+You need to compile the program and then use it according to the usage the original ls-command has.
 
 So, your steps -
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/12 17:24:33 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/18 18:33:35 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ static int		allocate_by_flags_1(int flags, int cur_flag)
 	return (flags);
 }
 
+// Проблема:
+// at-e4% ./ft_ls -Fl
+// ft_ls: illegal option -- l
+// usage: ft_ls [-1lrRatGpsufdgSCcF] [file ...]
+
 static int		get_flags(char *arg)
 {
 	int			flags;
@@ -67,7 +72,7 @@ static int		get_flags(char *arg)
 	while (*arg && (i = ft_strchri("1lrRatGpsufdgSCc-F", *arg)) != -1)
 	{
 		flags |= 1 << i;
-		if (flags & FLAG_G)
+		if (flags & FLAG_G) //исправить
 			flags |= FLAG_L;
 		flags = allocate_by_flags_1(flags, 1 << i);
 		++arg;

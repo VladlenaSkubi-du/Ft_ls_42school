@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:08:49 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/11 18:07:34 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/12 14:41:25 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int			file_strcmp(t_file *left, t_file *right)
 	return (ft_strcmp(left->name, right->name));
 }
 
-void		fill_type(t_file *file, int *flags)
+void		fill_type(t_file *file)
 {
 	if (S_ISDIR(file->info.st_mode))
 		file->type = 'd';
@@ -102,6 +102,4 @@ void		fill_type(t_file *file, int *flags)
 		file->type = '-';
 	else if (S_ISSOCK(file->info.st_mode))
 		file->type = 's';
-	if (file->type == 'b' || file->type == 'c')
-		*flags |= FLAG_DEVICE;
 }

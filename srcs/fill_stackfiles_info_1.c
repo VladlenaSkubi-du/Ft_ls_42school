@@ -3,96 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/12 17:49:03 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/18 19:13:48 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		fill_mode(t_file *file)
+static void		find_width(int len, int *columns)
 {
-	mode_t			m;
-
-	m = file->info.st_mode;
-	file->mode = ft_xmalloc(sizeof(char) * 12);
-	file->mode[0] = file->type;
-	file->mode[1] = ((m & 00400) && (m & 00700)) ? 'r' : '-';
-	file->mode[2] = ((m & 00200) && (m & 00700)) ? 'w' : '-';
-	file->mode[3] = ((m & 00100) && (m & 00700)) ? 'x' : '-';
-	file->mode[4] = ((m & 00040) && (m & 00070)) ? 'r' : '-';
-	file->mode[5] = ((m & 00020) && (m & 00070)) ? 'w' : '-';
-	file->mode[6] = ((m & 00010) && (m & 00070)) ? 'x' : '-';
-	file->mode[7] = ((m & 00004) && (m & 00007)) ? 'r' : '-';
-	file->mode[8] = ((m & 00002) && (m & 00007)) ? 'w' : '-';
-	file->mode[9] = ((m & 00001) && (m & 00007)) ? 'x' : '-';
-	file->mode[3] = ((m & 04000) && file->mode[3] == 'x') ? 's' : file->mode[3];
-	file->mode[6] = ((m & 02000) && file->mode[6] == 'x') ? 's' : file->mode[6];
-	file->mode[9] = ((m & 01000) && file->mode[9] == 'x') ? 't' : file->mode[9];
-	file->mode[3] = ((m & 04000) && file->mode[3] == '-') ? 'S' : file->mode[3];
-	file->mode[6] = ((m & 02000) && file->mode[6] == '-') ? 'S' : file->mode[6];
-	file->mode[9] = ((m & 01000) && file->mode[9] == '-') ? 'T' : file->mode[9];
-	get_acl(file);
+	*columns = len > *columns ? len : *columns;
 }
 
-static void		fill_time(t_file *file, int *columns)
+static void		fill_info_2(t_file *file, int *col)
 {
-	char			*tmp_time;
-	time_t			time_sec;
-
-	if ((columns[0] & FLAG_L) && (columns[0] & FLAG_U))
-		time_sec = file->info.st_atime;
-	else if ((columns[0] & FLAG_L) && (columns[0] & FLAG_C))
-		time_sec = file->info.st_ctime;
-	else
-		time_sec = file->info.st_mtime;
-	file->time = (char*)ft_xmalloc(12);
-	tmp_time = ctime(&time_sec);
-	file->time = ft_strncpy(file->time, &(tmp_time[4]), 6);
-	if ((time(NULL) - time_sec) < (31556926 / 2))
-		file->time = ft_strncat(file->time, &(tmp_time[10]), 6);
-	else
+	if (col[5])
 	{
-		file->time[6] = ' ';
-		file->time = ft_strncat(file->time, &(tmp_time[19]), 5);
+		file->uid = getpwuid(file->info.st_uid);
+		if (file->uid == NULL)
+		{
+			perror("getpwuid");
+			exit(1);
+		}
+		find_width(ft_strlen(file->uid->pw_name), &col[5]);
 	}
+	if (col[6])
+	{
+		file->gid = getgrgid(file->info.st_gid);
+		if (file->gid == NULL)
+		{
+			perror("getgrgid");
+			exit(1);
+		}
+		find_width(ft_strlen(file->gid->gr_name), &col[6]);
+	}
+	if (col[8])
+		fill_time(file, col);
+	(col[0] & FLAG_CC) ? find_width(ft_strlen(file->name), &col[10]) : 0; // узнаем длину до изменения имени ссылки
+	change_name(file, col[0]);	
 }
 
-static void		fill_info(t_file *file, int *columns)
+static void		fill_info_1(t_file *file, int *columns)
 {
 	columns[1] += file->info.st_blocks;
 	if (columns[2]) 
 	{
 		file->total = ft_utoa_base(file->info.st_blocks, 10);
-		// find_width(ft_strlen(file->total), &columns[2]);
+		find_width(ft_strlen(file->total), &columns[2]);
 	}
-	file->uid = getpwuid(file->info.st_uid);
-	if (file->uid == NULL)
+	(columns[3]) || (columns[0] & (FLAG_GG | FLAG_FF)) ? fill_mode(file) : 0;
+	(columns[3]) || (columns[0] & (FLAG_L | FLAG_G)) ?
+		find_width(ft_strlen(file->mode), &columns[3]) : 0;
+	if (columns[4])
 	{
-		perror("getpwuid");
-		exit(1);
+		file->link = ft_utoa_base(file->info.st_nlink, 10);
+		find_width(ft_strlen(file->link), &columns[4]);
 	}
-	file->gid = getgrgid(file->info.st_gid);
-	if (file->gid == NULL)
+	if (columns[7])
 	{
-		perror("getgrgid");
-		exit(1);
+		if (file->type == 'b' || file->type == 'c')
+			fill_minmaz(file);
+		else
+			file->size = ft_utoa_base(file->info.st_size, 10);
+		find_width(ft_strlen(file->size), &columns[7]);
 	}
-	file->link = ft_utoa_base(file->info.st_nlink, 10);
-	file->size = ft_utoa_base(file->info.st_size, 10);
-	fill_time(file, columns);
-	fill_mode(file);
-	if (file->type == 'l')
-		fill_link(file);
-	fill_minmaz(file);
-	find_length(file, columns);
+	fill_info_2(file, columns);
 }
 
 static void		width_init(int *columns, int flags)
 {
-	// name нужен с -С
+	// column 10 нужен с -С
 	int		i;
 
 	i = 2;
@@ -103,39 +85,30 @@ static void		width_init(int *columns, int flags)
 		columns[2] = 1;
 	if (flags & (FLAG_L))
 	{
-		while (++i < 11)
+		while (++i < 8)
 			columns[i] = 1;
 		columns[3] = 11;
-		columns[10] = 12;
+		columns[8] = 12;
 	}
 	if (flags & FLAG_G)
 		columns[5] = 0;
+	if (flags & (FLAG_GG | FLAG_FF))
+		columns[3] = 0;
 }
 
 void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 {
-	static int		columns[13];
+	static int		columns[11];
 	/// изменить: минор/размер вместе, сдвинуть, 10 - name
 	//0 - флаги, 1 - общий total, 2 - индивидуальный total, 3 - доступ, 4 - ссылки,
-	//5 - uid, 6 - gid, 7 - мажор для устройств, 8 - минор для устройств,
-	//9 - размер, 10 - время, 11 - ширина терминала, 12 максимальная ширина строки (вместе с пробелами и числом)
+	//5 - uid, 6 - gid, 7 - мажор и минор для устройств или размер, 8 - время,
+	//9 - ширина терминала, 10 - максимальная ширина строки (вместе с пробелами)
 	if (!columns[0]) //функция вызывается много раз, а инициализация нужна 1 раз
 		width_init(columns, *flags);
-	if (*flags & FLAG_L)
-	{
-		columns[7] = *flags & FLAG_DEVICE ? 1 : 0;
-		columns[8] = *flags & FLAG_DEVICE ? 1 : 0;
-		columns[9] = *flags & FLAG_DEVICE ? 0 : 1;
-	}
-	if (*flags & (FLAG_L | FLAG_S))
-		ST_ITER(files, (void (*)(void *, void *))fill_info,
+	if (*flags & (FLAG_L | FLAG_S | FLAG_G | FLAG_GG | FLAG_P | FLAG_FF))
+		ST_ITER(files, (void (*)(void *, void *))fill_info_1,
 				columns, *flags & FLAG_R);
-	columns[11] = get_terminal_width();
-	// -G вместе с -C (если есть G флаг, длина колонка12 другая = самое длинное название + 1 пробел)
-	while (columns[12] % 8 != 0)
-		columns[12]++;
-	if (*flags & FLAG_S)
-		columns[12] += columns[2] + 1; //один пробел между
+	separate_output(*flags, columns);
 	if ((*flags & FLAG_L) && ~*flags & FLAG_D && total)
 	{
 		buf_add("total ", 6);
@@ -143,7 +116,5 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 		buf_add("\n", 1);
 	}
 	ST_ITER(files, (void (*)(void *, void *))print_stackfile,
-			columns, *flags & FLAG_R);
-	if (*flags & FLAG_DEVICE)
-		*flags ^= FLAG_DEVICE;
+		columns, *flags & FLAG_R);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/12 17:43:46 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/18 18:47:45 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,6 @@ void			del_file(t_file *file, void *null)
 	}
 }
 
-static void		fill_type(t_file *file)
-{
-	if (S_ISDIR(file->info.st_mode))
-		file->type = 'd';
-	else if (S_ISBLK(file->info.st_mode))
-		file->type = 'b';
-	else if (S_ISCHR(file->info.st_mode))
-		file->type = 'c';
-	else if (S_ISFIFO(file->info.st_mode))
-		file->type = 'p';
-	else if (S_ISLNK(file->info.st_mode))
-		file->type = 'l';
-	else if (S_ISREG(file->info.st_mode))
-		file->type = '-';
-}
-
 static void		check_arg(t_file *file, t_stack *params)
 {
 	t_stack		*dirs;
@@ -55,12 +39,8 @@ static void		check_arg(t_file *file, t_stack *params)
 			ST_ADD(dirs, file);
 		else
 			ST_ADD(files, file);
-		if (params->size & FLAG_L)
-		{
+		if (params->size & (FLAG_L | FLAG_GG | FLAG_FF | FLAG_G))
 			fill_type(file);
-			if (file->type == 'b' || file->type == 'c')
-				params->size |= FLAG_DEVICE;
-		}
 	}
 	else
 		print_err(file->name);
@@ -75,7 +55,6 @@ static void		throw_args(t_stack *args, t_stack *params, int flags)
 	dirs = params->data[1];
 	params->size = flags;
 	ST_ITER(args, (void (*)(void *, void *))check_arg, params, flags & FLAG_R);
-	flags = params->size;
 	if (dirs->data && dirs->data[0] && dirs->data[1])
 		flags |= FLAG_FOLDER_RR;
 	fill_and_print_stackfiles(files, &flags, 0);

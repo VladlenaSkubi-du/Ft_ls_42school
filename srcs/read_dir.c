@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   read_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/08 15:08:56 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/18 18:53:51 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		fill_type(unsigned char entry, t_file *file)
+static void		fill_type_entry(unsigned char entry, t_file *file)
 {
 	if (entry == DT_BLK)
 		file->type = 'b';
@@ -27,7 +27,7 @@ static void		fill_type(unsigned char entry, t_file *file)
 	else if (entry == DT_LNK)
 		file->type = 'l';
 	else if (entry == DT_UNKNOWN)
-		file->type = 'u';
+		file->type = 'd';
 	else if (entry == DT_SOCK)
 		file->type = 's';
 }
@@ -53,14 +53,10 @@ static void		read_file(struct dirent *entry,
 	file = (t_file *)ft_xmalloc(sizeof(t_file));
 	file->name = ft_strdup(entry->d_name);
 	if (*flags & (FLAG_RR | FLAG_S | FLAG_SS | FLAG_U | FLAG_L |
-				FLAG_T | FLAG_C))
+				FLAG_T | FLAG_C | FLAG_P | FLAG_GG | FLAG_FF | FLAG_G))
 	{
-		if (*flags & FLAG_L)
-		{
-			fill_type(entry->d_type, file);
-			if (file->type == 'b' || file->type == 'c')
-				*flags |= FLAG_DEVICE;
-		}
+		if (*flags & (FLAG_L | FLAG_P | FLAG_FF | FLAG_GG))
+			fill_type_entry(entry->d_type, file);
 		file->path = ft_strrejoin(ft_strjoin(path, "/"), entry->d_name);
 		if (!lstat(file->path, &file->info))
 			ST_ADD(files, file);
