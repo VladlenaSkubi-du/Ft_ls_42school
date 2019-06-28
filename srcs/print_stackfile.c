@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_stackfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/18 19:00:46 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/28 21:33:29 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,34 +56,6 @@
 // crw-rw-rw-  1 root  wheel    2,   0 Jun 15 16:49 /dev/tty
 // at-e4% ./ft_ls -l /dev/tty
 // crw-rw-rw-  1 root  wheel   2,   0 Jun 15 16:49 /dev/tty
-
-// at-e4% ./ft_ls -F
-// -rw-r--r--  Makefile
-// -rw-r--r--  README.md
-// -rw-r--r--  alignment.c
-// -rw-r--r--  author
-// -rw-r--r--  file
-// -rw-r--r--  file2
-// -rw-r--r--  file_t
-// -rw-r--r--  file_t.txt
-// -rwxr-xr-x  ft_ls*
-// drwxr-xr-x  includes/
-// drwxr-xr-x  libft/
-// lrwxr-xr-x  norm_script.sh@
-// drwxr-xr-x  objs/
-// -rw-r--r--  print.c
-// -rw-r--r--  pzds.txt
-// drwxr-xr-x  srcs/
-// -rw-r--r--  t1
-// -rw-r--r--  t2
-// -rw-r--r--  t_our.txt
-// -rw-r--r--  test
-// -rw-r--r--  test.txt
-// -rw-r--r--  test1
-// -rw-r--r--  test2.txt
-// -rw-r--r--  test_ori
-// -rw-r--r--  test_our
-// drwxr-xr-x  tmp/
 
 void				print_stackfile(t_file *file, int *col)
 {

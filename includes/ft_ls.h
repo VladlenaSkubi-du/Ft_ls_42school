@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/18 18:56:39 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/28 20:34:32 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void				buf_add(char *str, size_t size);
 void				buf_add_num(unsigned int n);
 void				buf_fill(char *str, size_t len, size_t size, int left);
 void				buf_err(char *str);
+void				buf_col(t_file *file, int col[3]);
 void				del_file(t_file *file, void *null);
 void				*ft_xmalloc(size_t size);
 void				ft_stradd_nb(char *s, long nb);

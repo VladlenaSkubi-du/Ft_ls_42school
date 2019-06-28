@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/18 18:33:35 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/28 21:58:59 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ static int		allocate_by_flags_1(int flags, int cur_flag)
 		(cur_flag & FLAG_ONE) ? flags ^= FLAG_CC : flags;
 		if ((cur_flag & FLAG_CC) && (flags & FLAG_ONE))
 			flags ^= FLAG_ONE;
-		if ((cur_flag & FLAG_L) || (cur_flag & FLAG_G))
+		if ((cur_flag & (FLAG_G | FLAG_L)))
 			flags ^= FLAG_CC;
-		if ((cur_flag & FLAG_CC) && (flags & FLAG_L))
-			flags ^= FLAG_L;
 		if ((cur_flag & FLAG_CC) && (flags & FLAG_G))
 			flags ^= FLAG_G;
 	}
@@ -67,13 +65,11 @@ static int		get_flags(char *arg)
 	int			flags;
 	int			i;
 
-	flags = 0;
+	flags = isatty(1) ? (FLAG_CC | FLAG_ATTY) : FLAG_ONE;
 	++arg;
 	while (*arg && (i = ft_strchri("1lrRatGpsufdgSCc-F", *arg)) != -1)
 	{
 		flags |= 1 << i;
-		if (flags & FLAG_G) //исправить
-			flags |= FLAG_L;
 		flags = allocate_by_flags_1(flags, 1 << i);
 		++arg;
 		if (flags & FLAG_MINUS)

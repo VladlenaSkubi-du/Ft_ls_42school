@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/12 16:50:38 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/28 21:40:29 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,19 @@ void	buf_add(char *str, size_t size)
 	}
 }
 
-// static char		**buf_col_del(char **arr, int lines, int t_width)
-// {
-// 	int		i;
+static char		**buf_col_del(char **arr, int lines, int t_width)
+{
+	int		i;
 	
-// 	i = -1;
-// 	while (++i < lines)
-// 	{
-// 		buf_add(arr[i], t_width);
-// 		buf_add("\n", 1);
-// 	}
-// 	free(arr);
-// 	return (NULL);
-// }
+	i = -1;
+	while (++i < lines)
+	{
+		buf_add(arr[i], t_width);
+		buf_add("\n", 1);
+	}
+	free(arr);
+	return (NULL);
+}
 
 // static void		buf_col_fill(t_file *file, int size, int t_width, int s_width)
 // {
@@ -117,8 +117,8 @@ void	buf_add(char *str, size_t size)
 // 	*lines = (int) (size / *lines + (size % *lines ? 1 : 0));
 // 	arr = ft_xmalloc(sizeof(char *) * *lines);
 // 	i = 0;
-// 	while (i < *lines)
-// 		arr[i++] = ft_xmalloc(*t_width);
+	// while (i < *lines)
+	// 	arr[i++] = ft_xmalloc(*t_width);
 // 	return (0);
 // }
 
@@ -128,16 +128,43 @@ void	buf_add(char *str, size_t size)
 // 	static int		lines;
 // 	static int		i;
 // 	static int		t_width;
-// 	static int		s_width
+// 	static int		s_width;
 	
 // 	if (!arr)
 // 		i = buf_col_init(col, &arr, &lines, &t_width);
 // 	else
 // 	{
 // 		ft_memcpy(arr[i % lines] + (i / lines * col[2]), file->name, s_width);
-		
 // 	}
-// 		buf_col_fill(file, arr, lines, i);
-// 	if (++i == col[0])
-// 		arr = buf_col_del(arr, lines, t_width);
+// 	buf_col_fill(file, arr, lines, i);
+	// if (++i == col[0])
+	// 	arr = buf_col_del(arr, lines, t_width);
 // }
+
+void			buf_col(t_file *file, int col[3])
+{
+	static char		**arr;
+	static int		lines;
+	static int		i;
+	static int		size;
+	static int		t_width;
+	static int		s_width;
+
+	if (!arr)
+	{
+		i = 0;
+		size = col[0];
+		s_width = col[2];
+		// printf("%d\n", s_width);
+		t_width = ((int)(col[1] / s_width)) * s_width;
+		lines = (int)(t_width / s_width);
+		lines = (int)(size / lines + (size % lines ? 1 : 0));
+		arr = ft_xmalloc(sizeof(char *) * lines);
+		while (i < lines)
+			arr[i++] = ft_xmalloc(t_width);
+	}
+	ft_memcpy(arr[i % lines] + (i / lines * col[2]), file->name, s_width);
+	ft_memset(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->name), ' ', s_width - ft_strlen(file->name));
+	if (i++ == col[0] + 1)
+		arr = buf_col_del(arr, lines, t_width);
+}

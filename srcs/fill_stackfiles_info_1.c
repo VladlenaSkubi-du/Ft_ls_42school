@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/18 19:13:48 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/28 21:45:37 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static void		fill_info_1(t_file *file, int *columns)
 		find_width(ft_strlen(file->total), &columns[2]);
 	}
 	(columns[3]) || (columns[0] & (FLAG_GG | FLAG_FF)) ? fill_mode(file) : 0;
-	(columns[3]) || (columns[0] & (FLAG_L | FLAG_G)) ?
-		find_width(ft_strlen(file->mode), &columns[3]) : 0;
+	// (columns[3]) || (columns[0] & (FLAG_L | FLAG_G)) ?
+	// 	find_width(ft_strlen(file->mode), &columns[3]) : 0;
 	if (columns[4])
 	{
 		file->link = ft_utoa_base(file->info.st_nlink, 10);
@@ -83,7 +83,7 @@ static void		width_init(int *columns, int flags)
 	columns[0] = flags;
 	if (flags & FLAG_S)
 		columns[2] = 1;
-	if (flags & (FLAG_L))
+	if (flags & (FLAG_L | FLAG_G))
 	{
 		while (++i < 8)
 			columns[i] = 1;
@@ -94,6 +94,8 @@ static void		width_init(int *columns, int flags)
 		columns[5] = 0;
 	if (flags & (FLAG_GG | FLAG_FF))
 		columns[3] = 0;
+	if (flags & FLAG_CC)
+		columns[10] = 1;
 }
 
 void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
@@ -105,7 +107,7 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 	//9 - ширина терминала, 10 - максимальная ширина строки (вместе с пробелами)
 	if (!columns[0]) //функция вызывается много раз, а инициализация нужна 1 раз
 		width_init(columns, *flags);
-	if (*flags & (FLAG_L | FLAG_S | FLAG_G | FLAG_GG | FLAG_P | FLAG_FF))
+	if (*flags & (FLAG_L | FLAG_S | FLAG_G | FLAG_GG | FLAG_P | FLAG_FF | FLAG_CC))
 		ST_ITER(files, (void (*)(void *, void *))fill_info_1,
 				columns, *flags & FLAG_R);
 	separate_output(*flags, columns);
@@ -115,6 +117,13 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 		buf_add_num(columns[1]);
 		buf_add("\n", 1);
 	}
-	ST_ITER(files, (void (*)(void *, void *))print_stackfile,
-		columns, *flags & FLAG_R);
+	if (*flags & FLAG_CC)
+	{
+		columns[8] = files->size;
+		ST_ITER(files, (void (*)(void *, void *))buf_col,
+			&columns[8], *flags & FLAG_R);
+	}
+	else
+		ST_ITER(files, (void (*)(void *, void *))print_stackfile,
+			columns, *flags & FLAG_R);
 }
