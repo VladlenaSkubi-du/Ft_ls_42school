@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/30 17:47:48 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 19:44:20 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void		separate_output(int flags, int *columns)
 		if (~flags & FLAG_GG)
 			while (columns[10] % 8 != 0)
 				columns[10]++;
+		else if (((flags & FLAG_GG) && (flags & FLAG_P)) || ((flags & FLAG_GG) && (flags & FLAG_FF)))
+			columns[10] += 2;
 		else
 			columns[10] += 1; // если есть G флаг, длина колонка 10 другая = самое длинное название + 1 пробел)
 		if (flags & FLAG_S)

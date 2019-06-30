@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/30 19:06:39 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 19:39:56 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static void		find_width(int len, int *columns)
 
 static void		fill_info_2(t_file *file, int *col)
 {
-	// char		*arr[3];
-	
 	if (col[5])
 	{
 		file->uid = getpwuid(file->info.st_uid);
@@ -51,7 +49,9 @@ static void		fill_info_2(t_file *file, int *col)
 		// file->name = ft_strjoin(file->color, ft_strrejoin(file->name, "\033[0m"));
 		file->name = ft_strrejoin(file->name, "\033[0m");
 	}
-	change_name(file, col[0]);	
+	change_name(file, col[0]);
+	// if ((col[0] & FLAG_GG) && (ft_strlen(file->name) - 1 == col[10]))
+	// 	col[10]++;
 }
 
 static void		fill_info_1(t_file *file, int *columns)

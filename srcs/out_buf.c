@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/30 19:15:54 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 19:19:33 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,13 @@ void			buf_col(t_file *file, int col[3])
 		size = col[0];
 		s_width = col[2];
 		// printf("%d\n", s_width);
-		t_width = ((int)(col[1] / s_width)) * (s_width + 12);
-		s_width += 12;
+		if (file->color[1])
+		{
+			t_width = ((int)(col[1] / s_width)) * (s_width + 12);
+			s_width += 12;
+		}
+		else
+			t_width = ((int)(col[1] / s_width)) * (s_width);
 		lines = (int)(t_width / s_width);
 		lines = (int)(size / lines + (size % lines ? 1 : 0));
 		arr = ft_xmalloc(sizeof(char *) * lines);
