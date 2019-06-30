@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/28 22:02:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 15:02:01 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,7 @@ int				main(int argc, char **argv)
 	params = ST_NEW();
 	ST_ADD(params, ST_NEW());
 	ST_ADD(params, ST_NEW());
-	/// ??? тут ёбается ???
-	// flags = isatty(1) ? (FLAG_CC | FLAG_ATTY) : FLAG_ONE;
-	flags = 0;
+	flags = isatty(1) ? (FLAG_CC | FLAG_ATTY) : FLAG_ONE;
 	if (!(args = get_args(&flags, argc, argv)))
 	{
 		args = ST_NEW();
