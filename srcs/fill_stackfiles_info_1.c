@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/28 21:45:37 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 19:06:39 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void		find_width(int len, int *columns)
 
 static void		fill_info_2(t_file *file, int *col)
 {
+	// char		*arr[3];
+	
 	if (col[5])
 	{
 		file->uid = getpwuid(file->info.st_uid);
@@ -41,7 +43,14 @@ static void		fill_info_2(t_file *file, int *col)
 	}
 	if (col[8])
 		fill_time(file, col);
-	(col[0] & FLAG_CC) ? find_width(ft_strlen(file->name), &col[10]) : 0; // узнаем длину до изменения имени ссылки
+	(col[0] & FLAG_CC) ? find_width(ft_strlen(file->name), &col[10]) : 0; // узнаем длину до изменения имени ссылки или Ф и п флагов
+	if (col[0] & FLAG_GG)
+	{
+		// ft_strcpy(file->color, "\033[37;40m");
+		color_stackfiles(file);
+		// file->name = ft_strjoin(file->color, ft_strrejoin(file->name, "\033[0m"));
+		file->name = ft_strrejoin(file->name, "\033[0m");
+	}
 	change_name(file, col[0]);	
 }
 
@@ -92,8 +101,8 @@ static void		width_init(int *columns, int flags)
 	}
 	if (flags & FLAG_G)
 		columns[5] = 0;
-	if (flags & (FLAG_GG | FLAG_FF))
-		columns[3] = 0;
+	// if (flags & (FLAG_GG | FLAG_FF))
+	// 	columns[3] = 0;
 	if (flags & FLAG_CC)
 		columns[10] = 1;
 }

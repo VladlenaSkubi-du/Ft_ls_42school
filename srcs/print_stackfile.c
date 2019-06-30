@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/28 21:33:29 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 17:47:48 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void				print_stackfile(t_file *file, int *col)
 		}
 		++ptr;
 	}
+	buf_add(file->color, 9);
 	buf_add(file->name, ft_strlen(file->name));
 	buf_add("\n", 1);
 }
@@ -102,8 +103,6 @@ void		separate_output(int flags, int *columns)
 			columns[10] += 1; // если есть G флаг, длина колонка 10 другая = самое длинное название + 1 пробел)
 		if (flags & FLAG_S)
 			columns[10] += columns[2] + 1; //один пробел между
-		if (flags & (FLAG_FF | FLAG_P))
-			columns[10] += 1; //к имени добавился знак
 	}
 }
 

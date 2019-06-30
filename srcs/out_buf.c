@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/28 21:40:29 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 19:15:54 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ void			buf_col(t_file *file, int col[3])
 	static int		size;
 	static int		t_width;
 	static int		s_width;
+	int				len;
+	char			*str;
 
 	if (!arr)
 	{
@@ -156,15 +158,22 @@ void			buf_col(t_file *file, int col[3])
 		size = col[0];
 		s_width = col[2];
 		// printf("%d\n", s_width);
-		t_width = ((int)(col[1] / s_width)) * s_width;
+		t_width = ((int)(col[1] / s_width)) * (s_width + 12);
+		s_width += 12;
 		lines = (int)(t_width / s_width);
 		lines = (int)(size / lines + (size % lines ? 1 : 0));
 		arr = ft_xmalloc(sizeof(char *) * lines);
 		while (i < lines)
 			arr[i++] = ft_xmalloc(t_width);
+		i = 0;
 	}
-	ft_memcpy(arr[i % lines] + (i / lines * col[2]), file->name, s_width);
-	ft_memset(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->name), ' ', s_width - ft_strlen(file->name));
-	if (i++ == col[0] + 1)
+	//len = ft_strlen(file->name) - (file->color[1] ? 4 : 0);
+	// len = ft_strlen(file->name) - (ft_strlen(file->color) ? ft_strlen(file->color) + 4 : 0);
+	str = ft_strjoin(file->color, file->name);
+	len = ft_strlen(str);
+	//printf("max = %d	%s  -  %d\n", s_width, str, ft_strlen(str));
+	ft_memcpy(arr[i % lines] + (i / lines * s_width), str, ft_strlen(str));
+	ft_memset(arr[i % lines] + (i / lines * s_width) + len, ' ', s_width - len);
+	if (i++ == col[0] - 1)
 		arr = buf_col_del(arr, lines, t_width);
 }
