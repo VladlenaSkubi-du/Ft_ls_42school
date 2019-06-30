@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/30 15:44:46 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 20:55:59 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct		s_file
 	struct group	*gid;
 	char			*size;
 	char			*time;
-	char			color[9];
+	char			color[12];
 	char			*name;
 	DIR				*dir;
 }					t_file;
@@ -110,6 +110,7 @@ void				change_name(t_file *file, int flags);
 void				separate_output(int flags, int *columns);
 void				print_stackfile(t_file *file, int *col);
 int					get_terminal_width(void);
+void        		color_stackfiles(t_file *file);
 void				buf_add(char *str, size_t size);
 void				buf_add_num(unsigned int n);
 void				buf_fill(char *str, size_t len, size_t size, int left);

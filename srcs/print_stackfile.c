@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/30 19:44:20 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 20:40:16 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void				print_stackfile(t_file *file, int *col)
 		}
 		++ptr;
 	}
-	buf_add(file->color, 9);
+	(col[0] & FLAG_GG) ? buf_add(file->color, 12) : 0;
 	buf_add(file->name, ft_strlen(file->name));
 	buf_add("\n", 1);
 }

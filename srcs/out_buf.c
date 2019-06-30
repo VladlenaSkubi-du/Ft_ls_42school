@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/30 19:19:33 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 21:28:53 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ static char		**buf_col_del(char **arr, int lines, int t_width)
 	// 	arr = buf_col_del(arr, lines, t_width);
 // }
 
-void			buf_col(t_file *file, int col[3])
+void			buf_col(t_file *file, int col[4])
 {
 	static char		**arr;
 	static int		lines;
@@ -155,16 +155,18 @@ void			buf_col(t_file *file, int col[3])
 	if (!arr)
 	{
 		i = 0;
-		size = col[0];
-		s_width = col[2];
+		size = col[1];
+		s_width = col[3];
 		// printf("%d\n", s_width);
 		if (file->color[1])
 		{
-			t_width = ((int)(col[1] / s_width)) * (s_width + 12);
-			s_width += 12;
+			// t_width = ((int)(col[1] / s_width)) * (s_width + 12);
+			// s_width += 12;
+			t_width = ((int)(col[2] / s_width)) * (s_width + 15);
+			s_width += 15;
 		}
 		else
-			t_width = ((int)(col[1] / s_width)) * (s_width);
+			t_width = ((int)(col[2] / s_width)) * (s_width);
 		lines = (int)(t_width / s_width);
 		lines = (int)(size / lines + (size % lines ? 1 : 0));
 		arr = ft_xmalloc(sizeof(char *) * lines);
@@ -179,6 +181,11 @@ void			buf_col(t_file *file, int col[3])
 	//printf("max = %d	%s  -  %d\n", s_width, str, ft_strlen(str));
 	ft_memcpy(arr[i % lines] + (i / lines * s_width), str, ft_strlen(str));
 	ft_memset(arr[i % lines] + (i / lines * s_width) + len, ' ', s_width - len);
-	if (i++ == col[0] - 1)
+	// ft_memset(arr[i % lines] + (i / lines * s_width), ' ', col[0] - ft_strlen(file->total));
+	// ft_memcpy(arr[i % lines] + (i / lines * s_width) + col[0] - ft_strlen(file->total), file->total, ft_strlen(file->total));
+	// ft_memcpy(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->total) + 1, str, ft_strlen(str));
+	// ft_memset(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->total) + 1 + len, ' ', s_width - len);
+	if (i++ == col[1] - 1)
 		arr = buf_col_del(arr, lines, t_width);
+	free(str);
 }

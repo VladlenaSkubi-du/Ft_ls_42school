@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/30 19:39:56 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/30 21:20:34 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ static void		find_width(int len, int *columns)
 
 static void		fill_info_2(t_file *file, int *col)
 {
-	if (col[5])
-	{
-		file->uid = getpwuid(file->info.st_uid);
-		if (file->uid == NULL)
-		{
-			perror("getpwuid");
-			exit(1);
-		}
-		find_width(ft_strlen(file->uid->pw_name), &col[5]);
-	}
+	// if (col[5])
+	// {
+	// 	file->uid = getpwuid(file->info.st_uid);
+	// 	if (file->uid == NULL)
+	// 	{
+	// 		perror("getpwuid");
+	// 		exit(1);
+	// 	}
+	// 	find_width(ft_strlen(file->uid->pw_name), &col[5]);
+	// }
 	if (col[6])
 	{
 		file->gid = getgrgid(file->info.st_gid);
@@ -120,7 +120,7 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 		ST_ITER(files, (void (*)(void *, void *))fill_info_1,
 				columns, *flags & FLAG_R);
 	separate_output(*flags, columns);
-	if ((*flags & FLAG_L) && ~*flags & FLAG_D && total)
+	if ((*flags & (FLAG_L | FLAG_G | FLAG_S)) && ~*flags & FLAG_D && total)
 	{
 		buf_add("total ", 6);
 		buf_add_num(columns[1]);
@@ -129,10 +129,12 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 	if (*flags & FLAG_CC)
 	{
 		columns[8] = files->size;
+		columns[7] = columns[2];
 		ST_ITER(files, (void (*)(void *, void *))buf_col,
-			&columns[8], *flags & FLAG_R);
+			&columns[7], *flags & FLAG_R);
 	}
 	else
 		ST_ITER(files, (void (*)(void *, void *))print_stackfile,
 			columns, *flags & FLAG_R);
+	ft_bzero(columns, sizeof(int) * 11);
 }

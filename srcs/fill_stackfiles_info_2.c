@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:26:28 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/18 19:08:51 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/30 20:47:45 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ void		fill_time(t_file *file, int *columns)
 	char			*tmp_time;
 	time_t			time_sec;
 
-	if ((columns[0] & FLAG_L) && (columns[0] & FLAG_U))
+	if ((columns[0] & (FLAG_L | FLAG_G)) && (columns[0] & FLAG_U))
 		time_sec = file->info.st_atime;
-	else if ((columns[0] & FLAG_L) && (columns[0] & FLAG_C))
+	else if ((columns[0] & (FLAG_L | FLAG_G)) && (columns[0] & FLAG_C))
 		time_sec = file->info.st_ctime;
 	else
 		time_sec = file->info.st_mtime;

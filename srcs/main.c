@@ -3,27 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/30 15:02:01 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/30 21:09:58 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+// void			del_file(t_file *file, void *null)
+// {
+// 	if (file && !null)
+// 	{
+		// if (file->path)
+		// 	free(file->path);
+// 		if (file->name)
+// 			free(file->name);
+		// if (file->dir)
+		// 	closedir(file->dir);
+// 		free(file);
+// 	}
+// }
+
 void			del_file(t_file *file, void *null)
 {
-	if (file && !null)
-	{
-		if (file->path)
-			free(file->path);
-		if (file->name)
-			free(file->name);
-		if (file->dir)
-			closedir(file->dir);
-		free(file);
-	}
+	void	*ptr;
+	
+	free(file->path);
+	free(file->total);
+	free(file->mode);
+	free(file->link);
+	free(file->size);
+	free(file->time);
+	free(file->name);
+	if (file->dir)
+		closedir(file->dir);
+	free(file);
 }
 
 static void		check_arg(t_file *file, t_stack *params)
