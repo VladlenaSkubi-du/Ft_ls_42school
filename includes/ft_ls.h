@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/30 14:59:24 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/06/30 15:44:46 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@
 # define FLAG_G 0x1000
 # define FLAG_SS 0x2000
 # define FLAG_CC 0x4000
-# define FLAG_FOLDER_RR 0x8000
-# define FLAG_C 0x10000
-# define FLAG_FF 0x20000
-# define FLAG_MINUS 0x40000
-# define FLAG_ATTY 0x80000
+# define FLAG_C 0x8000
+# define FLAG_FF 0x10000
+# define FLAG_MINUS 0x20000
+# define FLAG_ATTY 0x40000
+# define FLAG_FOLDER_RR 0x80000
 
 # define ST_NEW() stack_init()
 # define ST_ADD(x, data) x->add(x, data)
