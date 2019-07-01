@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/30 21:10:22 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/01 19:15:47 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void		print_inner(t_file *file, int *flags)
 static void		read_file(struct dirent *entry,
 									char *path, t_stack *files, int *flags)
 {
-	t_file		*file;
+	t_file				*file;
 
 	if (*entry->d_name == '.' && !(*flags & (FLAG_F | FLAG_A)))
 		return ;
@@ -65,13 +65,13 @@ static void		read_file(struct dirent *entry,
 	}
 	else
 		ST_ADD(files, file);
+	//возможно, нужно чистить здесь файл, потому что ты тут маллочишь его (и все составляющие) - но просто использовать del_file не получится - я пробовала
 }
 
 void			print_dir(t_file *file, int *flags)
 {
 	t_stack				*files;
 	struct dirent		*entry;
-	char				*tmp;
 
 	if (*flags & FLAG_FOLDER_RR)
 	{
@@ -87,7 +87,7 @@ void			print_dir(t_file *file, int *flags)
 	while ((entry = readdir(file->dir)))
 		read_file(entry, file->path, files, flags);
 	ST_SORT(files, files_sort(*flags));
-	fill_and_print_stackfiles(files, flags, 1);
+	fill_and_print_stackfiles(files, flags, files->size ? 1 : 0);
 	if (*flags & FLAG_RR)
 		ST_ITER(files, (void (*)(void *, void *))print_inner,
 											flags, *flags & FLAG_R);

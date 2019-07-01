@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:08:49 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/12 14:41:25 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/01 17:18:19 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,31 @@ void		ft_stradd_nb(char *s, long nb)
 	}
 }
 
-char        *ft_strs_rejoin(char *main, char **arr, int size) // new
+char		*ft_strs_rejoin(char *main, char **arr, int size)
 {
-    char    *res;
-    int     len;
-    int     i;
+	char	*res;
+	int		len;
+	int		i;
 
-    if (!main && !arr && size == 0)
-        return (NULL);
-    i = 0;
-    len = 0;
-    while (i < size)
-    {
-        len += ft_strlen(arr[i]);
-        i++;
-    }
-    if (!(res = (char*)malloc(len + 1)))
-        return (NULL);
-    i = 0;
-    while (i < size)
-    {
-        ft_strcat(res, arr[i]);
-        i++;
-    }
-    ft_strdel(&main);
-    return (res);
+	if (!main && !arr && size == 0)
+		return (NULL);
+	i = 0;
+	len = 0;
+	while (i < size)
+	{
+		len += ft_strlen(arr[i]);
+		i++;
+	}
+	if (!(res = (char*)malloc(len + 1)))
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		ft_strcat(res, arr[i]);
+		i++;
+	}
+	ft_strdel(&main);
+	return (res);
 }
 
 int			file_strcmp(t_file *left, t_file *right)

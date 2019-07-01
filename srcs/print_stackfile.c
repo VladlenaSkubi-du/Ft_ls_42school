@@ -3,61 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_stackfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/30 20:40:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/01 18:42:31 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-// Проблемы:
-											// at-e4% ./ft_ls -dl ./README.md ../7_Ft_printf_with_Petr /dev/rdisk0
-
-// drwxr-xr-x  16 sschmele  2018          544 Apr 27 16:15 ../7_Ft_printf_with_Petr
-// -rw-r--r--   1 sschmele  2018        10698 Jun  7 11:33 ./README.md
-// crw-r-----   1 root      operator   1,   0 Jun 15 16:49 /dev/rdisk0
-
-											// at-e4% ls -dl ./README.md ../7_Ft_printf_with_Petr /dev/rdisk0
-
-// drwxr-xr-x  16 sschmele  2018           544 Apr 27 16:15 ../7_Ft_printf_with_Pet
-// r
-// -rw-r--r--   1 sschmele  2018         10698 Jun  7 11:33 ./README.md
-// crw-r-----   1 root      operator    1,   0 Jun 15 16:49 /dev/rdisk0
-
-											// at-e4% ls -dl ./README.md ../7_Ft_printf_with_Petr /dev/xcpm
-
-// drwxr-xr-x  16 sschmele  2018                544 Apr 27 16:15 ../7_Ft_printf_wit
-// h_Petr
-// -rw-r--r--   1 sschmele  2018              10698 Jun  7 11:33 ./README.md
-// crw-rw----   1 root      _windowserver   19,   0 Jun 15 16:49 /dev/xcpm
-
-											// at-e4% ./ft_ls -dl ./README.md ../7_Ft_printf_with_Petr /dev/xcpm
-
-// drwxr-xr-x  16 sschmele  2018                544 Apr 27 16:15 ../7_Ft_printf_wit
-// h_Petr
-// -rw-r--r--   1 sschmele  2018              10698 Jun  7 11:33 ./README.md
-// crw-rw----   1 root      _windowserver   19,   0 Jun 15 16:49 /dev/xcpm
-
-											// at-e4% ./ft_ls -dl ./README.md ../7_Ft_printf_with_Petr /dev/ttyp4
-
-// drwxr-xr-x  16 sschmele  2018       544 Apr 27 16:15 ../7_Ft_printf_with_Petr
-// -rw-r--r--   1 sschmele  2018     10698 Jun  7 11:33 ./README.md
-
-											// crw-rw-rw-   1 root      wheel   4,   4 Jun 15 16:49 /dev/ttyp4
-
-// at-e4% ls -dl ./README.md ../7_Ft_printf_with_Petr /dev/ttyp4
-// drwxr-xr-x  16 sschmele  2018        544 Apr 27 16:15 ../7_Ft_printf_with_Petr
-// -rw-r--r--   1 sschmele  2018      10698 Jun  7 11:33 ./README.md
-// crw-rw-rw-   1 root      wheel    4,   4 Jun 15 16:49 /dev/ttyp4
-
-// t-e4% ls -l /dev/tty
-// crw-rw-rw-  1 root  wheel    2,   0 Jun 15 16:49 /dev/tty
-// at-e4% ./ft_ls -l /dev/tty
-// crw-rw-rw-  1 root  wheel   2,   0 Jun 15 16:49 /dev/tty
-
-void				print_stackfile(t_file *file, int *col)
+void		print_stackfile(t_file *file, int *col)
 {
 	int				i;
 	void			**ptr;
@@ -79,32 +34,43 @@ void				print_stackfile(t_file *file, int *col)
 			else
 				buf_fill(*ptr, ft_strlen(*ptr), col[i], i == 3 ? 1 : 0);
 			(i == 5 || i == 6) ? buf_add("  ", 2) : buf_add(" ", 1);
-			
 		}
 		++ptr;
 	}
-	(col[0] & FLAG_GG) ? buf_add(file->color, 12) : 0;
+	((col[0] & FLAG_GG) && (col[0] & FLAG_ATTY)) ? buf_add(file->color, 12) : 0;
 	buf_add(file->name, ft_strlen(file->name));
 	buf_add("\n", 1);
 }
 
-void		separate_output(int flags, int *columns)
+/*
+**If there is a G-flag, the tabs after file-names are changed to one space;
+**If the term-width is too narrow, C-flag is turned off and a -1 flag is
+**turned on;
+**If there are changes in longest file-name after the change_name function
+**(these are -F and -p flags), one space to columns[10] (output-columns width
+**for -C flag) is added.
+*/
+
+void		separate_output(int *flags, int *columns)
 {
-	if (flags & FLAG_ATTY)
-		columns[9] = get_terminal_width();
-	else
-		columns[9] = 80;
-	if (flags & FLAG_CC)
+	columns[9] = (*flags & FLAG_ATTY) ? get_terminal_width() : 80;
+	if (columns[9] < columns[10] * 2)
 	{
-		if (~flags & FLAG_GG)
+		*flags ^= FLAG_CC;
+		*flags |= FLAG_ONE;
+	}
+	if (*flags & FLAG_CC)
+	{
+		if (~*flags & FLAG_GG)
 			while (columns[10] % 8 != 0)
 				columns[10]++;
-		else if (((flags & FLAG_GG) && (flags & FLAG_P)) || ((flags & FLAG_GG) && (flags & FLAG_FF)))
+		else if (((*flags & FLAG_GG) && (*flags & FLAG_P)) ||
+		((*flags & FLAG_GG) && (*flags & FLAG_FF)))
 			columns[10] += 2;
 		else
-			columns[10] += 1; // если есть G флаг, длина колонка 10 другая = самое длинное название + 1 пробел)
-		if (flags & FLAG_S)
-			columns[10] += columns[2] + 1; //один пробел между
+			columns[10] += 1;
+		if (*flags & FLAG_S)
+			columns[10] += columns[2] + 1;
 	}
 }
 

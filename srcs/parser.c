@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/06/30 14:58:26 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/01 16:50:09 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ static void		allocate_by_flags_2(int *flags, int cur_flag)
 		if ((cur_flag & FLAG_FF) && (*flags & FLAG_P))
 			*flags ^= FLAG_P;
 	}
+	if (*flags & FLAG_ONE)
+	{
+		(cur_flag & FLAG_L) ? *flags ^= FLAG_ONE : 0;
+		(cur_flag & FLAG_G) ? *flags ^= FLAG_ONE : 0;
+		if ((cur_flag & FLAG_ONE) && (*flags & FLAG_G))
+			*flags ^= FLAG_G;
+		if ((cur_flag & FLAG_ONE) && (*flags & FLAG_L))
+			*flags ^= FLAG_L;
+	}
 }
 
 static void		allocate_by_flags_1(int *flags, int cur_flag)
@@ -37,8 +46,6 @@ static void		allocate_by_flags_1(int *flags, int cur_flag)
 		(*flags & FLAG_T) ? *flags ^= FLAG_T : *flags;
 		(*flags & FLAG_SS) ? *flags ^= FLAG_SS : *flags;
 	}
-	// -l -g зависимость
-	// обратить внимание на взаимоисключаемость -1 и -C и [-lg -> -1]
 	if (*flags & FLAG_CC)
 	{
 		(cur_flag & FLAG_ONE) ? *flags ^= FLAG_CC : 0;
@@ -51,16 +58,11 @@ static void		allocate_by_flags_1(int *flags, int cur_flag)
 		if ((cur_flag & FLAG_CC) && (*flags & FLAG_L))
 			*flags ^= FLAG_L;
 	}
-	if ((*flags & FLAG_C) || (*flags & FLAG_FF))
+	if ((*flags & FLAG_C) || (*flags & FLAG_FF) || (*flags & FLAG_ONE))
 		allocate_by_flags_2(flags, cur_flag);
 }
 
-// Проблема:
-// at-e4% ./ft_ls -Fl
-// ft_ls: illegal option -- l
-// usage: ft_ls [-1lrRatGpsufdgSCcF] [file ...]
-
-static void		get_flags(char *arg, int *flags)
+static void		get_flags(char *arg, int *flags, char *program)
 {
 	int			i;
 
@@ -75,7 +77,8 @@ static void		get_flags(char *arg, int *flags)
 	}
 	if (*arg)
 	{
-		buf_err("ft_ls: illegal option -- ");
+		buf_err(program);
+		buf_err(": illegal option -- ");
 		ft_printerr(arg, 1);
 		buf_err("\n");
 		usage();
@@ -92,7 +95,7 @@ t_stack			*get_args(int *flags, int argc, char **argv)
 	filenames = NULL;
 	while (++i < argc)
 		if (*argv[i] == '-' && !(*flags & FLAG_MINUS))
-			get_flags(argv[i], flags);
+			get_flags(argv[i], flags, argv[0]);
 		else
 			break ;
 	if (i < argc)

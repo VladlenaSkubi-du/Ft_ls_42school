@@ -3,16 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:26:28 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/30 20:47:45 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/01 17:13:12 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void			get_acl(t_file *file)
+/*
+**An ACL entry specifies the access permissions on the associated object
+**for an individual user or a group of users as a combination of read,
+**write and search/execute permissions.
+*/
+
+static void		get_acl(t_file *file)
 {
 	ssize_t			xattr;
 	acl_t			acl;
@@ -34,7 +40,7 @@ static void			get_acl(t_file *file)
 		file->mode[10] = ' ';
 }
 
-void		fill_mode(t_file *file)
+void			fill_mode(t_file *file)
 {
 	mode_t			m;
 
@@ -59,7 +65,16 @@ void		fill_mode(t_file *file)
 	get_acl(file);
 }
 
-void		fill_time(t_file *file, int *columns)
+/*
+**Default time for -l or -g flag is - time of last modification;
+**with -ul or -ug flags - time of last access;
+**with -cl or -cg flags - time of last status change.
+**The time-format: 12-chars string with
+**"[three chars for month] [day] [hours:minutes]" or
+**"[three chars for month] [year]" if file-time is more that half a year old.
+*/
+
+void			fill_time(t_file *file, int *columns)
 {
 	char			*tmp_time;
 	time_t			time_sec;
@@ -73,7 +88,7 @@ void		fill_time(t_file *file, int *columns)
 	file->time = (char*)ft_xmalloc(12);
 	tmp_time = ctime(&time_sec);
 	file->time = ft_strncpy(file->time, &(tmp_time[4]), 6);
-	if ((time(NULL) - time_sec) < (31556926 / 2))
+	if ((time(NULL) - time_sec < 31556926 / 2) && (time(NULL) - time_sec >= 0))
 		file->time = ft_strncat(file->time, &(tmp_time[10]), 6);
 	else
 	{
@@ -89,9 +104,9 @@ void		fill_time(t_file *file, int *columns)
 **that is st_rdev from struct stat.
 */
 
-void			fill_minmaz(t_file *file) // костыль на костыле
+void			fill_minmaz(t_file *file)
 {
-	int 			i;
+	int				i;
 	char			*maj;
 	char			*min;
 
@@ -110,7 +125,7 @@ void			fill_minmaz(t_file *file) // костыль на костыле
 void			change_name(t_file *file, int flags)
 {
 	char			*buf_l;
- 	int				t;
+	int				t;
 
 	if (file->type == 'd' && (flags & (FLAG_P | FLAG_FF)))
 		file->name = ft_strrejoin(file->name, "/");

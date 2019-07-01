@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/30 20:55:59 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/01 19:14:12 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@
 # include <errno.h>
 # include "libft.h"
 # include "ft_printf.h"
-
-# include <sys/acl.h> //для acl
-# include <sys/ioctl.h> //для ширины терминала
+# include <sys/acl.h>
+# include <sys/ioctl.h>
 # include <dirent.h>
 
 # define OUT_BUF (size_t)100000
@@ -62,7 +61,7 @@
 # define ST_DEL(x) x = x->del(x)
 # define ST_ITER(x, f, param, rev) x->iter(x, f, param, rev)
 
-typedef struct	s_stack
+typedef struct			s_stack
 {
 	void				**data;
 	size_t				size;
@@ -71,53 +70,54 @@ typedef struct	s_stack
 	void				(*iter)(struct s_stack *, void (*f)(void *, void *),
 													void *param, int reverse);
 	void				(*sort)(struct s_stack*, int (*f)(void *, void *));
-	struct	s_stack		*(*del)(struct s_stack *);
-}				t_stack;
+	struct s_stack		*(*del)(struct s_stack *);
+}						t_stack;
 
-typedef struct		s_file
+typedef struct			s_file
 {
-	char			*path;
-	struct stat		info;
-	char			type;
-	char			*total;
-	char			*mode;
-	char			*link;
-	struct passwd	*uid;
-	struct group	*gid;
-	char			*size;
-	char			*time;
-	char			color[12];
-	char			*name;
-	DIR				*dir;
-}					t_file;
+	char				*path;
+	struct stat			info;
+	char				type;
+	char				*total;
+	char				*mode;
+	char				*link;
+	struct passwd		*uid;
+	struct group		*gid;
+	char				*size;
+	char				*time;
+	char				color[12];
+	char				*name;
+	DIR					*dir;
+}						t_file;
 
-t_stack				*stack_init();
-t_stack				*get_args(int *flags,  int argc, char **argv);
-void				fill_type(t_file *file);
-void				st_sort(t_stack *me, int (*f)(void *, void *));
-void				print_dir(t_file *file, int *flags);
-void				print_err(char *dirname);
-void  				usage(void);
-void				ft_printerr(char *str, size_t size);
-void				*files_sort(int flags);
-int					file_strcmp(t_file *left, t_file *right);
-void				fill_and_print_stackfiles(t_stack *files, int *flags, int total);
-void				fill_mode(t_file *file);
-void				fill_time(t_file *file, int *columns);
-void				fill_link(t_file *file);
-void				fill_minmaz(t_file *file);
-void				change_name(t_file *file, int flags);
-void				separate_output(int flags, int *columns);
-void				print_stackfile(t_file *file, int *col);
-int					get_terminal_width(void);
-void        		color_stackfiles(t_file *file);
-void				buf_add(char *str, size_t size);
-void				buf_add_num(unsigned int n);
-void				buf_fill(char *str, size_t len, size_t size, int left);
-void				buf_err(char *str);
-void				buf_col(t_file *file, int col[3]);
-void				del_file(t_file *file, void *null);
-void				*ft_xmalloc(size_t size);
-void				ft_stradd_nb(char *s, long nb);
-char        		*ft_strs_rejoin(char *main, char **arr, int size);
+t_stack					*stack_init();
+t_stack					*get_args(int *flags, int argc, char **argv);
+void					fill_type(t_file *file);
+void					st_sort(t_stack *me, int (*f)(void *, void *));
+void					print_dir(t_file *file, int *flags);
+void					print_err(char *dirname);
+void					usage(void);
+void					ft_printerr(char *str, size_t size);
+void					*files_sort(int flags);
+int						file_strcmp(t_file *left, t_file *right);
+void					fill_and_print_stackfiles(t_stack *files,
+							int *flags, int total);
+void					fill_mode(t_file *file);
+void					fill_time(t_file *file, int *columns);
+void					fill_link(t_file *file);
+void					fill_minmaz(t_file *file);
+void					change_name(t_file *file, int flags);
+void					separate_output(int *flags, int *columns);
+void					print_stackfile(t_file *file, int *col);
+int						get_terminal_width(void);
+void					color_stackfiles(t_file *file);
+void					buf_add(char *str, size_t size);
+void					buf_add_num(unsigned int n);
+void					buf_fill(char *str, size_t len, size_t size, int left);
+void					buf_err(char *str);
+void					buf_col(t_file *file, int col[3]);
+void					del_file(t_file *file, void *null);
+void					*ft_xmalloc(size_t size);
+void					ft_stradd_nb(char *s, long nb);
+char					*ft_strs_rejoin(char *main, char **arr, int size);
 #endif

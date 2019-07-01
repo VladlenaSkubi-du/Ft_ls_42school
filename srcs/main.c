@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/06/30 21:09:58 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/01 19:20:22 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@
 
 void			del_file(t_file *file, void *null)
 {
-	void	*ptr;
-	
+	null = 0;
 	free(file->path);
 	free(file->total);
 	free(file->mode);
@@ -46,10 +45,15 @@ static void		check_arg(t_file *file, t_stack *params)
 {
 	t_stack		*dirs;
 	t_stack		*files;
+	int			tmp;
 
 	files = params->data[0];
 	dirs = params->data[1];
-	if (!lstat(file->name, &file->info))
+	if (params->size & (FLAG_G | FLAG_L))
+		tmp = lstat(file->name, &file->info);
+	else
+		tmp = stat(file->name, &file->info);
+	if (!tmp)
 	{
 		if (file->info.st_mode & S_IFDIR && ~params->size & FLAG_D)
 			ST_ADD(dirs, file);
@@ -73,7 +77,8 @@ static void		throw_args(t_stack *args, t_stack *params, int flags)
 	ST_ITER(args, (void (*)(void *, void *))check_arg, params, flags & FLAG_R);
 	if (dirs->data && dirs->data[0] && dirs->data[1])
 		flags |= FLAG_FOLDER_RR;
-	fill_and_print_stackfiles(files, &flags, 0);
+	if (files->data[0])
+		fill_and_print_stackfiles(files, &flags, 0); //нужно какое-то условие
 	ST_ITER(dirs, (void (*)(void *, void *))print_dir, &flags,
 														flags & FLAG_R);
 	ST_ITER(args, (void (*)(void *, void *))del_file, NULL, 0);
@@ -104,5 +109,7 @@ int				main(int argc, char **argv)
 	throw_args(args, params, flags);
 	ST_DEL(params);
 	buf_add(NULL, 0);
+	if (errno)
+		return (1);
 	return (0);
 }

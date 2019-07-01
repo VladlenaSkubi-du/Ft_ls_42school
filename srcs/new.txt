@@ -57,3 +57,24 @@ static int		get_terminal_width(void)
 **that is st_rdev from struct stat.
 */
 
+printf("\n");
+	printf("ONE %d\n", columns[0] & FLAG_ONE);
+	printf("l %d\n", columns[0] & FLAG_L);
+	printf("r %d\n", columns[0] & FLAG_R);
+	printf("R %d\n", columns[0] & FLAG_RR);
+	printf("a %d\n", columns[0] & FLAG_A);
+	printf("G %d\n", columns[0] & FLAG_GG);
+	printf("p %d\n", columns[0] & FLAG_P);
+	printf("s %d\n", columns[0] & FLAG_S);
+	printf("u %d\n", columns[0] & FLAG_U);
+	printf("f %d\n", columns[0] & FLAG_F);
+	printf("d %d\n", columns[0] & FLAG_D);
+	printf("g %d\n", columns[0] & FLAG_G);
+	printf("S %d\n", columns[0] & FLAG_SS);
+	printf("C %d\n", columns[0] & FLAG_CC);
+	printf("c %d\n", columns[0] & FLAG_C);
+	printf("F %d\n", columns[0] & FLAG_FF);
+	printf("MINUS %d\n", columns[0] & FLAG_MINUS);
+	printf("ATTY %d\n", columns[0] & FLAG_ATTY);
+	printf("FOLDER_RR %d\n", columns[0] & FLAG_FOLDER_RR);
+	printf("\n");
