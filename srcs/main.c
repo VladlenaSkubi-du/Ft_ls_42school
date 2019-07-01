@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/01 19:20:22 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/01 21:11:19 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ static void		check_arg(t_file *file, t_stack *params)
 	if (!tmp)
 	{
 		if (file->info.st_mode & S_IFDIR && ~params->size & FLAG_D)
-			ST_ADD(dirs, file);
+			dirs->add(dirs, file);
 		else
-			ST_ADD(files, file);
+			files->add(files, file);
 		if (params->size & (FLAG_L | FLAG_GG | FLAG_FF | FLAG_G))
 			fill_type(file);
 	}
@@ -74,17 +74,17 @@ static void		throw_args(t_stack *args, t_stack *params, int flags)
 	files = params->data[0];
 	dirs = params->data[1];
 	params->size = flags;
-	ST_ITER(args, (void (*)(void *, void *))check_arg, params, flags & FLAG_R);
+	args->iter(args, (void (*)(void *, void *))check_arg, params, 0);
 	if (dirs->data && dirs->data[0] && dirs->data[1])
 		flags |= FLAG_FOLDER_RR;
 	if (files->data[0])
 		fill_and_print_stackfiles(files, &flags, 0); //нужно какое-то условие
-	ST_ITER(dirs, (void (*)(void *, void *))print_dir, &flags,
+	dirs->iter(dirs, (void (*)(void *, void *))print_dir, &flags,
 														flags & FLAG_R);
-	ST_ITER(args, (void (*)(void *, void *))del_file, NULL, 0);
-	ST_DEL(files);
-	ST_DEL(dirs);
-	ST_DEL(args);
+	args->iter(args, (void (*)(void *, void *))del_file, NULL, 0);
+	files->del(files);
+	dirs->del(dirs);
+	args->del(args);
 }
 
 int				main(int argc, char **argv)
@@ -94,20 +94,20 @@ int				main(int argc, char **argv)
 	t_file		*file;
 	t_stack		*params;
 
-	params = ST_NEW();
-	ST_ADD(params, ST_NEW());
-	ST_ADD(params, ST_NEW());
+	params = stack_init();
+	params->add(params, stack_init());
+	params->add(params, stack_init());
 	flags = isatty(1) ? (FLAG_CC | FLAG_ATTY) : FLAG_ONE;
 	if (!(args = get_args(&flags, argc, argv)))
 	{
-		args = ST_NEW();
+		args = stack_init();
 		file = (t_file *)ft_xmalloc(sizeof(t_file));
 		file->name = ft_strdup(".");
 		file->path = ft_strdup(file->name);
-		ST_ADD(args, file);
+		args->add(args, file);
 	}
 	throw_args(args, params, flags);
-	ST_DEL(params);
+	params->del(params);
 	buf_add(NULL, 0);
 	if (errno)
 		return (1);

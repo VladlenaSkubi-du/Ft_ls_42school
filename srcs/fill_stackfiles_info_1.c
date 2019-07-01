@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/01 19:25:41 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/01 21:10:29 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 		width_init(columns, *flags);
 	if (*flags & (FLAG_L | FLAG_S | FLAG_G | FLAG_GG | FLAG_P |
 				FLAG_FF | FLAG_CC))
-		ST_ITER(files, (void (*)(void *, void *))fill_info_1,
+		files->iter(files, (void (*)(void *, void *))fill_info_1,
 				columns, *flags & FLAG_R);
 	separate_output(flags, columns);
 	if ((*flags & (FLAG_L | FLAG_G | FLAG_S)) && ~*flags & FLAG_D && total)
@@ -168,10 +168,10 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 	columns[8] = (*flags & FLAG_CC) ? files->size : columns[8];
 	columns[7] = (*flags & FLAG_CC) ? columns[2] : columns[7];
 	if (*flags & FLAG_CC)
-		ST_ITER(files, (void (*)(void *, void *))buf_col,
+		files->iter(files, (void (*)(void *, void *))buf_col,
 				&columns[7], *flags & FLAG_R);
 	else
-		ST_ITER(files, (void (*)(void *, void *))print_stackfile,
+		files->iter(files, (void (*)(void *, void *))print_stackfile,
 			columns, *flags & FLAG_R);
 	ft_bzero(columns, sizeof(int) * 11);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/01 19:14:12 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/01 21:11:43 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@
 # define FLAG_ATTY 0x40000
 # define FLAG_FOLDER_RR 0x80000
 
-# define ST_NEW() stack_init()
-# define ST_ADD(x, data) x->add(x, data)
-# define ST_SORT(x, f) x->sort(x, f)
-# define ST_DEL(x) x = x->del(x)
-# define ST_ITER(x, f, param, rev) x->iter(x, f, param, rev)
+// # define ST_NEW() stack_init()
+// # define ST_ADD(x, data) x->add(x, data)
+// # define ST_SORT(x, f) x->sort(x, f)
+// # define ST_DEL(x) x = x->del(x)
+// # define ST_ITER(x, f, param, rev) x->iter(x, f, param, rev)
 
 typedef struct			s_stack
 {

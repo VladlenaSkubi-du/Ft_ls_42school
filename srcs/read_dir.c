@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/01 19:15:47 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/01 21:11:52 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ static void		read_file(struct dirent *entry,
 			fill_type_entry(entry->d_type, file);
 		file->path = ft_strrejoin(ft_strjoin(path, "/"), entry->d_name);
 		if (!lstat(file->path, &file->info))
-			ST_ADD(files, file);
+			files->add(files, file);
 		else
 			del_file(file, NULL);
 	}
 	else
-		ST_ADD(files, file);
+		files->add(files, file);
 	//возможно, нужно чистить здесь файл, потому что ты тут маллочишь его (и все составляющие) - но просто использовать del_file не получится - я пробовала
 }
 
@@ -83,14 +83,14 @@ void			print_dir(t_file *file, int *flags)
 		print_err(file->name);
 		return ;
 	}
-	files = ST_NEW();
+	files = stack_init();
 	while ((entry = readdir(file->dir)))
 		read_file(entry, file->path, files, flags);
-	ST_SORT(files, files_sort(*flags));
+	files->sort(files, files_sort(*flags));
 	fill_and_print_stackfiles(files, flags, files->size ? 1 : 0);
 	if (*flags & FLAG_RR)
-		ST_ITER(files, (void (*)(void *, void *))print_inner,
+		files->iter(files, (void (*)(void *, void *))print_inner,
 											flags, *flags & FLAG_R);
-	ST_ITER(files, (void (*)(void *, void *))del_file, NULL, 0);
-	ST_DEL(files);
+	files->iter(files, (void (*)(void *, void *))del_file, NULL, 0);
+	files->del(files);
 }
