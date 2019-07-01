@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/01 20:25:54 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/01 21:33:08 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,13 +178,13 @@ void			buf_col(t_file *file, int col[4])
 	str = (file->color[1]) ? ft_strjoin(file->color, file->name) : ft_strdup(file->name);
 	len = ft_strlen(str);
 	//printf("max = %d	%s  -  %d\n", s_width, str, ft_strlen(str));
-	// ft_memcpy(arr[i % lines] + (i / lines * s_width), str, ft_strlen(str));
-	// ft_memset(arr[i % lines] + (i / lines * s_width) + len, ' ', s_width - len); //в G-флаге будут пробелы
-	ft_memset(arr[i % lines] + (i / lines * s_width), ' ', col[0] - ft_strlen(file->total));
-	ft_memcpy(arr[i % lines] + (i / lines * s_width) + col[0] - ft_strlen(file->total), file->total, ft_strlen(file->total));
-	ft_memcpy(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->total) + 1, str, ft_strlen(str));
-	ft_memset(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->total) + 1 + len, ' ', s_width - len);
+	ft_memcpy(arr[i % lines] + (i / lines * s_width), str, ft_strlen(str));
+	ft_memset(arr[i % lines] + (i / lines * s_width) + len, ' ', s_width - len); //в G-флаге будут пробелы
+	// ft_memset(arr[i % lines] + (i / lines * s_width), ' ', col[0] - ft_strlen(file->total));
+	// ft_memcpy(arr[i % lines] + (i / lines * s_width) + col[0] - ft_strlen(file->total), file->total, ft_strlen(file->total));
+	// ft_memcpy(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->total) + 1, str, ft_strlen(str));
+	// ft_memset(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->total) + 1 + len, ' ', s_width - len);
 	if (i++ == col[1] - 1)
-		arr = buf_col_del(arr, lines, t_width);	
+		arr = buf_col_del(arr, lines, t_width);
 	free(str);
 }
