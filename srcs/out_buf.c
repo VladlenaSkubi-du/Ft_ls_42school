@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/01 21:33:08 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 12:59:18 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,112 +79,59 @@ void		buf_add(char *str, size_t size)
 	}
 }
 
-static char		**buf_col_del(char **arr, int lines, int t_width)
+static char		**buf_col_del(t_buf *buf)
 {
-	int		i;
-	
-	i = -1;
-	while (++i < lines)
+	buf->i = -1;
+	while (++buf->i < buf->lines)
 	{
-		buf_add(arr[i], t_width);
+		buf_add(buf->arr[buf->i], buf->t_width);
 		buf_add("\n", 1);
 	}
-	free(arr);
+	free(buf->arr);
 	return (NULL);
 }
 
-// static void		buf_col_fill(t_file *file, int size, int t_width, int s_width)
-// {
-// 	static char		**arr;
-// 	static int		i;
-// 	static int		lines;
-
-// 	ft_memcpy(arr[i % lines] + (i / lines * s_width), file->name, s_width);
-// 	ft_memset(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->name), ' ', s_width - ft_strlen(file->name));
-// }
-//
-// static int		buf_col_init(int col[3], char ***arr, int *lines, int *t_width)
-// {
-// 	int		size;
-// 	int		s_width;
-// 	int		i;
-
-// 	size = col[0];
-// 	s_width = col[2];
-// 	*t_width = ((int)(col[1] / s_width)) * s_width;
-// 	*lines = (int)(*t_width / s_width);
-// 	*lines = (int) (size / *lines + (size % *lines ? 1 : 0));
-// 	arr = ft_xmalloc(sizeof(char *) * *lines);
-// 	i = 0;
-	// while (i < *lines)
-	// 	arr[i++] = ft_xmalloc(*t_width);
-// 	return (0);
-// }
-
-// void			buf_col(t_file *file, int col[3])
-// {
-// 	static char		**arr;
-// 	static int		lines;
-// 	static int		i;
-// 	static int		t_width;
-// 	static int		s_width;
-	
-// 	if (!arr)
-// 		i = buf_col_init(col, &arr, &lines, &t_width);
-// 	else
-// 	{
-// 		ft_memcpy(arr[i % lines] + (i / lines * col[2]), file->name, s_width);
-// 	}
-// 	buf_col_fill(file, arr, lines, i);
-	// if (++i == col[0])
-	// 	arr = buf_col_del(arr, lines, t_width);
-// }
+static void		buf_col_init(t_file *file, int col[4], t_buf *buf)
+{
+	buf->i = 0;
+	buf->size = col[1];
+	buf->s_width = col[3];
+	if (file->color[1])	//должно быть ненужно при выводе в файл - нужно ориентироваться на флаг ATTY
+	{
+		buf->t_width = ((int)(col[2] / buf->s_width)) * (buf->s_width + 15);
+		buf->s_width += 15;
+	}
+	else
+		buf->t_width = ((int)(col[2] / buf->s_width)) * (buf->s_width);
+	buf->lines = (int)(buf->t_width / buf->s_width);
+	buf->lines = (int)(buf->size / buf->lines +
+								(buf->size % buf->lines ? 1 : 0));
+	buf->arr = ft_xmalloc(sizeof(char *) * buf->lines);
+	while (buf->i < buf->lines)
+		buf->arr[buf->i++] = ft_xmalloc(buf->t_width);
+	buf->i = 0;
+}
 
 void			buf_col(t_file *file, int col[4])
 {
-	static char		**arr;
-	static int		lines;
-	static int		i;
-	static int		size;
-	static int		t_width;
-	static int		s_width;
+	static t_buf	buf;
 	int				len;
-	int				len_name;
-	char			*str;			
+	char			*str;
 
-	if (!arr)
-	{
-		i = 0;
-		size = col[1];
-		s_width = col[3];
-		if (file->color[1])									 //должно быть ненужно при выводе в файл - нужно ориентироваться на флаг ATTY
-		{
-			t_width = ((int)(col[2] / s_width)) * (s_width + 15);
-			s_width += 15;
-		}
-		else
-			t_width = ((int)(col[2] / s_width)) * (s_width);
-		lines = (int)(t_width / s_width);
-		lines = (int)(size / lines + (size % lines ? 1 : 0));
-		arr = ft_xmalloc(sizeof(char *) * lines);
-		while (i < lines)
-			arr[i++] = ft_xmalloc(t_width);
-		i = 0;
-	}
-	len_name = ft_strlen(file->name);
-	//printf("%s - max: %lu\n", file->name, (s_width - ft_strlen(file->name)) / 8);
-	//len = ft_strlen(file->name) - (file->color[1] ? 4 : 0);
-	// len = ft_strlen(file->name) - (ft_strlen(file->color) ? ft_strlen(file->color) + 4 : 0);
-	str = (file->color[1]) ? ft_strjoin(file->color, file->name) : ft_strdup(file->name);
+	if (!buf.arr)
+		buf_col_init(file, col, &buf);
+	str = (file->color[1]) ?
+			ft_strjoin(file->color, file->name) : ft_strdup(file->name);
 	len = ft_strlen(str);
-	//printf("max = %d	%s  -  %d\n", s_width, str, ft_strlen(str));
-	ft_memcpy(arr[i % lines] + (i / lines * s_width), str, ft_strlen(str));
-	ft_memset(arr[i % lines] + (i / lines * s_width) + len, ' ', s_width - len); //в G-флаге будут пробелы
-	// ft_memset(arr[i % lines] + (i / lines * s_width), ' ', col[0] - ft_strlen(file->total));
-	// ft_memcpy(arr[i % lines] + (i / lines * s_width) + col[0] - ft_strlen(file->total), file->total, ft_strlen(file->total));
-	// ft_memcpy(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->total) + 1, str, ft_strlen(str));
-	// ft_memset(arr[i % lines] + (i / lines * s_width) + ft_strlen(file->total) + 1 + len, ' ', s_width - len);
-	if (i++ == col[1] - 1)
-		arr = buf_col_del(arr, lines, t_width);
+	ft_memset(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width),
+					' ', col[0] - ft_strlen(file->total));
+	ft_memcpy(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width)
+		+ col[0] - ft_strlen(file->total), file->total, ft_strlen(file->total));
+	ft_memcpy(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width) +
+							col[0] + 1, str, ft_strlen(str));
+	ft_memset(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width) +
+						col[0] + 1 + len, ' ', buf.s_width - len);
+	if (buf.i++ == col[1] - 1)
+		buf.arr = buf_col_del(&buf);
 	free(str);
 }

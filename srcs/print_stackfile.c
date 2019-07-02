@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_stackfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/01 18:42:31 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:57:44 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ void		print_stackfile(t_file *file, int *col)
 	void			**ptr;
 
 	i = 1;
-	ptr = (void **)&file->total;
-	while (++i < 9)
-	{
+	ptr = (void **)&file->total - 1;
+	while (++i < 9 && ++ptr)
 		if (col[i])
 		{
 			if (i == 5)
@@ -35,8 +34,6 @@ void		print_stackfile(t_file *file, int *col)
 				buf_fill(*ptr, ft_strlen(*ptr), col[i], i == 3 ? 1 : 0);
 			(i == 5 || i == 6) ? buf_add("  ", 2) : buf_add(" ", 1);
 		}
-		++ptr;
-	}
 	((col[0] & FLAG_GG) && (col[0] & FLAG_ATTY)) ? buf_add(file->color, 12) : 0;
 	buf_add(file->name, ft_strlen(file->name));
 	buf_add("\n", 1);

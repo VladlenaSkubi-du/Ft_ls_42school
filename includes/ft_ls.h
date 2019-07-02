@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/01 21:11:43 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 12:47:29 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,17 @@ typedef struct			s_file
 	char				*name;
 	DIR					*dir;
 }						t_file;
+
+typedef struct			s_buf
+{
+	char		**arr;
+	int			lines;
+	int			i;
+	int			size;
+	int			t_width;
+	int			s_width;
+}						t_buf;
+
 
 t_stack					*stack_init();
 t_stack					*get_args(int *flags, int argc, char **argv);
