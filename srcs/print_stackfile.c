@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/02 13:01:10 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 13:50:25 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		separate_output(int *flags, int *columns)
 		else
 			columns[10] += 1;
 		if (*flags & FLAG_S)
-			columns[10] += columns[2] + 1;
+			columns[10] += columns[2] + 1 + 5;
 	}
 }
 

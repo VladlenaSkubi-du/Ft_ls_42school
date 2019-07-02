@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/01 21:23:50 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 15:02:31 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static void		print_inner(t_file *file, int *flags)
 {
 	*flags |= FLAG_FOLDER_RR;
 	if ((file->info.st_mode & S_IFDIR) &&
-					ft_strcmp(file->name, ".") && ft_strcmp(file->name, ".."))
+		ft_strcmp(file->name, ".") && ft_strcmp(file->name, "..") &&
+		ft_strcmp(file->name, "./") && ft_strcmp(file->name, "../"))
 	{
 		buf_add("\n", 1);
 		print_dir(file, flags);
@@ -48,7 +49,7 @@ static void		read_file(struct dirent *entry,
 {
 	t_file				*file;
 
-	if (*entry->d_name == '.' && !(*flags & (FLAG_F | FLAG_A)))
+	if ((*entry->d_name == '.') && !(*flags & (FLAG_F | FLAG_A)))
 		return ;
 	file = (t_file *)ft_xmalloc(sizeof(t_file));
 	file->name = ft_strdup(entry->d_name);
