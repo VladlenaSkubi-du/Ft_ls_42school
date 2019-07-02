@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/01 21:10:29 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 17:47:39 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,5 +173,6 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 	else
 		files->iter(files, (void (*)(void *, void *))print_stackfile,
 			columns, *flags & FLAG_R);
-	ft_bzero(columns, sizeof(int) * 11);
+	ft_bzero(columns, sizeof(int) * 11); //если это убрать, рекурсия сегфолтит при любом выводе. Но при l флаге не нужно сохранять колонки:
+	//ls -l / /Users /Users/sschmele
 }

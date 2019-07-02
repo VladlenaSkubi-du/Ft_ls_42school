@@ -1,6 +1,6 @@
 NAME = ft_ls
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -g -Wall -Werror -Wextra
 
 SOURCES =	main.c \
 			parser.c \

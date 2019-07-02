@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_buf.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/02 14:55:12 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 17:59:46 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ static void		buf_col_init(t_file *file, int col[4], t_buf *buf)
 	buf->i = 0;
 	buf->size = col[1];
 	buf->s_width = col[3];
-	if (file->color[1])	//должно быть ненужно при выводе в файл - нужно ориентироваться на флаг ATTY
+	col[2] = (col[2] <= buf->s_width) ? buf->s_width : col[2];
+	if (file->color[1])
 	{
 		buf->t_width = ((int)(col[2] / buf->s_width)) * (buf->s_width + 15);
 		buf->s_width += 15;

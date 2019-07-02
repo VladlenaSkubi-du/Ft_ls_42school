@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:26:28 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/01 17:13:12 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:50:21 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void		get_acl(t_file *file)
 		file->mode[10] = '+';
 	else
 		file->mode[10] = ' ';
+	free(acl);
 }
 
 void			fill_mode(t_file *file)

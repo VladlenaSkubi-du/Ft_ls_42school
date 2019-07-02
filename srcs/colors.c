@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 20:33:03 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/01 17:04:58 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/02 17:03:42 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ void				color_stackfiles(t_file *file)
 		ft_strcpy(file->color, "\033[00;00;33m");
 	else if (file->type == 'd')
 	{
-		if (file->mode[8] == 'w' &&
+		if (file->mode[8] == 'w' && 
 				(file->mode[9] == 't' || file->mode[9] == 'T'))
 			ft_strcpy(file->color, "\033[00;30;42m");
+		else if (file->mode[8] == 'w')
+			ft_strcpy(file->color, "\033[00;30;43m");
 		else
 			ft_strcpy(file->color, "\033[00;00;34m");
 	}

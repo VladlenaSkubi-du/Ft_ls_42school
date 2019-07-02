@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/02 15:02:31 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 16:52:45 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static void		read_file(struct dirent *entry,
 	{
 		if (*flags & (FLAG_L | FLAG_G | FLAG_P | FLAG_FF | FLAG_GG))
 			fill_type_entry(entry->d_type, file);
-		file->path = ft_strrejoin(ft_strjoin(path, "/"), entry->d_name);
+		if (entry->d_name[0] != '/')
+			file->path = ft_strrejoin(ft_strjoin(path, "/"), entry->d_name);
 		if (!lstat(file->path, &file->info))
 			files->add(files, file);
 		else

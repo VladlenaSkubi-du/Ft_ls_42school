@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_stackfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/02 16:21:49 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 18:02:40 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ void		print_stackfile(t_file *file, int *col)
 		if (col[i])
 		{
 			if (i == 5)
+			{
+				//printf("here\n");
+				//printf("%s\n", ((struct passwd *)*ptr)->pw_name);
 				buf_fill(((struct passwd *)*ptr)->pw_name,
 				ft_strlen(((struct passwd *)*ptr)->pw_name), col[i], 1);
+				//printf("here1\n");
+			}
 			else if (i == 6)
 				buf_fill(((struct group *)*ptr)->gr_name,
 				ft_strlen(((struct group *)*ptr)->gr_name), col[i], 1);
@@ -36,7 +41,9 @@ void		print_stackfile(t_file *file, int *col)
 		}
 	((col[0] & FLAG_GG) && (col[0] & FLAG_ATTY)) ? buf_add(file->color, 12) : 0;
 	buf_add(file->name, ft_strlen(file->name));
+	//printf("here3\n");
 	buf_add("\n", 1);
+	//printf("here4\n");
 }
 
 /*
@@ -50,13 +57,7 @@ void		print_stackfile(t_file *file, int *col)
 
 void		separate_output(int *flags, int *columns)
 {
-	//printf("BEFORE: %d\n", columns[10]);
 	columns[9] = (*flags & FLAG_ATTY) ? get_terminal_width() : 80;
-	if (columns[9] < columns[10] * 2)
-	{
-		*flags ^= FLAG_CC;
-		*flags |= FLAG_ONE;
-	}
 	if (*flags & FLAG_CC)
 	{
 		if (~*flags & FLAG_GG)

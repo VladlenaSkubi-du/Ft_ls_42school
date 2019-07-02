@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/01 21:11:19 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 17:18:51 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void		throw_args(t_stack *args, t_stack *params, int flags)
 	if (dirs->data && dirs->data[0] && dirs->data[1])
 		flags |= FLAG_FOLDER_RR;
 	if (files->data[0])
-		fill_and_print_stackfiles(files, &flags, 0); //нужно какое-то условие
+		fill_and_print_stackfiles(files, &flags, 0);
 	dirs->iter(dirs, (void (*)(void *, void *))print_dir, &flags,
 														flags & FLAG_R);
 	args->iter(args, (void (*)(void *, void *))del_file, NULL, 0);
