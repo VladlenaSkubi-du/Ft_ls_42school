@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_stackfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/02 13:01:10 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/02 15:25:35 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void		print_stackfile(t_file *file, int *col)
 
 void		separate_output(int *flags, int *columns)
 {
+	//printf("BEFORE: %d\n", columns[10]);
 	columns[9] = (*flags & FLAG_ATTY) ? get_terminal_width() : 80;
 	if (columns[9] < columns[10] * 2)
 	{
@@ -59,15 +60,19 @@ void		separate_output(int *flags, int *columns)
 	if (*flags & FLAG_CC)
 	{
 		if (~*flags & FLAG_GG)
+		{
+			columns[10] += (*flags & FLAG_S) ? columns[2] + 1 : 0;
 			while (columns[10] % 8 != 0)
 				columns[10]++;
+		}
 		else if (((*flags & FLAG_GG) && (*flags & FLAG_P)) ||
 		((*flags & FLAG_GG) && (*flags & FLAG_FF)))
 			columns[10] += 2;
 		else
+		{
+			columns[10] += (*flags & FLAG_S) ? columns[2] + 1 : 0;
 			columns[10] += 1;
-		if (*flags & FLAG_S)
-			columns[10] += columns[2] + 1;
+		}
 	}
 }
 
