@@ -6,45 +6,15 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/02 17:59:46 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:18:19 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		buf_err(char *str)
+void			buf_fill(char *str, size_t len, size_t size, int left)
 {
-	buf_add(NULL, 0);
-	ft_printerr(str, ft_strlen(str));
-}
-
-void		buf_add_num(unsigned int n)
-{
-	int		a;
-	long	res;
-	char	ch[1];
-
-	a = 1;
-	res = n;
-	if (res < 0)
-	{
-		res *= -1;
-		ft_putchar('-');
-	}
-	while (a <= res / 10)
-		a *= 10;
-	while (a != 0)
-	{
-		*ch = res / a + '0';
-		buf_add(ch, 1);
-		res = res % a;
-		a = a / 10;
-	}
-}
-
-void		buf_fill(char *str, size_t len, size_t size, int left)
-{
-	int		i;
+	int				i;
 
 	i = size - len;
 	if (!left)
@@ -56,7 +26,7 @@ void		buf_fill(char *str, size_t len, size_t size, int left)
 			buf_add(" ", 1);
 }
 
-void		buf_add(char *str, size_t size)
+void			buf_add(char *str, size_t size)
 {
 	static char		buf[OUT_BUF];
 	static char		*ptr = buf;
@@ -81,7 +51,8 @@ void		buf_add(char *str, size_t size)
 
 static void		buf_col_del(t_buf *buf)
 {
-	int		i;
+	int				i;
+
 	i = -1;
 	while (++i < buf->lines)
 	{

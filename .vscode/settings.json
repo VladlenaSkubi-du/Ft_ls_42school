@@ -1,5 +1,5 @@
 {
     "files.associations": {
-        "ft_ls.h": "c"
+        "{workspaceFolder}/includes/ft_ls.h": "c"
     }
 }

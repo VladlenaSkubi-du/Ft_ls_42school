@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/02 12:47:29 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/05 14:27:53 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,6 @@
 # define FLAG_ATTY 0x40000
 # define FLAG_FOLDER_RR 0x80000
 
-// # define ST_NEW() stack_init()
-// # define ST_ADD(x, data) x->add(x, data)
-// # define ST_SORT(x, f) x->sort(x, f)
-// # define ST_DEL(x) x = x->del(x)
-// # define ST_ITER(x, f, param, rev) x->iter(x, f, param, rev)
-
 typedef struct			s_stack
 {
 	void				**data;
@@ -100,7 +94,6 @@ typedef struct			s_buf
 	int			s_width;
 }						t_buf;
 
-
 t_stack					*stack_init();
 t_stack					*get_args(int *flags, int argc, char **argv);
 void					fill_type(t_file *file);
@@ -130,5 +123,4 @@ void					buf_col(t_file *file, int col[3]);
 void					del_file(t_file *file, void *null);
 void					*ft_xmalloc(size_t size);
 void					ft_stradd_nb(char *s, long nb);
-char					*ft_strs_rejoin(char *main, char **arr, int size);
 #endif

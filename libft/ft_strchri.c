@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 17:19:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/13 20:33:13 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/05 14:26:51 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,3 @@ int			ft_strchri(char *s, int c)
 		++end;
 	return (*end == (char)c ? (int)(end - s) : -1);
 }
-
-

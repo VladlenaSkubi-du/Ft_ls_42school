@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 16:50:56 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/02 16:52:45 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:12:59 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ static void		read_file(struct dirent *entry,
 	}
 	else
 		files->add(files, file);
-	//возможно, нужно чистить здесь файл, потому что ты тут маллочишь его (и все составляющие) - но просто использовать del_file не получится - я пробовала
-	// вроде нет
 }
 
 void			print_dir(t_file *file, int *flags)

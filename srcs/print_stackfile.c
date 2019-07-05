@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/02 18:02:40 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:05:07 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		print_stackfile(t_file *file, int *col)
 				//printf("here\n");
 				//printf("%s\n", ((struct passwd *)*ptr)->pw_name);
 				buf_fill(((struct passwd *)*ptr)->pw_name,
-				ft_strlen(((struct passwd *)*ptr)->pw_name), col[i], 1);
+				ft_strlen(((struct passwd *)*ptr)->pw_name), col[i], 1); //по дебаггеру, падает здесь
 				//printf("here1\n");
 			}
 			else if (i == 6)
@@ -63,6 +63,7 @@ void		separate_output(int *flags, int *columns)
 		if (~*flags & FLAG_GG)
 		{
 			columns[10] += (*flags & FLAG_S) ? columns[2] + 1 : 0;
+			columns[10] += (*flags & (FLAG_P | FLAG_FF)) ? 1 : 0;
 			while (columns[10] % 8 != 0)
 				columns[10]++;
 		}

@@ -6,25 +6,11 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/02 17:18:51 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:25:04 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-// void			del_file(t_file *file, void *null)
-// {
-// 	if (file && !null)
-// 	{
-		// if (file->path)
-		// 	free(file->path);
-// 		if (file->name)
-// 			free(file->name);
-		// if (file->dir)
-		// 	closedir(file->dir);
-// 		free(file);
-// 	}
-// }
 
 void			del_file(t_file *file, void *null)
 {

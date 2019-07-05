@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/02 17:47:39 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/05 13:59:58 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,5 @@ void			fill_and_print_stackfiles(t_stack *files, int *flags, int total)
 	else
 		files->iter(files, (void (*)(void *, void *))print_stackfile,
 			columns, *flags & FLAG_R);
-	ft_bzero(columns, sizeof(int) * 11); //если это убрать, рекурсия сегфолтит при любом выводе. Но при l флаге не нужно сохранять колонки:
-	//ls -l / /Users /Users/sschmele
+	ft_bzero(columns, sizeof(int) * 11);
 }
