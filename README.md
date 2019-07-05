@@ -35,9 +35,11 @@ Paralelly you can check the output using the same arguments for original ls-comm
 Go and try. Good luck!
 
 # The program returns
-The same output as the original ls-command with all the flags described in the first part of README. If you input a directory (".", "..", "/", "~/Applications") as an argument, ft_ls program returns a list of files lying within this directory (or to say it in a more "scientific" way - listed in the catalogue with the same name and path as the argument you input).
-If you input a file name or link name or program name and so on as an argument, ft_ls program returns the names you input if they exist in the directory you work from or put as an argument. If you input some staff that does not exist, ft_ls outputs: "./ft_ls: 1: No such file or directory".
-It can also answer as: "./ft_ls: Permission denied" if the files or directories you input as arguments are non-readable for you as user (your group of users).
+The same output as the original ls-command with all the flags described in the first part of README.
+- If you input a directory (".", "..", "/", "~/Applications") as an argument, ft_ls program returns a list of files lying within this directory (or to say it in a more "scientific" way - listed in the catalogue with the same name and path as the argument you input).
+- If you input a file name or a link name or a program name and so on as an argument, ft_ls program returns the names you input if they exist in the directory.
+- If you input some staff that does not exist, ft_ls outputs: "./ft_ls: 1: No such file or directory".
+- It can also answer as: "./ft_ls: Permission denied" if the files or directories you input as arguments are non-readable for you as user (your group of users).
 
 You can also try special commands that this ft_ls reproduces as the original ls-command:
 
