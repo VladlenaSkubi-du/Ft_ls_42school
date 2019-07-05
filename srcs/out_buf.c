@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/05 14:18:19 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/05 18:23:00 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,11 @@ void			buf_col(t_file *file, int col[4])
 			ft_strjoin(file->color, file->name) : ft_strdup(file->name);
 	len = ft_strlen(str);
 	ft_memset(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width),
-					' ', col[0] + 1);
+					' ', col[0]); //не добавляй сюда единицу, плиз, из-за нее прибавляется пробел везде при выводе C
 	ft_memcpy(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width)
 		+ col[0] - ft_strlen(file->total), file->total, ft_strlen(file->total));
 	ft_memcpy(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width) +
-							col[0] + 1, str, ft_strlen(str));
+						col[0] + 1, str, ft_strlen(str));
 	ft_memset(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width) +
 						col[0] + 1 + len, ' ', buf.s_width - len);
 	free(str);
