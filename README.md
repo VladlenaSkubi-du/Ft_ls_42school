@@ -1,4 +1,4 @@
-#Ft_ls_42school
+# Ft_ls_42school
 Ft_ls recodes (but not fully) the Unix command that lists files in the directories given as arguments. Original ls suggests the following flags that influence the list output:
 
     original: -ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1
@@ -7,7 +7,7 @@ This ft_ls-program deals with the following flags:
 
     ft_ls: -1CFGRSacdfglprstu
 
-#Usage
+# Usage
 You need to compile the program and then use it according to the usage the original ls-command has.
 
 So, your steps -
@@ -34,7 +34,7 @@ Paralelly you can check the output using the same arguments for original ls-comm
 
 Go and try. Good luck!
 
-#The program returns
+# The program returns
 The same output as the original ls-command with all the flags described in the first part of README. If you input a directory (".", "..", "/", "~/Applications") as an argument, ft_ls program returns a list of files lying within this directory (or to say it in a more "scientific" way - listed in the catalogue with the same name and path as the argument you input).
 If you input a file name or link name or program name and so on as an argument, ft_ls program returns the names you input if they exist in the directory you work from or put as an argument. If you input some staff that does not exist, ft_ls outputs: "./ft_ls: 1: No such file or directory".
 It can also answer as: "./ft_ls: Permission denied" if the files or directories you input as arguments are non-readable for you as user (your group of users).
@@ -53,5 +53,5 @@ Where flag "--" gives stop to ./ft_ls and says that further it will see only arg
 
 The last command will be beautiful and list all the files lying in the home-directoty and its sub-directories.
 
-#Grade
+# Grade
 /100
