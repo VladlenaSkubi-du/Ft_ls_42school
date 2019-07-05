@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/14 22:24:20 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/05 14:27:53 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,62 +28,99 @@
 # include <errno.h>
 # include "libft.h"
 # include "ft_printf.h"
+# include <sys/acl.h>
+# include <sys/ioctl.h>
+# include <dirent.h>
 
-# define FLAG_MIN 1
-# define FLAG_L 2
-# define FLAG_R 4
-# define FLAG_RR 8
-# define FLAG_A 16
-# define FLAG_T 32
-# define FLAG_GG 64
-# define FLAG_P 128
-# define FLAG_S 256
-# define FLAG_U 512
-# define FLAG_F 1024
-# define FLAG_D 2048
-# define FLAG_G 4096
-# define FLAG_SS 9192
-# define FLAG_C 18384
-# define FLAG_F 36768
+# define OUT_BUF (size_t)100000
 
-typedef struct		s_file
+# define FLAG_ONE 0x1
+# define FLAG_L 0x2
+# define FLAG_R 0x4
+# define FLAG_RR 0x8
+# define FLAG_A 0x10
+# define FLAG_T 0x20
+# define FLAG_GG 0x40
+# define FLAG_P 0x80
+# define FLAG_S 0x100
+# define FLAG_U 0x200
+# define FLAG_F 0x400
+# define FLAG_D 0x800
+# define FLAG_G 0x1000
+# define FLAG_SS 0x2000
+# define FLAG_CC 0x4000
+# define FLAG_C 0x8000
+# define FLAG_FF 0x10000
+# define FLAG_MINUS 0x20000
+# define FLAG_ATTY 0x40000
+# define FLAG_FOLDER_RR 0x80000
+
+typedef struct			s_stack
 {
-	struct stat		buf;
-	char			*name;
-	struct s_file	*prev;
-	struct s_file	*next;
-	int				fromstart;
-}					t_file;
+	void				**data;
+	size_t				size;
+	size_t				next_up;
+	void				(*add)(struct s_stack *, void *data);
+	void				(*iter)(struct s_stack *, void (*f)(void *, void *),
+													void *param, int reverse);
+	void				(*sort)(struct s_stack*, int (*f)(void *, void *));
+	struct s_stack		*(*del)(struct s_stack *);
+}						t_stack;
 
-typedef struct		s_param
+typedef struct			s_file
 {
-	t_file			*file;
-	int				flags;
-}					t_param;
+	char				*path;
+	struct stat			info;
+	char				type;
+	char				*total;
+	char				*mode;
+	char				*link;
+	struct passwd		*uid;
+	struct group		*gid;
+	char				*size;
+	char				*time;
+	char				color[12];
+	char				*name;
+	DIR					*dir;
+}						t_file;
 
-void				*ft_xmalloc(size_t size);
+typedef struct			s_buf
+{
+	char		**arr;
+	int			lines;
+	int			i;
+	int			size;
+	int			t_width;
+	int			s_width;
+}						t_buf;
 
-t_file				*file_new(t_file *start);
-t_file				*file_cut(t_file *start, t_file *node);
-void				file_insert(t_file *prev, t_file *node);
-t_file				*file_swap(t_file *start, t_file *left, t_file *right);
-t_file				*file_del(t_file *start);
-void				file_count(t_file *start);
-void				file_foreach(t_file *start, void (*f)(t_file *cur));
-
-void				quick_sort_list(t_file *start, t_file *left, t_file *right,
-						int (*f)(t_file *left, t_file *right));
-void				quick_mas_sort(char **mas, int left, int right);
-int					get_args(int *flags,  int argc, char **argv);
-int					get_flags(char *arg);
-void				usage(void);
-void				no_dir_or_file(char *dirname);
-
-void				print_dir(DIR *dir, int flags, t_param *param);
-void				check_dir(char *dirname, char **not_dir,
-						int flags, t_param *param);
-
-int					file_strcmp(t_file *left, t_file *right);
-t_file				*files_sort(t_file *start, int flags);
-
+t_stack					*stack_init();
+t_stack					*get_args(int *flags, int argc, char **argv);
+void					fill_type(t_file *file);
+void					st_sort(t_stack *me, int (*f)(void *, void *));
+void					print_dir(t_file *file, int *flags);
+void					print_err(char *dirname);
+void					usage(void);
+void					ft_printerr(char *str, size_t size);
+void					*files_sort(int flags);
+int						file_strcmp(t_file *left, t_file *right);
+void					fill_and_print_stackfiles(t_stack *files,
+							int *flags, int total);
+void					fill_mode(t_file *file);
+void					fill_time(t_file *file, int *columns);
+void					fill_link(t_file *file);
+void					fill_minmaz(t_file *file);
+void					change_name(t_file *file, int flags);
+void					separate_output(int *flags, int *columns);
+void					print_stackfile(t_file *file, int *col);
+int						get_terminal_width(void);
+void					color_stackfiles(t_file *file);
+void					buf_add(char *str, size_t size);
+void					buf_add_num(unsigned int n);
+void					buf_fill(char *str, size_t len, size_t size, int left);
+void					buf_err(char *str);
+void					buf_col(t_file *file, int col[3]);
+void					del_file(t_file *file, void *null);
+void					*ft_xmalloc(size_t size);
+void					ft_stradd_nb(char *s, long nb);
 #endif

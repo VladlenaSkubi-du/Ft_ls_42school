@@ -3,105 +3,99 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:50:06 by sschmele          #+#    #+#             */
-/*   Updated: 2019/05/14 20:03:55 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:25:04 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <dirent.h>
-
 #include "ft_ls.h"
 
-static void print_inner(t_file *file, int flags);
-
-static void putFileName(t_file *file)
+void			del_file(t_file *file, void *null)
 {
-	ft_putnbr(file->fromstart);
-	ft_putstr(" - ");
-	ft_putendl(file->name);
+	null = 0;
+	free(file->path);
+	free(file->total);
+	free(file->mode);
+	free(file->link);
+	free(file->size);
+	free(file->time);
+	free(file->name);
+	if (file->dir)
+		closedir(file->dir);
+	free(file);
 }
 
-static void print_inner(t_file *file, int flags)
+static void		check_arg(t_file *file, t_stack *params)
 {
-	if (ft_strcmp(file->name, "..") && ft_strcmp(file->name, ".")
-			&& file->buf.st_mode & S_IFDIR)
+	t_stack		*dirs;
+	t_stack		*files;
+	int			tmp;
+
+	files = params->data[0];
+	dirs = params->data[1];
+	if (params->size & (FLAG_G | FLAG_L))
+		tmp = lstat(file->name, &file->info);
+	else
+		tmp = stat(file->name, &file->info);
+	if (!tmp)
 	{
-		ft_putstr(file->name);
-		ft_putstr(":\n");
-		//		print_dir(file->name, flags);
-		ft_putendl("");
-	}
-}
-
-void		print_dir(t_param param, int flags)
-{
-	file_foreach(param.file, putFileName);
-}
-
-void		check_dir(char *dirname, char **not_dir, int flags, t_param *param)
-{
-	DIR				*dir;
-	
-	dir = opendir(dirname);
-	if (errno == ENOENT)
-		no_dir_or_file(dirname);
-	else if (errno == ENOTDIR)
-	{
-		*not_dir = ft_strrejoin(*not_dir, dirname);
-		*not_dir = ft_strrejoin(*not_dir, "\n");
+		if (file->info.st_mode & S_IFDIR && ~params->size & FLAG_D)
+			dirs->add(dirs, file);
+		else
+			files->add(files, file);
+		if (params->size & (FLAG_L | FLAG_GG | FLAG_FF | FLAG_G))
+			fill_type(file);
 	}
 	else
-		workover_dir(dir, flags, param);
+		print_err(file->name);
 }
 
-void		workover_dir(DIR *dir, int flags, t_param *param)
+static void		throw_args(t_stack *args, t_stack *params, int flags)
 {
-	struct dirent	*entry;
+	t_stack		*files;
+	t_stack		*dirs;
 
-	while ((entry = readdir(dir)))
-	{
-		if (((flags >> 4) & 1) == 0)
-			if (*entry->d_name == '.')
-				continue ;
-		param->file = file_new(param->file);
-		param->file->prev->name = entry->d_name;
-		stat(entry->d_name, &(param->file->prev->buf));
-	}
-	file_count(param->file);
-	if (param->file->prev->fromstart > 2)
-		quick_sort_list(param->file, param->file, param->file->prev, file_strcmp);
-	param->file = file_slip(param->file, file_strcmp);
-	//	file_foreach(param.file, print_inner);
-	closedir(dir);
+	files = params->data[0];
+	dirs = params->data[1];
+	params->size = flags;
+	args->iter(args, (void (*)(void *, void *))check_arg, params, 0);
+	if (dirs->data && dirs->data[0] && dirs->data[1])
+		flags |= FLAG_FOLDER_RR;
+	if (files->data[0])
+		fill_and_print_stackfiles(files, &flags, 0);
+	dirs->iter(dirs, (void (*)(void *, void *))print_dir, &flags,
+														flags & FLAG_R);
+	args->iter(args, (void (*)(void *, void *))del_file, NULL, 0);
+	files->del(files);
+	dirs->del(dirs);
+	args->del(args);
 }
 
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
-	int				flags;
-	int				i;
-	t_param			param;
-	char			*not_dir;
+	int			flags;
+	t_stack		*args;
+	t_file		*file;
+	t_stack		*params;
 
-	flags = 0;
-	i = get_args(&flags, argc, argv);
-	ft_bzero(&param, sizeof(param));
-	not_dir = (char*)ft_xmalloc(1);
-	if (i == argc)
-		workover_dir(opendir("."), flags, &param);
-	else
+	params = stack_init();
+	params->add(params, stack_init());
+	params->add(params, stack_init());
+	flags = isatty(1) ? (FLAG_CC | FLAG_ATTY) : FLAG_ONE;
+	if (!(args = get_args(&flags, argc, argv)))
 	{
-		quick_mas_sort(&argv[i], 0, argc - i - 1);
-		while (i < argc)
-			check_dir(argv[i++], &not_dir, flags, &param);
-		if (not_dir[0])
-			ft_putstr(not_dir);
+		args = stack_init();
+		file = (t_file *)ft_xmalloc(sizeof(t_file));
+		file->name = ft_strdup(".");
+		file->path = ft_strdup(file->name);
+		args->add(args, file);
 	}
-	if (param.file)
-		print_dir(param.file, flags);
-	file_del(param.file);
-	free(not_dir);
+	throw_args(args, params, flags);
+	params->del(params);
+	buf_add(NULL, 0);
+	if (errno)
+		return (1);
 	return (0);
 }

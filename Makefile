@@ -1,13 +1,20 @@
 NAME = ft_ls
 
-#FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra
 
 SOURCES =	main.c \
-			filter.c \
 			parser.c \
-			sort.c \
-			list.c \
-			ft_xmalloc.c
+			stack_add_iter_del.c \
+			stack_sort.c \
+			read_dir.c \
+			sort_by_flags.c \
+			fill_stackfiles_info_1.c \
+			fill_stackfiles_info_2.c \
+			print_stackfile.c \
+			out_buf.c \
+			errors.c \
+			other_functions.c \
+			colors.c
 
 DIR_O = objs
 

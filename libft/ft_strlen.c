@@ -6,7 +6,7 @@
 /*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 18:00:26 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/05/13 18:57:54 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/06/03 18:34:15 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t			ft_strlen(const char *s)
 	size_t			*iter;
 	unsigned char	*end;
 
+	if (!s)
+		return (0);
 	end = (unsigned char *)s;
 	while ((size_t)end % sizeof(size_t))
 		if (!(*end++))
