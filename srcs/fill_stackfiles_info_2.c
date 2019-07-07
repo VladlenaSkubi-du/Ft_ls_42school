@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:26:28 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/02 16:50:21 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/07 14:44:02 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void			fill_time(t_file *file, int *columns)
 		time_sec = file->info.st_ctime;
 	else
 		time_sec = file->info.st_mtime;
-	file->time = (char*)ft_xmalloc(12);
+	file->time = (char*)ft_xmalloc(13);
 	tmp_time = ctime(&time_sec);
 	file->time = ft_strncpy(file->time, &(tmp_time[4]), 6);
 	if ((time(NULL) - time_sec < 31556926 / 2) && (time(NULL) - time_sec >= 0))
