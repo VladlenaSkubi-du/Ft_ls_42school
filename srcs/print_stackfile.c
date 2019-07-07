@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_stackfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/05 14:05:07 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/07 14:05:20 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,8 @@ void		print_stackfile(t_file *file, int *col)
 		{
 			if (i == 5)
 			{
-				//printf("here\n");
-				//printf("%s\n", ((struct passwd *)*ptr)->pw_name);
 				buf_fill(((struct passwd *)*ptr)->pw_name,
-				ft_strlen(((struct passwd *)*ptr)->pw_name), col[i], 1); //по дебаггеру, падает здесь
-				//printf("here1\n");
+				ft_strlen(((struct passwd *)*ptr)->pw_name), col[i], 1);
 			}
 			else if (i == 6)
 				buf_fill(((struct group *)*ptr)->gr_name,
@@ -41,9 +38,7 @@ void		print_stackfile(t_file *file, int *col)
 		}
 	((col[0] & FLAG_GG) && (col[0] & FLAG_ATTY)) ? buf_add(file->color, 12) : 0;
 	buf_add(file->name, ft_strlen(file->name));
-	//printf("here3\n");
 	buf_add("\n", 1);
-	//printf("here4\n");
 }
 
 /*

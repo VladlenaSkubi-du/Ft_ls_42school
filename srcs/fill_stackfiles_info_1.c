@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/05 13:59:58 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/07 14:04:49 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,9 @@ static void		fill_info_2(t_file *file, int *col)
 {
 	if (col[5])
 	{
-		file->uid = getpwuid(file->info.st_uid);
-		if (file->uid == NULL)
-		{
-			perror("getpwuid");
-			exit(1);
-		}
+		file->uid = ft_xmalloc(sizeof(struct passwd));
+		ft_memcpy(file->uid, getpwuid(file->info.st_uid),
+			sizeof(struct passwd));
 		find_width(ft_strlen(file->uid->pw_name), &col[5]);
 	}
 	if (col[6])

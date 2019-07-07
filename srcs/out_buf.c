@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_buf.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:46:07 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/05 18:23:00 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/07 14:02:17 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void			buf_fill(char *str, size_t len, size_t size, int left)
 	int				i;
 
 	i = size - len;
+	if (!str || ft_strlen(str) < len)
+		return ;
 	if (!left)
 		while (i-- > 0)
 			buf_add(" ", 1);
@@ -98,8 +100,12 @@ void			buf_col(t_file *file, int col[4])
 	str = (file->color[1]) ?
 			ft_strjoin(file->color, file->name) : ft_strdup(file->name);
 	len = ft_strlen(str);
-	ft_memset(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width),
-					' ', col[0]); //не добавляй сюда единицу, плиз, из-за нее прибавляется пробел везде при выводе C
+	if (buf.i <= buf.lines && col[0])
+		ft_memset(buf.arr[buf.i % buf.lines] +
+			(buf.i / buf.lines * buf.s_width), ' ', col[0] + 1);
+	else
+		ft_memset(buf.arr[buf.i % buf.lines] +
+			(buf.i / buf.lines * buf.s_width), ' ', col[0]);
 	ft_memcpy(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width)
 		+ col[0] - ft_strlen(file->total), file->total, ft_strlen(file->total));
 	ft_memcpy(buf.arr[buf.i % buf.lines] + (buf.i / buf.lines * buf.s_width) +
