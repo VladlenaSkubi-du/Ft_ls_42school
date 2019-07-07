@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/07 14:37:56 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/07 15:13:13 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void		separate_output(int *flags, int *columns)
 		{
 			columns[10] += (*flags & FLAG_S) ? columns[2] + 1 : 0;
 			columns[10] += (*flags & (FLAG_P | FLAG_FF)) ? 1 : 0;
+			(columns[10] % 8 == 0) ? columns[10]++ : 0;
 			while (columns[10] % 8 != 0)
 				columns[10]++;
 		}
