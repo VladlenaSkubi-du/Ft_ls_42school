@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stackfiles_info_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 19:15:40 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/07 14:04:49 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/07 14:37:35 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,26 @@ static void		find_width(int len, int *columns)
 
 static void		fill_info_2(t_file *file, int *col)
 {
+	struct passwd	*tmp;
+	struct group	*tmp_g;
+
 	if (col[5])
 	{
-		file->uid = ft_xmalloc(sizeof(struct passwd));
-		ft_memcpy(file->uid, getpwuid(file->info.st_uid),
-			sizeof(struct passwd));
-		find_width(ft_strlen(file->uid->pw_name), &col[5]);
+		tmp = getpwuid(file->info.st_uid);
+		if (tmp)
+			file->uid = ft_strdup(tmp->pw_name);
+		else
+			exit(1);
+		find_width(ft_strlen(file->uid), &col[5]);
 	}
 	if (col[6])
 	{
-		file->gid = getgrgid(file->info.st_gid);
-		if (file->gid == NULL)
-		{
-			perror("getgrgid");
+		tmp_g = getgrgid(file->info.st_gid);
+		if (tmp_g)
+			file->gid = ft_strdup(tmp_g->gr_name);
+		else
 			exit(1);
-		}
-		find_width(ft_strlen(file->gid->gr_name), &col[6]);
+		find_width(ft_strlen(file->gid), &col[6]);
 	}
 	(col[8]) ? fill_time(file, col) : 0;
 	(col[0] & FLAG_CC) ? find_width(ft_strlen(file->name), &col[10]) : 0;
@@ -86,7 +90,7 @@ static void		fill_info_1(t_file *file, int *columns)
 
 static void		width_init(int *columns, int flags)
 {
-	int		i;
+	int				i;
 
 	i = 2;
 	if (!flags)

@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 10:35:19 by sschmele          #+#    #+#             */
-/*   Updated: 2019/07/05 14:27:53 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/07/07 14:29:39 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,10 @@ typedef struct			s_file
 	char				*total;
 	char				*mode;
 	char				*link;
-	struct passwd		*uid;
-	struct group		*gid;
+	char 				*uid;
+	char 				*gid;
+	// struct passwd		*uid;
+	// struct group		*gid;
 	char				*size;
 	char				*time;
 	char				color[12];

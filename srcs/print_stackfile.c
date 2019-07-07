@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_stackfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 02:00:05 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/07 14:05:20 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/07/07 14:37:56 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,7 @@ void		print_stackfile(t_file *file, int *col)
 	while (++i < 9 && ++ptr)
 		if (col[i])
 		{
-			if (i == 5)
-			{
-				buf_fill(((struct passwd *)*ptr)->pw_name,
-				ft_strlen(((struct passwd *)*ptr)->pw_name), col[i], 1);
-			}
-			else if (i == 6)
-				buf_fill(((struct group *)*ptr)->gr_name,
-				ft_strlen(((struct group *)*ptr)->gr_name), col[i], 1);
-			else if (i == 7)
+			if (i == 7)
 				buf_fill(file->size, ft_strlen(file->size), col[i], 0);
 			else
 				buf_fill(*ptr, ft_strlen(*ptr), col[i], i == 3 ? 1 : 0);
