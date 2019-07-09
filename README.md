@@ -56,4 +56,4 @@ Where flag "--" gives stop to ./ft_ls and says that further it will see only arg
 The last command will be beautiful and list all the files lying in the home-directoty and its sub-directories.
 
 # Grade
-/100
+119/100 (the maximum bonus is 19 points)
