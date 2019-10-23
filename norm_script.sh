@@ -1,1 +1,0 @@
-../../norm_script.sh

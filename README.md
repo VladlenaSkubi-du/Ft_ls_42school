@@ -14,7 +14,7 @@ So, your steps -
 
 Clone the repository:
 
-    git clone https://github.com/VladlenaSkubi-du/Ft_ls_42school.git
+    git clone https://github.com/VladlenaSkubi-du/Ft_ls_42school.git [folder's name you want]
 
 Get into it and compile the ft_ls-program:
 

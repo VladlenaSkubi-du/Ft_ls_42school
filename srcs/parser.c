@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <jcorwin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:48:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/07/05 14:24:20 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/10/19 12:55:05 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,24 @@ static void		allocate_by_flags_2(int *flags, int cur_flag)
 {
 	if (*flags & FLAG_C)
 	{
-		(cur_flag & FLAG_U) ? *flags ^= FLAG_C : *flags;
+		(cur_flag & FLAG_U) ? *flags &= ~(FLAG_C) : *flags;
 		if ((cur_flag & FLAG_C) && (*flags & FLAG_U))
-			*flags ^= FLAG_U;
+			*flags &= ~(FLAG_U);
 	}
 	if (*flags & FLAG_FF)
 	{
-		(cur_flag & FLAG_P) ? *flags ^= FLAG_FF : *flags;
+		(cur_flag & FLAG_P) ? *flags &= ~(FLAG_FF) : *flags;
 		if ((cur_flag & FLAG_FF) && (*flags & FLAG_P))
-			*flags ^= FLAG_P;
+			*flags &= ~(FLAG_P);
 	}
 	if (*flags & FLAG_ONE)
 	{
-		(cur_flag & FLAG_L) ? *flags ^= FLAG_ONE : 0;
-		(cur_flag & FLAG_G) ? *flags ^= FLAG_ONE : 0;
+		(cur_flag & FLAG_L) ? *flags &= ~(FLAG_ONE) : 0;
+		(cur_flag & FLAG_G) ? *flags &= ~(FLAG_ONE) : 0;
 		if ((cur_flag & FLAG_ONE) && (*flags & FLAG_G))
-			*flags ^= FLAG_G;
+			*flags &= ~(FLAG_G);
 		if ((cur_flag & FLAG_ONE) && (*flags & FLAG_L))
-			*flags ^= FLAG_L;
+			*flags &= ~(FLAG_L);
 	}
 }
 
@@ -41,22 +41,22 @@ static void		allocate_by_flags_1(int *flags, int cur_flag)
 {
 	if (*flags & FLAG_F)
 	{
-		(*flags & FLAG_R) ? *flags ^= FLAG_R : *flags;
-		(*flags & FLAG_A) ? *flags ^= FLAG_A : *flags;
-		(*flags & FLAG_T) ? *flags ^= FLAG_T : *flags;
-		(*flags & FLAG_SS) ? *flags ^= FLAG_SS : *flags;
+		(*flags & FLAG_R) ? *flags &= ~(FLAG_R) : *flags;
+		(*flags & FLAG_A) ? *flags &= ~(FLAG_A) : *flags;
+		(*flags & FLAG_T) ? *flags &= ~(FLAG_T) : *flags;
+		(*flags & FLAG_SS) ? *flags &= ~(FLAG_SS) : *flags;
 	}
 	if (*flags & FLAG_CC)
 	{
-		(cur_flag & FLAG_ONE) ? *flags ^= FLAG_CC : 0;
+		(cur_flag & FLAG_ONE) ? *flags &= ~(FLAG_CC) : 0;
 		if ((cur_flag & FLAG_CC) && (*flags & FLAG_ONE))
-			*flags ^= FLAG_ONE;
+			*flags &= ~(FLAG_ONE);
 		if ((cur_flag & FLAG_G) || (cur_flag & FLAG_L))
-			*flags ^= FLAG_CC;
+			*flags &= ~(FLAG_CC);
 		if ((cur_flag & FLAG_CC) && (*flags & FLAG_G))
-			*flags ^= FLAG_G;
+			*flags &= ~(FLAG_G);
 		if ((cur_flag & FLAG_CC) && (*flags & FLAG_L))
-			*flags ^= FLAG_L;
+			*flags &= ~(FLAG_L);
 	}
 	if ((*flags & FLAG_C) || (*flags & FLAG_FF) || (*flags & FLAG_ONE))
 		allocate_by_flags_2(flags, cur_flag);
