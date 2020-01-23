@@ -19,6 +19,7 @@ Clone the repository:
 Get into it and compile the ft_ls-program:
 
     cd [folder's name you want]
+	git submodule add https://github.com/VladlenaSkubi-du/libft_42school.git libft
     make
 
 After you make:
